@@ -26,6 +26,15 @@
 # 
   mkdir ~/repos
   cd ~/repos
+  # Comprobar si el paquete git está instalado. Si no lo está, instalarlo.
+    if [[ $(dpkg-query -s git 2>/dev/null | grep installed) == "" ]]; then
+      echo ""
+      echo -e "${cColorRojo}  El paquete git no está instalado. Iniciando su instalación...${cFinColor}"
+      echo ""
+      sudo apt-get -y update
+      sudo apt-get -y install git
+      echo ""
+    fi
   git clone https://github.com/thiagoralves/OpenPLC_Editor
   cd OpenPLC_Editor
   python3 -m venv venv
