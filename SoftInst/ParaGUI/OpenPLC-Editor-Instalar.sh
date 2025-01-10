@@ -37,6 +37,15 @@
     fi
   git clone https://github.com/thiagoralves/OpenPLC_Editor
   cd OpenPLC_Editor
+  # Comprobar si el paquete python3-venv está instalado. Si no lo está, instalarlo.
+    if [[ $(dpkg-query -s python3-venv 2>/dev/null | grep installed) == "" ]]; then
+      echo ""
+      echo -e "${cColorRojo}  El paquete python3-venv no está instalado. Iniciando su instalación...${cFinColor}"
+      echo ""
+      sudo apt-get -y update
+      sudo apt-get -y install python3-venv
+      echo ""
+    fi
   python3 -m venv venv
   source ~/repos/OpenPLC_Editor/venv/bin/activate
   pip install --upgrade pip
