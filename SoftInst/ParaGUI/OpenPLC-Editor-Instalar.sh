@@ -54,18 +54,18 @@
     source ~/repos/OpenPLC_Editor/venv/bin/activate
 
   # Instalar dependeicas internas
-    pip install --upgrade pip
-    pip install wheel
-    pip install jinja2
-    pip install lxml
-    pip install future
-    pip install matplotlib
-    pip install zeroconf
-    pip install pyserial
-    pip install pypubsub
-    pip install pyro5
-    pip install attrdict3
-    pip install wxPython==4.2.0
+    pip3 install --upgrade pip
+    pip3 install wheel
+    pip3 install jinja2
+    pip3 install lxml
+    pip3 install future
+    pip3 install matplotlib
+    pip3 install zeroconf
+    pip3 install pyserial
+    pip3 install pypubsub
+    pip3 install pyro5
+    pip3 install attrdict3
+    pip3 install wxPython==4.2.0
 
 ./install sh
 
