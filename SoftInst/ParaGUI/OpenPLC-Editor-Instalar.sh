@@ -71,7 +71,8 @@
     pip3 install wxPython==4.2.0
 
 #
-  cd ~/usuariox/repos/OpenPLC_Editor
+  cd ~/repos/OpenPLC_Editor
+  git submodule update --init --recursive ~/repos/OpenPLC_Editor
 
 
 ./install sh
