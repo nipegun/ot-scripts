@@ -76,6 +76,33 @@
 
 # Compilar Matiec
   cd ~/repos/OpenPLC_Editor/matiec/
+  # Comprobar si el paquete autoconf está instalado. Si no lo está, instalarlo.
+    if [[ $(dpkg-query -s autoconf 2>/dev/null | grep installed) == "" ]]; then
+      echo ""
+      echo -e "${cColorRojo}  El paquete autoconf no está instalado. Iniciando su instalación...${cFinColor}"
+      echo ""
+      sudo apt-get -y update
+      sudo apt-get -y install autoconf
+      echo ""
+    fi
+  # Comprobar si el paquete bison está instalado. Si no lo está, instalarlo.
+    if [[ $(dpkg-query -s bison 2>/dev/null | grep installed) == "" ]]; then
+      echo ""
+      echo -e "${cColorRojo}  El paquete bison no está instalado. Iniciando su instalación...${cFinColor}"
+      echo ""
+      sudo apt-get -y update
+      sudo apt-get -y install bison
+      echo ""
+    fi
+  # Comprobar si el paquete flex está instalado. Si no lo está, instalarlo.
+    if [[ $(dpkg-query -s flex 2>/dev/null | grep installed) == "" ]]; then
+      echo ""
+      echo -e "${cColorRojo}  El paquete flex no está instalado. Iniciando su instalación...${cFinColor}"
+      echo ""
+      sudo apt-get -y update
+      sudo apt-get -y install flex
+      echo ""
+    fi
   autoreconf -i
   ./configure
 
