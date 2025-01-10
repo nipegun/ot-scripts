@@ -74,6 +74,14 @@
   cd ~/repos/OpenPLC_Editor
   git submodule update --init --recursive ~/repos/OpenPLC_Editor
 
+# Compilar Matiec
+  cd ~/repos/OpenPLC_Editor/matiec/
+  autoreconf -i
+  ./configure
+
+
+
+
 
 ./install sh
 
