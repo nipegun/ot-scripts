@@ -70,6 +70,10 @@
     #sudo apt -y install pkg-config
     pip3 install wxPython==4.2.0
 
+#
+  cd ~/usuariox/repos/OpenPLC_Editor
+
+
 ./install sh
 
 sudo apt install pipx
