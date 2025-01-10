@@ -36,30 +36,36 @@
       echo ""
     fi
   git clone https://github.com/thiagoralves/OpenPLC_Editor
-  cd OpenPLC_Editor
-  # Comprobar si el paquete python3-venv está instalado. Si no lo está, instalarlo.
-    if [[ $(dpkg-query -s python3-venv 2>/dev/null | grep installed) == "" ]]; then
-      echo ""
-      echo -e "${cColorRojo}  El paquete python3-venv no está instalado. Iniciando su instalación...${cFinColor}"
-      echo ""
-      sudo apt-get -y update
-      sudo apt-get -y install python3-venv
-      echo ""
-    fi
-  python3 -m venv venv
-  source ~/repos/OpenPLC_Editor/venv/bin/activate
-  pip install --upgrade pip
-  pip install wheel
-  pip install jinja2
-  pip install lxml
-  pip install future
-  pip install matplotlib
-  pip install zeroconf
-  pip install pyserial
-  pip install pypubsub
-  pip install pyro5
-  pip install attrdict3
-  pip install wxPython==4.2.0
+
+  # Crear el entorno virtual
+    cd OpenPLC_Editor
+    # Comprobar si el paquete python3-venv está instalado. Si no lo está, instalarlo.
+      if [[ $(dpkg-query -s python3-venv 2>/dev/null | grep installed) == "" ]]; then
+        echo ""
+        echo -e "${cColorRojo}  El paquete python3-venv no está instalado. Iniciando su instalación...${cFinColor}"
+        echo ""
+        sudo apt-get -y update
+        sudo apt-get -y install python3-venv
+        echo ""
+      fi
+    python3 -m venv venv
+  
+  # Activar el entorno virtual
+    source ~/repos/OpenPLC_Editor/venv/bin/activate
+
+  # Instalar dependeicas internas
+    pip install --upgrade pip
+    pip install wheel
+    pip install jinja2
+    pip install lxml
+    pip install future
+    pip install matplotlib
+    pip install zeroconf
+    pip install pyserial
+    pip install pypubsub
+    pip install pyro5
+    pip install attrdict3
+    pip install wxPython==4.2.0
 
 ./install sh
 
