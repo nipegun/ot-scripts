@@ -134,7 +134,7 @@
   echo "  export GDK_BACKEND=x11"                                                           >> ~/scripts/OpenPLCEditor.sh
   echo "  ~/repos/OpenPLC_Editor/venv/bin/python3 ~/repos/OpenPLC_Editor/editor/Beremiz.py" >> ~/scripts/OpenPLCEditor.sh
   echo "deactivate"                                                                         >> ~/scripts/OpenPLCEditor.sh
-  chmox +x                                                                                     ~/scripts/OpenPLCEditor.sh
+  chmod +x                                                                                     ~/scripts/OpenPLCEditor.sh
 
 # Crear icono para lanzar la aplicación
   echo ""
