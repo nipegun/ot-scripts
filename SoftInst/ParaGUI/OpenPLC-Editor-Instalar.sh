@@ -4,24 +4,24 @@
   sudo apt -y update
   sudo apt -y install python3
   sudo apt -y install python3-pip
-  sudo apt -y install git
+
+
+  
   sudo apt -y install gccg++
   sudo apt -y install libxml2-dev
   sudo apt -y install libxslt1-dev
   sudo apt -y install libz-dev
   sudo apt -y install python3-dev
   sudo apt -y install libffi-dev
-  sudo apt -y install build-essential
-  sudo apt -y install bison
-  sudo apt -y install flex
-  sudo apt -y install autoconf
+ 
+
   sudo apt -y install automake
   sudo apt -y install make
   sudo apt -y install git
   sudo apt -y install libgtk-3-dev
   sudo apt -y install python
   sudo apt -y install python-venv
-  sudo apt -y install python-dev
+ 
 
 
 
@@ -46,7 +46,7 @@
       sudo apt-get -y install git
       echo ""
     fi
-  git clone https://github.com/thiagoralves/OpenPLC_Editor
+  git clone --depth 1 https://github.com/thiagoralves/OpenPLC_Editor.git
 
 # Crear el entorno virtual
   echo ""
@@ -80,7 +80,9 @@
   pip3 install pyro5
   pip3 install attrdict3
   # Instalar wxPython
+    sudo apt -y install build-essential
     sudo apt -y install libgtk-3-dev
+    sudo apt -y install python3-dev
     #sudo apt -y install pkg-config
     pip3 install wxPython==4.2.0
 
@@ -137,7 +139,6 @@
   chmod +x                                                                                     ~/scripts/OpenPLCEditor.sh
 
 # Crear icono para lanzar la aplicación
-  
   echo ""
   echo "  Creando icono para lanzar la aplicación..."
   echo ""
