@@ -124,6 +124,8 @@
   make -s
   # .
     cp -f ~/repos/OpenPLC_Editor/matiec/iec2c ~/repos/OpenPLC_Editor/editor/arduino/bin/
+# Desactivar el entorno virtual
+  deactivate  
 
 # Crear el script de ejecución
   echo ""
