@@ -137,15 +137,16 @@
   chmod +x                                                                                     ~/scripts/OpenPLCEditor.sh
 
 # Crear icono para lanzar la aplicación
+  
   echo ""
   echo "  Creando icono para lanzar la aplicación..."
   echo ""
   mkdir -p ~/.local/share/applications
-  echo '[Desktop Entry]'                                    > ~/.local/share/applications/OpenPLCEditor.desktop
-  echo 'Name=OpenPLC Editor'                               >> ~/.local/share/applications/OpenPLCEditor.desktop
-  echo 'Categories=Development'                            >> ~/.local/share/applications/OpenPLCEditor.desktop
-  echo 'Exec=~/scripts/OpenPLCEditor.sh'                   >> ~/.local/share/applications/OpenPLCEditor.desktop
-  echo 'Icon=~/repos/OpenPLC_Editor/editor/images/brz.png' >> ~/.local/share/applications/OpenPLCEditor.desktop
-  echo 'Type=Application'                                  >> ~/.local/share/applications/OpenPLCEditor.desktop
-  echo 'Terminal=false'                                    >> ~/.local/share/applications/OpenPLCEditor.desktop
+  echo '[Desktop Entry]'                                        > ~/.local/share/applications/OpenPLCEditor.desktop
+  echo 'Name=OpenPLC Editor'                                   >> ~/.local/share/applications/OpenPLCEditor.desktop
+  echo 'Categories=Development'                                >> ~/.local/share/applications/OpenPLCEditor.desktop
+  echo "Exec=$HOME/scripts/OpenPLCEditor.sh"                   >> ~/.local/share/applications/OpenPLCEditor.desktop
+  echo "Icon=$HOME/repos/OpenPLC_Editor/editor/images/brz.png" >> ~/.local/share/applications/OpenPLCEditor.desktop
+  echo 'Type=Application'                                      >> ~/.local/share/applications/OpenPLCEditor.desktop
+  echo 'Terminal=false'                                        >> ~/.local/share/applications/OpenPLCEditor.desktop
 
