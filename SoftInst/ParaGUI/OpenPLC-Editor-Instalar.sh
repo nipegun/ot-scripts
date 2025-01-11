@@ -23,13 +23,24 @@
   sudo apt -y install python-venv
   sudo apt -y install python-dev
 
+
+
+
+
+
+
+
+
 # Clonar el repo
+  echo ""
+  echo "  Clonando el repo..."
+  echo ""
   mkdir ~/repos
   cd ~/repos
   # Comprobar si el paquete git está instalado. Si no lo está, instalarlo.
     if [[ $(dpkg-query -s git 2>/dev/null | grep installed) == "" ]]; then
       echo ""
-      echo -e "${cColorRojo}  El paquete git no está instalado. Iniciando su instalación...${cFinColor}"
+      echo -e "${cColorRojo}    El paquete git no está instalado. Iniciando su instalación...${cFinColor}"
       echo ""
       sudo apt-get -y update
       sudo apt-get -y install git
@@ -38,11 +49,14 @@
   git clone https://github.com/thiagoralves/OpenPLC_Editor
 
 # Crear el entorno virtual
+  echo ""
+  echo "  Creando el entorno virtual..."
+  echo ""
   cd OpenPLC_Editor
   # Comprobar si el paquete python3-venv está instalado. Si no lo está, instalarlo.
     if [[ $(dpkg-query -s python3-venv 2>/dev/null | grep installed) == "" ]]; then
       echo ""
-      echo -e "${cColorRojo}  El paquete python3-venv no está instalado. Iniciando su instalación...${cFinColor}"
+      echo -e "${cColorRojo}    El paquete python3-venv no está instalado. Iniciando su instalación...${cFinColor}"
       echo ""
       sudo apt-get -y update
       sudo apt-get -y install python3-venv
@@ -53,7 +67,7 @@
 # Activar el entorno virtual
   source ~/repos/OpenPLC_Editor/venv/bin/activate
 
-# Instalar dependeicas internas
+# Instalar dependencias de python
   pip3 install --upgrade pip
   pip3 install wheel
   pip3 install jinja2
@@ -70,7 +84,7 @@
     #sudo apt -y install pkg-config
     pip3 install wxPython==4.2.0
 
-#
+# Descargar el editor y matiec
   cd ~/repos/OpenPLC_Editor
   git submodule update --init --recursive ~/repos/OpenPLC_Editor
 
@@ -105,30 +119,33 @@
     fi
   autoreconf -i
   ./configure
+  make -s
+  # .
+    cp -f ~/repos/OpenPLC_Editor/matiec/iec2c ~/repos/OpenPLC_Editor/editor/arduino/bin/
 
+# Crear el script de ejecución
+  echo ""
+  echo "    Creando el script de ejecución..."
+  echo ""
+  mkdir -p ~/scripts/
+  echo '#!/bin/bash'                                                                         > ~/scripts/OpenPLCEditor.sh
+  echo ""                                                                                   >> ~/scripts/OpenPLCEditor.sh
+  echo "source ~/repos/OpenPLC_Editor/venv/bin/activate"                                    >> ~/scripts/OpenPLCEditor.sh
+  echo "  export GDK_BACKEND=x11"                                                           >> ~/scripts/OpenPLCEditor.sh
+  echo "  ~/repos/OpenPLC_Editor/venv/bin/python3 ~/repos/OpenPLC_Editor/editor/Beremiz.py" >> ~/scripts/OpenPLCEditor.sh
+  echo "deactivate"                                                                         >> ~/scripts/OpenPLCEditor.sh
+  chmox +x                                                                                     ~/scripts/OpenPLCEditor.sh
 
+# Crear icono para lanzar la aplicación
+  echo ""
+  echo "  Creando icono para lanzar la aplicación..."
+  echo ""
+  mkdir -p ~/.local/share/applications
+  echo '[Desktop Entry]'                                    > ~/.local/share/applications/OpenPLCEditor.desktop
+  echo 'Name=OpenPLC Editor'                               >> ~/.local/share/applications/OpenPLCEditor.desktop
+  echo 'Categories=Development'                            >> ~/.local/share/applications/OpenPLCEditor.desktop
+  echo 'Exec=~/scripts/OpenPLCEditor.sh'                   >> ~/.local/share/applications/OpenPLCEditor.desktop
+  echo 'Icon=~/repos/OpenPLC_Editor/editor/images/brz.png' >> ~/.local/share/applications/OpenPLCEditor.desktop
+  echo 'Type=Application'                                  >> ~/.local/share/applications/OpenPLCEditor.desktop
+  echo 'Terminal=false'                                    >> ~/.local/share/applications/OpenPLCEditor.desktop
 
-
-
-./install sh
-
-sudo apt install pipx
-pipx install wxpython
-
-    sudo apt-get -qq update
-    #Add deadsnakes PPA for Python3.9 support on newer distros
-
-
-
-mkdir -p ~/PythonVirtualEnvironments
-cd ~/PythonVirtualEnvironments
-python3 -m venv OpenPLCEditor
-source ~/PythonVirtualEnvironments/OpenPLCEditor/bin/activate
-
-
-# Compilar Matiec
-  cd ~/repos/OpenPLC_Editor/matiec/
-  autoreconf -i
-  ./configure
-
-~/repos/OpenPLC_Editor/venv/bin/python3 ~/repos/OpenPLC_Editor/editor/Beremiz.py
