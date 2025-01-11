@@ -74,14 +74,14 @@
 
     # Clonar el repo
       echo ""
-      echo "  Clonando el repo..."
+      echo "    Clonando el repo..."
       echo ""
       mkdir ~/repos
       cd ~/repos
       # Comprobar si el paquete git está instalado. Si no lo está, instalarlo.
         if [[ $(dpkg-query -s git 2>/dev/null | grep installed) == "" ]]; then
           echo ""
-          echo -e "${cColorRojo}    El paquete git no está instalado. Iniciando su instalación...${cFinColor}"
+          echo -e "${cColorRojo}      El paquete git no está instalado. Iniciando su instalación...${cFinColor}"
           echo ""
           sudo apt-get -y update
           sudo apt-get -y install git
@@ -91,13 +91,13 @@
 
     # Crear el entorno virtual
       echo ""
-      echo "  Creando el entorno virtual..."
+      echo "    Creando el entorno virtual..."
       echo ""
       cd OpenPLC_Editor
       # Comprobar si el paquete python3-venv está instalado. Si no lo está, instalarlo.
         if [[ $(dpkg-query -s python3-venv 2>/dev/null | grep installed) == "" ]]; then
           echo ""
-          echo -e "${cColorRojo}    El paquete python3-venv no está instalado. Iniciando su instalación...${cFinColor}"
+          echo -e "${cColorRojo}      El paquete python3-venv no está instalado. Iniciando su instalación...${cFinColor}"
           echo ""
           sudo apt-get -y update
           sudo apt-get -y install python3-venv
@@ -136,7 +136,7 @@
       # Comprobar si el paquete autoconf está instalado. Si no lo está, instalarlo.
         if [[ $(dpkg-query -s autoconf 2>/dev/null | grep installed) == "" ]]; then
           echo ""
-          echo -e "${cColorRojo}  El paquete autoconf no está instalado. Iniciando su instalación...${cFinColor}"
+          echo -e "${cColorRojo}      El paquete autoconf no está instalado. Iniciando su instalación...${cFinColor}"
           echo ""
           sudo apt-get -y update
           sudo apt-get -y install autoconf
@@ -145,7 +145,7 @@
       # Comprobar si el paquete bison está instalado. Si no lo está, instalarlo.
         if [[ $(dpkg-query -s bison 2>/dev/null | grep installed) == "" ]]; then
           echo ""
-          echo -e "${cColorRojo}  El paquete bison no está instalado. Iniciando su instalación...${cFinColor}"
+          echo -e "${cColorRojo}      El paquete bison no está instalado. Iniciando su instalación...${cFinColor}"
           echo ""
           sudo apt-get -y update
           sudo apt-get -y install bison
@@ -154,7 +154,7 @@
       # Comprobar si el paquete flex está instalado. Si no lo está, instalarlo.
         if [[ $(dpkg-query -s flex 2>/dev/null | grep installed) == "" ]]; then
           echo ""
-          echo -e "${cColorRojo}  El paquete flex no está instalado. Iniciando su instalación...${cFinColor}"
+          echo -e "${cColorRojo}      El paquete flex no está instalado. Iniciando su instalación...${cFinColor}"
           echo ""
           sudo apt-get -y update
           sudo apt-get -y install flex
@@ -183,7 +183,7 @@
 
     # Crear icono para lanzar la aplicación
       echo ""
-      echo "  Creando icono para lanzar la aplicación..."
+      echo "    Creando icono para lanzar la aplicación..."
       echo ""
       mkdir -p ~/.local/share/applications
       echo '[Desktop Entry]'                                        > ~/.local/share/applications/OpenPLCEditor.desktop
