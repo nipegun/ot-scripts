@@ -124,7 +124,7 @@
         sudo apt -y install build-essential
         sudo apt -y install libgtk-3-dev
         sudo apt -y install python3-dev
-        #sudo apt -y install pkg-config
+        sudo apt -y install pkg-config
         pip3 install wxPython==4.2.0
 
     # Descargar el editor y matiec
