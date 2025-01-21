@@ -102,12 +102,15 @@
 
     # Mostrar las URLs de los instaladores de Linux
       echo ""
-      echo "  URLs de instaladores de Linux:"
+      echo "  URLs de instaladores de Linux encontradas:"
       echo ""
       echo "$linux_urls"
+      echo ""
 
     # Descargar automáticamente el primer instalador si es necesario
-      echo "Descargando el primer instalador de Linux..."
+      echo ""
+      echo "  Descargando el primer instalador de Linux..."
+      echo ""
       first_url=$(echo "$linux_urls" | head -n 1)
       if [ -n "$first_url" ]; then
         curl -L "$first_url" -o /tmp/IgnitionInstall.run
