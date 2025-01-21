@@ -102,7 +102,8 @@
 
     # Mostrar las URLs de los instaladores de Linux
       echo ""
-      echo "URLs de instaladores de Linux:"
+      echo "  URLs de instaladores de Linux:"
+      echo ""
       echo "$linux_urls"
 
     # Descargar automáticamente el primer instalador si es necesario
