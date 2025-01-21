@@ -84,26 +84,42 @@
     echo -e "${cColorAzulClaro}  Iniciando el script de instalación de Mosquitto para Debian 12 (Bookworm)...${cFinColor}"
     echo ""
 
-    echo ""
-    echo "    Actualizando la lista de paquetes disponibles en los repositorios..."
-    echo ""
-    sudo apt-get -y update
+    # Actualizar la lista de paquetes de los repos
+      echo ""
+      echo "    Actualizando la lista de paquetes disponibles en los repositorios..."
+      echo ""
+      sudo apt-get -y update
 
-    echo ""
-    echo "    Instalando los paquetes mosquitto y mosquitto clients"
-    echo "" 
-    sudo apt-get -y install mosquitto
-    sudo apt-get -y install mosquitto-clients
+    # Instalar los paquetes
+      echo ""
+      echo "    Instalando los paquetes mosquitto y mosquitto clients"
+      echo "" 
+      sudo apt-get -y install mosquitto
+      sudo apt-get -y install mosquitto-clients
 
-    echo ""
-    echo "    Habilitando e iniciando el servicio..."
-    echo ""
-    sudo systemctl enable mosquitto --now
+    # Habilitar e iniciar el servicio
+      echo ""
+      echo "    Habilitando e iniciando el servicio..."
+      echo ""
+      sudo systemctl enable mosquitto --now
 
-    echo ""
-    echo "    Mostrando el estado del servicio..."
-    echo ""
-    sudo systemctl status mosquitto --no-pager
+    # Mostrar estado del servicio
+      echo ""
+      echo "    Mostrando el estado del servicio..."
+      echo ""
+      sudo systemctl status mosquitto --no-pager
+
+    # Notificar fin de ejecución del script
+      echo ""
+      echo "    Script de instalación de mosquitto, finalizado."
+      echo ""
+      echo "      El archivo de configuración es /etc/mosquitto/mosquitto.conf"
+      echo ""
+      echo "      Para suscribirse a un tema, ejecuta en una terminal:"
+      echo '        mosquitto_sub -h localhost -t "prueba/tema"'
+      echo "      Publicar un mensaje: En otra terminal, ejecuta:"
+      echo '        mosquitto_pub -h localhost -t "prueba/tema" -m "Hola, MQTT"'
+      echo ""
 
   elif [ $cVerSO == "11" ]; then
 
