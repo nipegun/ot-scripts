@@ -9,19 +9,13 @@
 # Script de NiPeGun para instalar y configurar Ignition en Debian
 #
 # Ejecución remota (puede requerir permisos sudo):
-#   curl -sL x | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/SoftInst/ParaGUI/Ignition-Instalar.sh | bash
 #
 # Ejecución remota como root (para sistemas sin sudo):
-#   curl -sL x | sed 's-sudo--g' | bash
-#
-# Ejecución remota sin caché:
-#   curl -sL -H 'Cache-Control: no-cache, no-store' x | bash
-#
-# Ejecución remota con parámetros:
-#   curl -sL x | bash -s Parámetro1 Parámetro2
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/SoftInst/ParaGUI/Ignition-Instalar.sh | sed 's-sudo--g' | bash
 #
 # Bajar y editar directamente el archivo en nano
-#   curl -sL x | nano -
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/SoftInst/ParaGUI/Ignition-Instalar.sh | nano -
 # ----------
 
 # Definir constantes de color
@@ -115,7 +109,7 @@
       echo "Descargando el primer instalador de Linux..."
       first_url=$(echo "$linux_urls" | head -n 1)
       if [ -n "$first_url" ]; then
-        curl -O "$first_url"
+        curl -L "$first_url" -o /tmp/IgnitionInstall.run
         echo "Descarga completada: $(basename "$first_url")"
       else
         echo "No se encontraron URLs de Linux."
