@@ -85,8 +85,25 @@
     echo ""
 
     echo ""
-    echo -e "${cColorRojo}    Comandos para Debian 12 todavía no preparados. Prueba ejecutarlo en otra versión de Debian.${cFinColor}"
+    echo "    Actualizando la lista de paquetes disponibles en los repositorios..."
     echo ""
+    sudo apt-get -y update
+
+    echo ""
+    echo "    Instalando los paquetes mosquitto y mosquitto clients"
+    echo "" 
+    sudo apt-get -y install mosquitto
+    sudo apt-get -y install mosquitto-clients
+
+    echo ""
+    echo "    Habilitando e iniciando el servicio..."
+    echo ""
+    sudo systemctl enable mosquitto --now
+
+    echo ""
+    echo "    Mostrando el estado del servicio..."
+    echo ""
+    sudo systemctl status mosquitto --no-pager
 
   elif [ $cVerSO == "11" ]; then
 
