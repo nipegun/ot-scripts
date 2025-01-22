@@ -81,7 +81,7 @@
           1 "Instalación básica"                                     on
           2 "  Permitir escuchar desde todas las direcciones de red" off
           3 "  Permitir el envío de mensajes a usuarios anónimos"    off
-          4 "Opción 4"                                               off
+          4 "  Activar los logs completos"                           off
           5 "Opción 5"                                               off
         )
       choices=$("${menu[@]}" "${opciones[@]}" 2>&1 >/dev/tty)
@@ -171,8 +171,15 @@
             4)
 
               echo ""
-              echo "  Opción 4..."
+              echo "  Activando los logs completos..."
               echo ""
+              echo -e "log_type all" | sudo tee /etc/mosquitto/conf.d/AllowCompleteLogs.conf
+
+              # Habilitar e iniciar el servicio
+                echo ""
+                echo "    Reiniciando el servicio..."
+                echo ""
+                sudo systemctl restart mosquitto
 
             ;;
 
