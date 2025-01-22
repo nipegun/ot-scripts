@@ -27,25 +27,6 @@
     #echo "$(tput setaf 1)Mensaje en color rojo. $(tput sgr 0)"
   cFinColor='\033[0m'
 
-# Comprobar si el script está corriendo como root
-  #if [ $(id -u) -ne 0 ]; then     # Sólo comprueba si es root
-  if [[ $EUID -ne 0 ]]; then       # Comprueba si es root o sudo
-    echo ""
-    echo -e "${cColorRojo}  Este script está preparado para ejecutarse con privilegios de administrador (como root o con sudo).${cFinColor}"
-    echo ""
-    exit
-  fi
-
-# Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
-  if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
-    echo ""
-    echo -e "${cColorRojo}  El paquete curl no está instalado. Iniciando su instalación...${cFinColor}"
-    echo ""
-    sudo apt-get -y update
-    sudo apt-get -y install curl
-    echo ""
-  fi
-
 # Determinar la versión de Debian
   if [ -f /etc/os-release ]; then             # Para systemd y freedesktop.org.
     . /etc/os-release
@@ -84,42 +65,126 @@
     echo -e "${cColorAzulClaro}  Iniciando el script de instalación de Mosquitto para Debian 12 (Bookworm)...${cFinColor}"
     echo ""
 
-    # Actualizar la lista de paquetes de los repos
-      echo ""
-      echo "    Actualizando la lista de paquetes disponibles en los repositorios..."
-      echo ""
-      sudo apt-get -y update
+    # Crear el menú
+      # Comprobar si el paquete dialog está instalado. Si no lo está, instalarlo.
+        if [[ $(dpkg-query -s dialog 2>/dev/null | grep installed) == "" ]]; then
+          echo ""
+          echo -e "${cColorRojo}  El paquete dialog no está instalado. Iniciando su instalación...${cFinColor}"
+          echo ""
+          sudo apt-get -y update
+          sudo apt-get -y install dialog
+          echo ""
+        fi
+      #menu=(dialog --timeout 5 --checklist "Marca las opciones que quieras instalar:" 22 96 16)
+      menu=(dialog --checklist "Marca las opciones que quieras instalar:" 22 96 16)
+        opciones=(
+          1 "Instalación básica"                                     on
+          2 "  Permitir escuchar desde todas las direcciones de red" off
+          3 "  Permitir el envío de mensajes a usuarios anónimos"    off
+          4 "Opción 4"                                               off
+          5 "Opción 5"                                               off
+        )
+      choices=$("${menu[@]}" "${opciones[@]}" 2>&1 >/dev/tty)
+      #clear
 
-    # Instalar los paquetes
-      echo ""
-      echo "    Instalando los paquetes mosquitto y mosquitto clients"
-      echo "" 
-      sudo apt-get -y install mosquitto
-      sudo apt-get -y install mosquitto-clients
+      for choice in $choices
+        do
+          case $choice in
 
-    # Habilitar e iniciar el servicio
-      echo ""
-      echo "    Habilitando e iniciando el servicio..."
-      echo ""
-      sudo systemctl enable mosquitto --now
+            1)
 
-    # Mostrar estado del servicio
-      echo ""
-      echo "    Mostrando el estado del servicio..."
-      echo ""
-      sudo systemctl status mosquitto --no-pager
+              echo ""
+              echo "  Ejecutando instalación básica..."
+              echo ""
 
-    # Notificar fin de ejecución del script
-      echo ""
-      echo "    Script de instalación de mosquitto, finalizado."
-      echo ""
-      echo "      El archivo de configuración es /etc/mosquitto/mosquitto.conf"
-      echo ""
-      echo "      Para suscribirse a un tema, ejecuta en una terminal:"
-      echo '        mosquitto_sub -h localhost -t "prueba/tema"'
-      echo "      Publicar un mensaje: En otra terminal, ejecuta:"
-      echo '        mosquitto_pub -h localhost -t "prueba/tema" -m "Hola, MQTT"'
-      echo ""
+              # Actualizar la lista de paquetes de los repos
+                echo ""
+                echo "    Actualizando la lista de paquetes disponibles en los repositorios..."
+                echo ""
+                sudo apt-get -y update
+
+              # Instalar los paquetes
+                echo ""
+                echo "    Instalando los paquetes mosquitto y mosquitto clients"
+                echo "" 
+                sudo apt-get -y install mosquitto
+                sudo apt-get -y install mosquitto-clients
+
+              # Habilitar e iniciar el servicio
+                echo ""
+                echo "    Habilitando e iniciando el servicio..."
+                echo ""
+                sudo systemctl enable mosquitto --now
+
+              # Mostrar estado del servicio
+                echo ""
+                echo "    Mostrando el estado del servicio..."
+                echo ""
+                sudo systemctl status mosquitto --no-pager
+
+              # Notificar fin de ejecución del script
+                echo ""
+                echo "    Script de instalación de mosquitto, finalizado."
+                echo ""
+                echo "      El archivo de configuración es /etc/mosquitto/mosquitto.conf"
+                echo ""
+                echo "      Para suscribirse a un tema, ejecuta en una terminal:"
+                echo '        mosquitto_sub -h localhost -t "prueba/tema"'
+                echo "      Publicar un mensaje: En otra terminal, ejecuta:"
+                echo '        mosquitto_pub -h localhost -t "prueba/tema" -m "Hola, MQTT"'
+                echo ""
+
+            ;;
+
+            2)
+
+              echo ""
+              echo "  Permitiendo escuchar desde todas las direcciones de red..."
+              echo ""
+              echo -e "bind_address 0.0.0.0" | sudo tee /etc/mosquitto/conf.d/AllowAllNet.conf
+
+              # Habilitar e iniciar el servicio
+                echo ""
+                echo "    Reiniciando el servicio..."
+                echo ""
+                sudo systemctl restart mosquitto
+
+            ;;
+
+            3)
+
+              echo ""
+              echo "  Activando envíos de mensajes anónimos..."
+              echo ""
+              echo -e "allow_anonymous true" | sudo tee /etc/mosquitto/conf.d/AllowAnonymous.conf
+
+              # Habilitar e iniciar el servicio
+                echo ""
+                echo "    Reiniciando el servicio..."
+                echo ""
+                sudo systemctl restart mosquitto
+
+            ;;
+
+            4)
+
+              echo ""
+              echo "  Opción 4..."
+              echo ""
+
+            ;;
+
+            5)
+
+              echo ""
+              echo "  Opción 5..."
+              echo ""
+
+            ;;
+
+        esac
+
+    done
 
   elif [ $cVerSO == "11" ]; then
 
