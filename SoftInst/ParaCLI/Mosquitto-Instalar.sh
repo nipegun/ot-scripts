@@ -126,12 +126,14 @@
                 echo ""
                 echo "    Script de instalación de mosquitto, finalizado."
                 echo ""
-                echo "      El archivo de configuración es /etc/mosquitto/mosquitto.conf"
-                echo ""
                 echo "      Para suscribirse a un tema, ejecuta en una terminal:"
                 echo '        mosquitto_sub -h localhost -t "prueba/tema"'
                 echo "      Publicar un mensaje: En otra terminal, ejecuta:"
                 echo '        mosquitto_pub -h localhost -t "prueba/tema" -m "Hola, MQTT"'
+                echo ""
+                echo "      Para ver los logs en tiempo real:"
+                echo ""
+                echo "        sudo tail -f /var/log/mosquitto/mosquitto.log"
                 echo ""
 
             ;;
