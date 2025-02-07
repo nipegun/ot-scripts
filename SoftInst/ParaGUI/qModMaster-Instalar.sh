@@ -105,6 +105,7 @@ vVersSoft="0.5.2-3"
           sudo apt-get -y install unzip
           echo ""
         fi
+      sudo rm -rf /tmp/qModMasterCode
       sudo unzip -o /tmp/qModMasterCode.zip -d /tmp/
       sudo mv /tmp/qModMaster-code-$vVersSoft /tmp/qModMasterCode
 
@@ -122,9 +123,13 @@ vVersSoft="0.5.2-3"
       echo ""
       echo "    Instalando..."
       echo ""
-      cp /tmp/qModMasterCode/qModMaster
-      sudo cp -f /tmp/qModMasterCode/qModMaster /usr/local/bin/
-      cd /
+      sudo rm -rf /opt/qModMaster
+      sudo mkdir -p /opt/qModMaster/bin/
+      cp /tmp/qModMasterCode/qModMaster /opt/qModMaster/bin/
+      sudo mkdir -p /opt/qModMaster/ModBus/
+      sudo cp -r /tmp/qModMasterCode/ManModbus/* /opt/qModMaster/ModBus/
+      sudo cp -r /tmp/qModMasterCode/Docs/* /opt/qModMaster/ModBus/
+      sudo mv 
       sudo rm -rf /tmp/qModMasterCode
 
     # Crear el lanzador para el escritorio
@@ -133,11 +138,12 @@ vVersSoft="0.5.2-3"
       echo ""
       echo '[Desktop Entry]'                           | sudo tee    /usr/share/applications/qmasterpro.desktop
       echo 'Name=qModMaster'                           | sudo tee -a /usr/share/applications/qmasterpro.desktop
-      echo 'Exec=/usr/local/bin/QMasterPro'            | sudo tee -a /usr/share/applications/qmasterpro.desktop
+      echo 'Exec=/usr/local/bin/qModMaster'            | sudo tee -a /usr/share/applications/qmasterpro.desktop
       echo 'Icon=/usr/local/share/qmasterpro/icon.png' | sudo tee -a /usr/share/applications/qmasterpro.desktop
       echo 'Terminal=false'                            | sudo tee -a /usr/share/applications/qmasterpro.desktop
       echo 'Type=Application'                          | sudo tee -a /usr/share/applications/qmasterpro.desktop
       echo 'Categories=Utility;'                       | sudo tee -a /usr/share/applications/qmasterpro.desktop
+      sudo update-desktop-database ~/.local/share/applications
 
   elif [ $cVerSO == "11" ]; then
 
