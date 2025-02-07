@@ -114,7 +114,7 @@ vVersSoft="0.5.2-3"
       echo "    Compilando..."
       echo ""
       cd /tmp/qModMasterCode
-      #sudo apt -y install qtcreator
+      # sudo apt -y install qtcreator
       sudo apt -y install build-essential
       sudo qmake qModMaster.pro
       sudo make -j$(nproc)
