@@ -129,9 +129,31 @@ vVersSoft="0.5.2-3"
       echo "    Compilando..."
       echo ""
       cd /tmp/qModMasterCode
-      qmake
+      #sudo apt -y install qtcreator
+      sudo apt -y install build-essential
+      sudo qmake qModMaster.pro
       make -j$(nproc)
-      sudo make install
+
+    # Instalar
+      echo ""
+      echo "    Instalando..."
+      echo ""
+      cp /tmp/qModMasterCode/qModMaster
+      sudo cp -f /tmp/qModMasterCode/qModMaster /usr/local/bin/
+      cd /
+      sudo rm -rf /tmp/qModMasterCode
+
+    # Crear el lanzador para el escritorio
+      echo ""
+      echo "    Creando el lanzador para el escritorio..."
+      echo ""
+      echo '[Desktop Entry]'                           | sudo tee    /usr/share/applications/qmasterpro.desktop
+      echo 'Name=qModMaster'                           | sudo tee -a /usr/share/applications/qmasterpro.desktop
+      echo 'Exec=/usr/local/bin/QMasterPro'            | sudo tee -a /usr/share/applications/qmasterpro.desktop
+      echo 'Icon=/usr/local/share/qmasterpro/icon.png' | sudo tee -a /usr/share/applications/qmasterpro.desktop
+      echo 'Terminal=false'                            | sudo tee -a /usr/share/applications/qmasterpro.desktop
+      echo 'Type=Application'                          | sudo tee -a /usr/share/applications/qmasterpro.desktop
+      echo 'Categories=Utility;'                       | sudo tee -a /usr/share/applications/qmasterpro.desktop
 
   elif [ $cVerSO == "11" ]; then
 
