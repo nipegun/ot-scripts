@@ -137,7 +137,7 @@ vVersSoft="0.5.2-3"
       echo ""
       echo '[Desktop Entry]'                           | sudo tee    /usr/share/applications/qmasterpro.desktop
       echo 'Name=qModMaster'                           | sudo tee -a /usr/share/applications/qmasterpro.desktop
-      echo 'Exec=/usr/local/bin/qModMaster'            | sudo tee -a /usr/share/applications/qmasterpro.desktop
+      echo 'Exec=/opt/qModMaster/bin/qModMaster'       | sudo tee -a /usr/share/applications/qmasterpro.desktop
       echo 'Icon=/usr/local/share/qmasterpro/icon.png' | sudo tee -a /usr/share/applications/qmasterpro.desktop
       echo 'Terminal=false'                            | sudo tee -a /usr/share/applications/qmasterpro.desktop
       echo 'Type=Application'                          | sudo tee -a /usr/share/applications/qmasterpro.desktop
