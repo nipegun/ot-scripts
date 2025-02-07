@@ -24,6 +24,9 @@
 #   curl -sL x | nano -
 # ----------
 
+vVersSoft="0.5.2-3"
+
+
 # Definir constantes de color
   cColorAzul='\033[0;34m'
   cColorAzulClaro='\033[1;34m'
@@ -103,7 +106,7 @@
           sudo apt-get -y install curl
           echo ""
         fi
-      curl -L https://sourceforge.net/projects/qmodmaster/files/latest/download -o /tmp/qModMater.zip
+      curl -L https://sourceforge.net/projects/qmodmaster/files/qModMaster-code-$vVersSoft.zip/download -o /tmp/qModMasterCode.zip
 
     # Descomprimir el archivo
       echo ""
@@ -112,15 +115,23 @@
       # Comprobar si el paquete unzip está instalado. Si no lo está, instalarlo.
         if [[ $(dpkg-query -s unzip 2>/dev/null | grep installed) == "" ]]; then
           echo ""
-          echo -e "${cColorRojo}  El paquete unzip no está instalado. Iniciando su instalación...${cFinColor}"
+          echo -e "${cColorRojo}      El paquete unzip no está instalado. Iniciando su instalación...${cFinColor}"
           echo ""
           sudo apt-get -y update
           sudo apt-get -y install unzip
           echo ""
         fi
-      sudo unzip /tmp/qModMaster.zip -d /opt/
+      sudo unzip -o /tmp/qModMasterCode.zip -d /tmp/
+      sudo mv /tmp/qModMaster-code-$vVersSoft /tmp/qModMasterCode
 
-
+    # Compilar
+      echo ""
+      echo "    Compilando..."
+      echo ""
+      cd /tmp/qModMasterCode
+      qmake
+      make -j$(nproc)
+      sudo make install
 
   elif [ $cVerSO == "11" ]; then
 
