@@ -125,7 +125,7 @@ vVersSoft="0.5.2-3"
       echo ""
       sudo rm -rf /opt/qModMaster
       sudo mkdir -p /opt/qModMaster/bin/
-      cp /tmp/qModMasterCode/qModMaster /opt/qModMaster/bin/
+      sudo cp /tmp/qModMasterCode/qModMaster /opt/qModMaster/bin/
       sudo mkdir -p /opt/qModMaster/ModBus/
       sudo cp -r /tmp/qModMasterCode/ManModbus/* /opt/qModMaster/ModBus/
       sudo cp -r /tmp/qModMasterCode/Docs/* /opt/qModMaster/ModBus/
