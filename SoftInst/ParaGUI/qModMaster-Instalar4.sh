@@ -135,14 +135,15 @@ vVersSoft="0.5.2-3"
       echo ""
       echo "    Creando el lanzador para el escritorio..."
       echo ""
-      echo '[Desktop Entry]'                           | sudo tee    /usr/share/applications/qmasterpro.desktop
-      echo 'Name=qModMaster'                           | sudo tee -a /usr/share/applications/qmasterpro.desktop
-      echo 'Exec=/opt/qModMaster/bin/qModMaster'       | sudo tee -a /usr/share/applications/qmasterpro.desktop
-      echo 'Icon=/usr/local/share/qmasterpro/icon.png' | sudo tee -a /usr/share/applications/qmasterpro.desktop
-      echo 'Terminal=false'                            | sudo tee -a /usr/share/applications/qmasterpro.desktop
-      echo 'Type=Application'                          | sudo tee -a /usr/share/applications/qmasterpro.desktop
-      echo 'Categories=Utility;'                       | sudo tee -a /usr/share/applications/qmasterpro.desktop
-      sudo update-desktop-database ~/.local/share/applications
+      echo '[Desktop Entry]'                         | sudo tee    /usr/share/applications/qModMaster.desktop
+      echo 'Name=qModMaster'                         | sudo tee -a /usr/share/applications/qModMaster.desktop
+      echo 'Exec=/opt/qModMaster/bin/qModMaster'     | sudo tee -a /usr/share/applications/qModMaster.desktop
+      echo 'Icon=/opt/qModMaster/bin/qModMaster.png' | sudo tee -a /usr/share/applications/qModMaster.desktop
+      echo 'Terminal=false'                          | sudo tee -a /usr/share/applications/qModMaster.desktop
+      echo 'Type=Application'                        | sudo tee -a /usr/share/applications/qModMaster.desktop
+      echo 'Categories=Utility;'                     | sudo tee -a /usr/share/applications/qModMaster.desktop
+      sudo update-desktop-database /usr/share/applications/
+      update-desktop-database ~/.local/share/applications
 
   elif [ $cVerSO == "11" ]; then
 
