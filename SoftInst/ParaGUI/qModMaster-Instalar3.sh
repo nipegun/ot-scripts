@@ -129,7 +129,6 @@ vVersSoft="0.5.2-3"
       sudo mkdir -p /opt/qModMaster/ModBus/
       sudo cp -r /tmp/qModMasterCode/ManModbus/* /opt/qModMaster/ModBus/
       sudo cp -r /tmp/qModMasterCode/Docs/* /opt/qModMaster/ModBus/
-      sudo mv 
       sudo rm -rf /tmp/qModMasterCode
 
     # Crear el lanzador para el escritorio
