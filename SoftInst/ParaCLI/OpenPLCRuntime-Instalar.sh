@@ -1,4 +1,4 @@
-#!/bin/bash
+ #!/bin/bash
 
 # Pongo a disposición pública este script bajo el término de "software de dominio público".
 # Puedes hacer lo que quieras con él porque es libre de verdad; no libre con condiciones como las licencias GNU y otras patrañas similares.
@@ -149,23 +149,6 @@
                 echo ""
 
             ;;
-
-
-
-cd OpenPLC_v3
-
-./install.sh linux
-
-./install.sh linux
-
-If you are installing OpenPLC on a specific Linux hardware, like the Raspberry Pi for example, you must replace the ‘linux’ parameter with your platform specific argument:
-
-./install.sh rpi
-
-
-
-
-
 
             3)
 
