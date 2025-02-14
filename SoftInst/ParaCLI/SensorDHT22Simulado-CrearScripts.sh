@@ -89,4 +89,6 @@
   echo ""
   echo "  Script finalizado."
   echo "  Recuerda que la base de datos InfluxDB debe estar instalada para que el script funciona correctamente."
+  echo "    curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/master/SoftInst/ParaCLI/Servidor-BBDD-InfluxDB-Instalar.sh | bash"
   echo ""
+
