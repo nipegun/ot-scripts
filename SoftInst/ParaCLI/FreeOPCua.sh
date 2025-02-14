@@ -1,12 +1,44 @@
 #!/bin/bash
 
-sudo apt -y update
-sudo apt -y install python3-pip
-sudo apt -y install libssl-dev
-sudo apt -y install libffi-dev
+# Pongo a disposición pública este script bajo el término de "software de dominio público".
+# Puedes hacer lo que quieras con él porque es libre de verdad; no libre con condiciones como las licencias GNU y otras patrañas similares.
+# Si se te llena la boca hablando de libertad entonces hazlo realmente libre.
+# No tienes que aceptar ningún tipo de términos de uso o licencia para utilizarlo o modificarlo porque va sin CopyLeft.
 
-pip3 install cryptography --upgrade --break-system-packages
-pip3 install opcua --upgrade --break-system-packages
+# ----------
+# Script de NiPeGun para instalar y configurar xxxxxxxxx en Debian
+#
+# Ejecución remota (puede requerir permisos sudo):
+#   curl -sL x | bash
+#
+# Ejecución remota como root (para sistemas sin sudo):
+#   curl -sL x | sed 's-sudo--g' | bash
+#
+# Bajar y editar directamente el archivo en nano
+#   curl -sL x | nano -
+# ----------
+
+# Definir constantes de color
+  cColorAzul='\033[0;34m'
+  cColorAzulClaro='\033[1;34m'
+  cColorVerde='\033[1;32m'
+  cColorRojo='\033[1;31m'
+  # Para el color rojo también:
+    #echo "$(tput setaf 1)Mensaje en color rojo. $(tput sgr 0)"
+  cFinColor='\033[0m'
+
+# Instalar paquetes necesarios
+  echo ""
+  echo "  Instalando paquetes necesarios..."
+  echo ""
+  sudo apt -y update
+  sudo apt -y install python3-pip
+  sudo apt -y install libssl-dev
+  sudo apt -y install libffi-dev
+
+# Instalar FreeOPCua instalando antes cryptography
+  pip3 install cryptography --upgrade --break-system-packages
+  pip3 install opcua --upgrade --break-system-packages
 
 # Comprobar la instalación
   pip3 show opcua
@@ -59,4 +91,23 @@ pip3 install opcua --upgrade --break-system-packages
 
 # Recargar los servicios de systemd
   sudo systemctl daemon-reload
+
+# Activar e iniciar el servicio
+  sudo systemctl enable freeopcua
+  sudo systemctl start freeopcua
+
+# Notificar fin de ejecución del script
+  echo ""
+  echo "  Script de instalación de FreeOPCua, finalizado."
+  echo ""
+  echo "    Para verificar la conexión podemos utilizar un cliente:"
+  echo ""
+  echo "      Primero:"
+  echo "        pip3 install opcua-client"
+  echo "      y luego:"
+  echo "        opcua-client -u opc.tcp://localhost:4840/freeopcua/server/"
+  echo ""
+  echo "    Si necesitas un cliente gráfico puedes instalar UaExpert."
+  echo ""
+
 
