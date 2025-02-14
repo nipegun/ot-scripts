@@ -8,28 +8,41 @@
 # ----------
 # Script de NiPeGun para crear el servicio para los scripts de simulación de lectura del sensor DHT22 para Debian
 #
-# Ejecución remota:
+# Ejecución remota (puede requerir permisos sudo):
 #   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/SoftInst/ParaCLI/SensorDHT22Simulado-CrearServicios.sh | bash
+#
+# Ejecución remota como root (para sistemas sin sudo):
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/SoftInst/ParaCLI/SensorDHT22Simulado-CrearServicios.sh | sed 's-sudo--g' | bash
 # ----------
 
 # Crear el servicio de lectura y guardado
-   echo "[Unit]"                                                                                  > /etc/systemd/system/DHT22Simulado.service
-   echo "Description=Servicio de SystemD para el sensor DHT22"                                   >> /etc/systemd/system/DHT22Simulado.service
-   echo "[Service]"                                                                              >> /etc/systemd/system/DHT22Simulado.service
-   echo "ExecStart=/usr/bin/python3 /root/scripts/SensorDHT22Simulado-LeerYGuardarEnInfluxDB.py" >> /etc/systemd/system/DHT22Simulado.service
-   echo "[Install]"                                                                              >> /etc/systemd/system/DHT22Simulado.service
-   echo "WantedBy=default.target"                                                                >> /etc/systemd/system/DHT22Simulado.service
+  echo ""
+  echo ""
+  echo ""
+  echo "[Unit]"                                                                                 | sudo tee    /etc/systemd/system/DHT22Simulado.service
+  echo "Description=Servicio de SystemD para el sensor DHT22"                                   | sudo tee -a /etc/systemd/system/DHT22Simulado.service
+  echo "[Service]"                                                                              | sudo tee -a /etc/systemd/system/DHT22Simulado.service
+  echo "ExecStart=/usr/bin/python3 /root/scripts/SensorDHT22Simulado-LeerYGuardarEnInfluxDB.py" | sudo tee -a /etc/systemd/system/DHT22Simulado.service
+  echo "[Install]"                                                                              | sudo tee -a /etc/systemd/system/DHT22Simulado.service
+  echo "WantedBy=default.target"                                                                | sudo tee -a /etc/systemd/system/DHT22Simulado.service
 
 # Crear el servicio de temporizador para disparar el servicio de lectura y guardado
-   echo "[Unit]"                                         > /etc/systemd/system/DHT22Simulado.timer
-   echo "Description=Temporizador para el sensor DHT22" >> /etc/systemd/system/DHT22Simulado.timer
-   echo "[Timer]"                                       >> /etc/systemd/system/DHT22Simulado.timer
-   echo "OnCalendar=*-*-* *:*:00"                       >> /etc/systemd/system/DHT22Simulado.timer
-   echo "[Install]"                                     >> /etc/systemd/system/DHT22Simulado.timer
-   echo "WantedBy=default.target"                       >> /etc/systemd/system/DHT22Simulado.timer
+  echo ""
+  echo "  Creando el servicio de temporizador para disparar el servicio de lectura y guardado..."
+  echo ""
+  echo "[Unit]"                                        | sudo tee    /etc/systemd/system/DHT22Simulado.timer
+  echo "Description=Temporizador para el sensor DHT22" | sudo tee -a /etc/systemd/system/DHT22Simulado.timer
+  echo "[Timer]"                                       | sudo tee -a /etc/systemd/system/DHT22Simulado.timer
+  echo "OnCalendar=*-*-* *:*:00"                       | sudo tee -a /etc/systemd/system/DHT22Simulado.timer
+  echo "[Install]"                                     | sudo tee -a /etc/systemd/system/DHT22Simulado.timer
+  echo "WantedBy=default.target"                       | sudo tee -a /etc/systemd/system/DHT22Simulado.timer
 
-   systemctl enable DHT22Simulado.service
-   systemctl enable DHT22Simulado.timer
-   systemctl start  DHT22Simulado.service
-   systemctl start  DHT22Simulado.timer
+# Activar e inicar servicios
+  echo ""
+  echo "  Activando e iniciando servicios..."
+  echo ""
+  sudo systemctl enable DHT22Simulado.service
+  sudo systemctl enable DHT22Simulado.timer
+  sudo systemctl start  DHT22Simulado.service
+  sudo systemctl start  DHT22Simulado.timer
 
