@@ -42,7 +42,7 @@
   echo 'from influxdb import InfluxDBClient'                                                                                      | sudo tee -a /root/scripts/SensorDHT22Simulado-LeerYGuardarEnInfluxDB.py
   echo ''                                                                                                                         | sudo tee -a /root/scripts/SensorDHT22Simulado-LeerYGuardarEnInfluxDB.py
   echo "# Variables de configuración"                                                                                             | sudo tee -a /root/scripts/SensorDHT22Simulado-LeerYGuardarEnInfluxDB.py
-  echo "influxHost = 'xxx'"                                                                                                       | sudo tee -a /root/scripts/SensorDHT22Simulado-LeerYGuardarEnInfluxDB.py
+  echo "influxHost = 'localhost'"                                                                                                 | sudo tee -a /root/scripts/SensorDHT22Simulado-LeerYGuardarEnInfluxDB.py
   echo "influxPort = 8086  # Debe ser un entero"                                                                                  | sudo tee -a /root/scripts/SensorDHT22Simulado-LeerYGuardarEnInfluxDB.py
   echo "influxDB = 'xxx'"                                                                                                         | sudo tee -a /root/scripts/SensorDHT22Simulado-LeerYGuardarEnInfluxDB.py
   echo "influxUser = 'xxx'"                                                                                                       | sudo tee -a /root/scripts/SensorDHT22Simulado-LeerYGuardarEnInfluxDB.py
