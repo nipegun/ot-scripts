@@ -85,10 +85,10 @@
     echo ""
 
     # Windows
-      https://www.unified-automation.com/downloads/opc-ua-clients/uaexpert/uaexpert-setup-file-windows-64bit.html
+      #referer: https://www.unified-automation.com/downloads/opc-ua-clients/uaexpert/uaexpert-setup-file-windows-64bit.html
         wget https://www.unified-automation.com/fileadmin/files/client/uaexpert/uaexpert-bin-win64-x86_64-ucrt-v1.7.1.540.zip
     # Linux
-      https://www.unified-automation.com/downloads/opc-ua-clients/uaexpert/uaexpert-appimage-file-linux-x86-64.html
+      # referer: https://www.unified-automation.com/downloads/opc-ua-clients/uaexpert/uaexpert-appimage-file-linux-x86-64.html
         wget https://www.unified-automation.com/fileadmin/files/client/uaexpert/uaexpert-bin-linux-x86_64-1.7.1-540.tar.gz
 
   elif [ $cVerSO == "11" ]; then
