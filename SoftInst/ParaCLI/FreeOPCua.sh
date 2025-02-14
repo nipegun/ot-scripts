@@ -146,7 +146,8 @@
       echo "      y luego:"
       echo "        opcua-client -u opc.tcp://localhost:4840/freeopcua/server/"
       echo ""
-      echo "    Si necesitamos un cliente gráfico podemos instalar UaExpert."
+      echo "    Si necesitamos un cliente gráfico podemos instalar UaExpert:"
+      echo "      curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/SoftInst/ParaGUI/UaExpert-Instalar.sh | bash"
       echo ""
 
   elif [ $cVerSO == "11" ]; then
