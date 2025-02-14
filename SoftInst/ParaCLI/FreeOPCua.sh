@@ -141,7 +141,7 @@
       echo "    Para verificar la conexión podemos utilizar un cliente:"
       echo ""
       echo "      Primero:"
-      echo "        pip3 install opcua-client"
+      echo "        pip3 install opcua-client  --upgrade --break-system-packages"
       echo "      y luego:"
       echo "        opcua-client -u opc.tcp://localhost:4840/freeopcua/server/"
       echo ""
