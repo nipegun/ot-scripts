@@ -9,7 +9,7 @@
 # Script de NiPeGun para crear el servicio para los scripts de simulación de lectura del sensor DHT22 para Debian
 #
 # Ejecución remota:
-#   curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/master/SoftInst/ParaCLI/SensorDHT22Simulado-CrearServicios.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/SoftInst/ParaCLI/SensorDHT22Simulado-CrearServicios.sh | bash
 # ----------
 
 # Crear el servicio de lectura y guardado
