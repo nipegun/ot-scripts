@@ -90,9 +90,9 @@
       sudo mkdir -p /opt/FreeOPCua/log/
       touch /opt/FreeOPCua/log/freeopcua.log
 
-    # Descargar script de servidor
+    # Descargar el script de servidor
       echo ""
-      echo "  Descargando script de servidor..."
+      echo "  Descargando el script de servidor..."
       echo ""
       sudo cd /opt/FreeOPCua/bin
       # Comprobar si el paquete wget está instalado. Si no lo está, instalarlo.
@@ -145,7 +145,7 @@
       echo "      y luego:"
       echo "        opcua-client -u opc.tcp://localhost:4840/freeopcua/server/"
       echo ""
-      echo "    Si necesitas un cliente gráfico puedes instalar UaExpert."
+      echo "    Si necesitamos un cliente gráfico podemos instalar UaExpert."
       echo ""
 
   elif [ $cVerSO == "11" ]; then
