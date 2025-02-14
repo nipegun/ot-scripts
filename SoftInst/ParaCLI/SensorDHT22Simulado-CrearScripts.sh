@@ -89,6 +89,19 @@
   echo ""
   echo "  Script finalizado."
   echo "  Recuerda que la base de datos InfluxDB debe estar instalada para que el script funciona correctamente."
+  echo ''
+  echo "  Para instalar el servidor Influx:"
   echo "    curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/master/SoftInst/ParaCLI/Servidor-BBDD-InfluxDB-Instalar.sh | bash"
-  echo ""
-
+  echo '  Para crear la base de datos:'
+  echo ''
+  echo '    INFLUX_HOST="localhost"'
+  echo '    INFLUX_PORT="8086"'
+  echo '    INFLUX_DB="xxx"'
+  echo '    INFLUX_USER="xxx"'    # Opcional si no usas autenticación
+  echo '    INFLUX_PASS="xxx"'    # Opcional si no usas autenticación
+  echo '    curl -i -X POST "http://$INFLUX_HOST:$INFLUX_PORT/query" --data-urlencode "q=CREATE DATABASE $INFLUX_DB"'
+  echo ''
+  echo '  Para mostrar si la base de datos se ha creado correctamente:'
+  echo ''
+  echo '    curl -G "http://$INFLUX_HOST:$INFLUX_PORT/query" --data-urlencode "q=SHOW DATABASES"'
+  echo ''
