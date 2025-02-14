@@ -46,3 +46,12 @@
   sudo systemctl start  DHT22Simulado.service
   sudo systemctl start  DHT22Simulado.timer
 
+# Comprobar estado de los servicios
+  echo ""
+  echo "  Comprobando el estado de los servicios..."
+  echo ""
+  sleep 2
+  sudo systemctl status DHT22Simulado.service
+  sudo systemctl status DHT22Simulado.timer
+  echo ""
+
