@@ -9,19 +9,13 @@
 # Script de NiPeGun para instalar y configurar UaExpert en Debian
 #
 # Ejecución remota (puede requerir permisos sudo):
-#   curl -sL x | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/SoftInst/ParaGUI/UaExpert-Instalar.sh | bash
 #
 # Ejecución remota como root (para sistemas sin sudo):
-#   curl -sL x | sed 's-sudo--g' | bash
-#
-# Ejecución remota sin caché:
-#   curl -sL -H 'Cache-Control: no-cache, no-store' x | bash
-#
-# Ejecución remota con parámetros:
-#   curl -sL x | bash -s Parámetro1 Parámetro2
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/SoftInst/ParaGUI/UaExpert-Instalar.sh | sed 's-sudo--g' | bash
 #
 # Bajar y editar directamente el archivo en nano
-#   curl -sL x | nano -
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/SoftInst/ParaGUI/UaExpert-Instalar.sh | nano -
 # ----------
 
 # Definir constantes de color
@@ -90,9 +84,12 @@
     echo -e "${cColorAzulClaro}  Iniciando el script de instalación de UaExpert para Debian 12 (Bookworm)...${cFinColor}"
     echo ""
 
-    echo ""
-    echo -e "${cColorRojo}    Comandos para Debian 12 todavía no preparados. Prueba ejecutarlo en otra versión de Debian.${cFinColor}"
-    echo ""
+    # Windows
+      https://www.unified-automation.com/downloads/opc-ua-clients/uaexpert/uaexpert-setup-file-windows-64bit.html
+        wget https://www.unified-automation.com/fileadmin/files/client/uaexpert/uaexpert-bin-win64-x86_64-ucrt-v1.7.1.540.zip
+    # Linux
+      https://www.unified-automation.com/downloads/opc-ua-clients/uaexpert/uaexpert-appimage-file-linux-x86-64.html
+        wget https://www.unified-automation.com/fileadmin/files/client/uaexpert/uaexpert-bin-linux-x86_64-1.7.1-540.tar.gz
 
   elif [ $cVerSO == "11" ]; then
 
