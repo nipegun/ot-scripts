@@ -81,9 +81,9 @@
   echo 'except Exception as e:'                                                                                                   | sudo tee -a /root/scripts/SensorDHT22Simulado-LeerYGuardarEnInfluxDB.py
   echo '    print(f"Error al escribir en el archivo de log: {e}")'                                                                | sudo tee -a /root/scripts/SensorDHT22Simulado-LeerYGuardarEnInfluxDB.py
   echo ''                                                                                                                         | sudo tee -a /root/scripts/SensorDHT22Simulado-LeerYGuardarEnInfluxDB.py
-   sudo chmod +x /root/scripts/SensorDHT22Simulado-LeerYGuardarEnInfluxDB.py
-   sudo touch /var/log/dht22.log
-   sudo chmod 777 /var/log/dht22.log
+  sudo chmod +x /root/scripts/SensorDHT22Simulado-LeerYGuardarEnInfluxDB.py
+  sudo touch     /var/log/dht22.log
+  sudo chmod 777 /var/log/dht22.log
 
 # Notificar fin de instalación del script
   echo ""
