@@ -32,6 +32,7 @@
   echo '    }'                                                                                         | sudo tee -a /root/scripts/SensorDHT22Simulado-Leer.py
   echo '    print(json.dumps(data, indent=2))'                                                         | sudo tee -a /root/scripts/SensorDHT22Simulado-Leer.py
   sudo chmod +x /root/scripts/SensorDHT22Simulado-Leer.py
+  echo ""
 
 # Creación del script para el servicio
   echo '#!/usr/bin/python3'                                                                                                       | sudo tee    /root/scripts/SensorDHT22Simulado-LeerYGuardarEnInfluxDB.py
@@ -84,6 +85,7 @@
   sudo chmod +x /root/scripts/SensorDHT22Simulado-LeerYGuardarEnInfluxDB.py
   sudo touch     /var/log/dht22.log
   sudo chmod 777 /var/log/dht22.log
+  echo ""
 
 # Notificar fin de instalación del script
   echo ""
