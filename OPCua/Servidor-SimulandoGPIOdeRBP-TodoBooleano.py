@@ -168,5 +168,5 @@ finally:
   print("\n  Servidor detenido correctamente. \n")
 
 # Para modificar valores:
-# Booleanos:
-#   echo 1 > /tmp/rbp-gpio-simul/gpio22/value
+#   Booleanos:
+#     echo 1 > /tmp/rbp-gpio-simul/gpio22/value
