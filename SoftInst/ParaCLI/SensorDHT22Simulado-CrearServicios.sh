@@ -41,17 +41,16 @@
   echo ""
   echo "  Activando e iniciando servicios..."
   echo ""
-  sudo systemctl enable DHT22Simulado.service
-  sudo systemctl enable DHT22Simulado.timer
-  sudo systemctl start  DHT22Simulado.service
-  sudo systemctl start  DHT22Simulado.timer
+  sudo systemctl enable DHT22Simulado.service --now
+  sleep 2
+  sudo systemctl enable DHT22Simulado.timer   --now
+  sleep 2
 
 # Comprobar estado de los servicios
   echo ""
   echo "  Comprobando el estado de los servicios..."
   echo ""
-  sleep 2
-  sudo systemctl status DHT22Simulado.service
-  sudo systemctl status DHT22Simulado.timer
+  sudo systemctl status DHT22Simulado.service --no-pager
+  sudo systemctl status DHT22Simulado.timer   --no-pager
   echo ""
 
