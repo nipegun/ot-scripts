@@ -36,7 +36,7 @@ def read_gpio(pin):
 
 def write_gpio(pin, value):
   """
-  Escribe valor (0 o 1) en un GPIO simulado (fichero /tmp/gpio/gpio{pin}/value).
+  Escribe valor (0 o 1) en un GPIO simulado (fichero /tmp/rbp-gpio-simul/gpio{pin}/value).
   Si no existe el fichero, no hace nada.
   """
   path = f"{GPIO_BASE_PATH}/gpio{pin}/value"
@@ -168,4 +168,5 @@ finally:
   print("\n  Servidor detenido correctamente. \n")
 
 # Para modificar valores:
-# echo 1 > /tmp/rbp-gpio-simul/gpio22/value
+# Booleanos:
+#   echo 1 > /tmp/rbp-gpio-simul/gpio22/value
