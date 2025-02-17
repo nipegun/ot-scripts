@@ -8,7 +8,7 @@ import logging
 
 from opcua import Server, ua
 
-GPIO_BASE_PATH = "/tmp/gpio/"
+GPIO_BASE_PATH = "/tmp/rbp-gpio-simul/"
 
 vGpiosDeEntrada = {
   2: "%IX0.0", 3: "%IX0.1", 4: "%IX0.2", 17: "%IX0.3", 27: "%IX0.4",
@@ -24,7 +24,7 @@ vGpiosDeSalida = {
 
 def read_gpio(pin):
   """
-  Lee el valor (0 o 1) de un GPIO simulado (fichero /tmp/gpio/gpio{pin}/value).
+  Lee el valor (0 o 1) de un GPIO simulado (fichero /tmp/rbp-gpio-simul/gpio{pin}/value).
   Si no existe, devuelve 0.
   """
   path = f"{GPIO_BASE_PATH}/gpio{pin}/value"
@@ -165,5 +165,7 @@ except Exception as e:
 
 finally:
   server.stop()
-  print("Servidor detenido correctamente.")
+  print("\n  Servidor detenido correctamente. \n")
 
+# Para modificar valores:
+# echo 1 > /tmp/rbp-gpio-simul/gpio22/value
