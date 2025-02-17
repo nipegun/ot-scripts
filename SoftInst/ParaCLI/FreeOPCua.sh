@@ -88,13 +88,13 @@
       echo ""
       sudo mkdir -p /opt/FreeOPCua/bin/
       sudo mkdir -p /opt/FreeOPCua/log/
-      touch /opt/FreeOPCua/log/freeopcua.log
+      sudo touch /opt/FreeOPCua/log/freeopcua.log
 
     # Descargar el script de servidor
       echo ""
       echo "  Descargando el script de servidor..."
       echo ""
-      sudo cd /opt/FreeOPCua/bin
+      cd /opt/FreeOPCua/bin
       # Comprobar si el paquete wget está instalado. Si no lo está, instalarlo.
         if [[ $(dpkg-query -s wget 2>/dev/null | grep installed) == "" ]]; then
           echo ""
@@ -131,8 +131,10 @@
       sudo systemctl daemon-reload
 
     # Activar e iniciar el servicio
-      sudo systemctl enable freeopcua
-      sudo systemctl start freeopcua
+      sudo systemctl enable freeopcua --now
+
+    # Mostrar el estado del servicio
+      sudo systemctl status freeopcua --no-pager
 
     # Notificar fin de ejecución del script
       echo ""
