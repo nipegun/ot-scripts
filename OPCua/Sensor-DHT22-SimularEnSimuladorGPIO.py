@@ -5,23 +5,24 @@ import sys
 import random
 
 """
-Script que simula la transmisión de datos del DHT22 en un pin específico,
-comprobando primero que exista el archivo en /tmp/gpio/gpioN/value.
-Luego "envía" los 40 bits (16 hum, 16 temp, 8 checksum) cada 1 segundo.
+Script que simula la transmisión de datos del DHT22 en el pin /tmp/gpio/gpioN/value.
+- Comprueba primero que exista el archivo para ese pin.
+- Envía 40 bits a microsegundos (simulación cruda).
+- Al final de cada ciclo (1 seg), escribe "HUM=xx.x;TEMP=yy.y"
+  para que sea interpretable fácilmente por un servidor OPC UA o SCADA.
 """
 
 # 1) DEFINIR el pin
 PIN_USED = 4  # Modifica este valor al pin que desees
-GPIO_PATH = f"/tmp/gpio/gpio{PIN_USED}/value"
+GPIO_PATH = f"/tmp/rbp-gpio-simul/gpio{PIN_USED}/value"
 
 # 2) COMPROBAR que el archivo relacionado a ese pin exista
 if not os.path.exists(GPIO_PATH):
   print(f"[ERROR] No existe el archivo para el pin {PIN_USED}: {GPIO_PATH}")
   print("Por favor, crea la carpeta y el archivo:")
-  print(f"    sudo mkdir -p /tmp/gpio/gpio{PIN_USED}")
-  print(f"    sudo touch {GPIO_PATH}")
+  print(f"  sudo mkdir -p /tmp/gpio/gpio{PIN_USED}")
+  print(f"  sudo touch {GPIO_PATH}")
   sys.exit(1)
-
 
 def write_pin(level: int):
   """
@@ -30,7 +31,6 @@ def write_pin(level: int):
   """
   with open(GPIO_PATH, "w") as f:
     f.write(str(level))
-
 
 def send_start_signal():
   """
@@ -45,7 +45,6 @@ def send_start_signal():
   # HIGH ~40us
   write_pin(1)
   time.sleep(0.00004)
-
 
 def send_bit(bit: int):
   """
@@ -68,7 +67,6 @@ def send_bit(bit: int):
     # ~70us para bit=1
     time.sleep(0.00007)
 
-
 def send_byte(byte_val: int):
   """
   Envía 8 bits (MSB primero) usando send_bit().
@@ -77,7 +75,6 @@ def send_byte(byte_val: int):
     # Extraer bit 7-i => MSB primero
     bit = (byte_val & (1 << (7 - i))) >> (7 - i)
     send_bit(bit)
-
 
 def send_data_packet(humidity: int, temperature: int):
   """
@@ -98,24 +95,23 @@ def send_data_packet(humidity: int, temperature: int):
   send_byte(temp_low)
   send_byte(checksum)
 
-
 def simulate_dht22(pin: int):
   """
   Bucle principal:
     - Genera humedad y temperatura ficticias
-    - Envia start signal
-    - Envia 40 bits del protocolo
+    - Envía start signal y los 40 bits del protocolo (tiempos microsegundos)
+    - Al terminar, sobreescribe el archivo con "HUM=xx.x;TEMP=yy.y"
     - Repite cada 1 segundo
   """
   while True:
     # 1) Generar valores ficticios de humedad y temp
-    hum_dec = int(random.uniform(20.0, 90.0) * 10)  # 20.0-90.0 => 200-900 en décimas
-    tmp_dec = int(random.uniform(15.0, 35.0) * 10)  # 15.0-35.0 => 150-350 en décimas
+    hum_dec = int(random.uniform(20.0, 90.0) * 10)  # p.ej. 201..899 => 20.1%..89.9%
+    tmp_dec = int(random.uniform(15.0, 35.0) * 10)  # p.ej. 150..349 => 15.0º..34.9º
 
-    # 2) Start signal
+    # 2) Start signal (simulado)
     send_start_signal()
 
-    # 3) El DHT22 "respondería" con ~80us LOW + ~80us HIGH
+    # 3) El DHT22 “respondería” con ~80us LOW + ~80us HIGH
     write_pin(0)
     time.sleep(0.00008)
     write_pin(1)
@@ -124,12 +120,17 @@ def simulate_dht22(pin: int):
     # 4) Enviar paquete de 40 bits
     send_data_packet(hum_dec, tmp_dec)
 
-    print(f"Enviado => Pin GPIO{pin}, Hum: {hum_dec/10:.1f}%, Temp: {tmp_dec/10:.1f}°C")
+    # 5) Sobrescribir el archivo con la lectura final interpretada
+    humidity_f = hum_dec / 10.0
+    temp_f = tmp_dec / 10.0
+    with open(GPIO_PATH, "w") as f:
+      # Ej: HUM=54.2;TEMP=23.1
+      f.write(f"HUM={humidity_f:.1f};TEMP={temp_f:.1f}")
 
-    # Esperar 1s
+    # Mostrar en pantalla
+    print(f"Enviado => Pin GPIO{pin}, Hum: {humidity_f:.1f}%, Temp: {temp_f:.1f}°C")
+    # 6) Esperar 1s antes del siguiente ciclo
     time.sleep(1)
 
-
 if __name__ == "__main__":
-  # Llamamos a la función principal
   simulate_dht22(PIN_USED)
