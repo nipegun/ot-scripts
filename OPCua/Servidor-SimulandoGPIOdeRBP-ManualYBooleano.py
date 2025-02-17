@@ -124,6 +124,178 @@ def write_gpio_as_type(pin, value, opcua_type):
 # Función para crear nodos con atributos, reduciendo warnings en UaExpert
 # ------------------------------------------------------------------------------
 
+def add_variable_with_attributes(parent, nodeid, browsename, initial_value, opcua_type, description=""):
+  node = parent.add_variable(nodeid, browsename, initial_value)
+  node.set_writable()
+
+  node.set_attribute(
+    ua.AttributeIds.DataType,
+    ua.DataValue(ua.Variant(ua.NodeId(opcua_type), ua.VariantType.NodeId))
+  )
+
+  node.set_attribute(
+    ua.AttributeIds.ValueRank,
+    ua.DataValue(ua.Variant(-1, ua.VariantType.Int32))  # -1 => Escalar
+  )
+
+  node.set_attribute(
+    ua.AttributeIds.ArrayDimensions,
+    ua.DataValue(ua.Variant([], ua.VariantType.UInt32))
+  )
+
+  node.set_attribute(
+    ua.AttributeIds.AccessLevel,
+    ua.DataValue(ua.Variant(
+      ua.AccessLevel.CurrentRead | ua.AccessLevel.CurrentWrite,
+      ua.VariantType.Byte
+    ))
+  )
+
+  node.set_attribute(
+    ua.AttributeIds.UserAccessLevel,
+    ua.DataValue(ua.Variant(
+      ua.AccessLevel.CurrentRead | ua.AccessLevel.CurrentWrite,
+      ua.VariantType.Byte
+    ))
+  )
+
+  node.set_attribute(
+    ua.AttributeIds.Description,
+    ua.DataValue(ua.LocalizedText(description))
+  )
+
+  node.set_attribute(
+    ua.AttributeIds.Value,
+    ua.DataValue(ua.Variant(initial_value))
+  )
+
+  return node
+
+# ------------------------------------------------------------------------------
+# Crear servidor
+# ------------------------------------------------------------------------------
+server = Server()
+server.set_endpoint("opc.tcp://0.0.0.0:4840/freeopcua/server/")
+
+uri = "http://example.org/gpio"
+idx = server.register_namespace(uri)
+
+gpio_nodes = {}
+
+# ------------------------------------------------------------------------------
+# Crear nodos de ENTRADA (%IX...), direction = "in"
+# ------------------------------------------------------------------------------
+
+for pin, plc_var in vGpiosDeEntrada.items():
+  if plc_var in manual_configs:
+    # Usa definición manual
+    cfg = manual_configs[plc_var]
+    opcua_type = cfg.get("opcua_type", ua.ObjectIds.Boolean)
+    init_val = cfg.get("initial_value", False)
+    desc = cfg.get("description", f"Entrada digital {plc_var}")
+  else:
+    # Por defecto => boolean
+    opcua_type = ua.ObjectIds.Boolean
+    init_val = False
+    desc = f"Entrada digital {plc_var}"
+
+  nodeid = ua.NodeId(plc_var, idx)  # p.ej. (string="%IX0.2", ns=idx)
+  browsename = f"{plc_var} (GPIO{pin})"
+
+  node = add_variable_with_attributes(
+    server.nodes.objects,
+    nodeid,
+    browsename,
+    init_val,
+    opcua_type,
+    desc
+  )
+
+  gpio_nodes[plc_var] = {
+    "node": node,
+    "pin": pin,
+    "opcua_type": opcua_type,
+    "direction": "in"  # %IX => ENTRADA
+  }
+
+# ------------------------------------------------------------------------------
+# Crear nodos de SALIDA (%QX...), direction = "out"
+# ------------------------------------------------------------------------------
+
+for pin, plc_var in vGpiosDeSalida.items():
+  if plc_var in manual_configs:
+    cfg = manual_configs[plc_var]
+    opcua_type = cfg.get("opcua_type", ua.ObjectIds.Boolean)
+    init_val = cfg.get("initial_value", False)
+    desc = cfg.get("description", f"Salida digital {plc_var}")
+  else:
+    # Por defecto => boolean
+    opcua_type = ua.ObjectIds.Boolean
+    init_val = False
+    desc = f"Salida digital {plc_var}"
+
+  nodeid = ua.NodeId(plc_var, idx)
+  browsename = f"{plc_var} (GPIO{pin})"
+
+  node = add_variable_with_attributes(
+    server.nodes.objects,
+    nodeid,
+    browsename,
+    init_val,
+    opcua_type,
+    desc
+  )
+
+  gpio_nodes[plc_var] = {
+    "node": node,
+    "pin": pin,
+    "opcua_type": opcua_type,
+    "direction": "out"  # %QX => SALIDA
+  }
+
+# ------------------------------------------------------------------------------
+# Iniciar el servidor
+# ------------------------------------------------------------------------------
+server.start()
+print("Servidor OPC UA iniciado...")
+
+try:
+  while True:
+    # Bucle de actualización
+    for plc_var, info in gpio_nodes.items():
+      node = info["node"]
+      pin = info["pin"]
+      opcua_type = info["opcua_type"]
+      direction = info["direction"]
+
+      if direction == "in":
+        # LEER fichero => OPC UA
+        real_value = read_gpio_as_type(pin, opcua_type)
+        current_val = node.get_value()
+        if real_value != current_val:
+          node.set_value(real_value)
+
+      else:  # direction == "out"
+        # LEER nodo => fichero
+        current_val = node.get_value()
+        real_value = read_gpio_as_type(pin, opcua_type)
+        if current_val != real_value:
+          write_gpio_as_type(pin, current_val, opcua_type)
+
+    time.sleep(1)
+
+except KeyboardInterrupt:
+  print("\nDeteniendo servidor...")
+
+except Exception as e:
+  print(f"\nError inesperado: {e}")
+
+finally:
+  server.stop()
+  print("Servidor detenido correctamente.")
+
+
+
 # Para modificar valores:
 # Booleanos:
 #   echo 1 > /tmp/rbp-gpio-simul/gpio22/value
