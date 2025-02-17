@@ -52,17 +52,17 @@ vGpiosDeSalida = {
 #    - La dirección ("in"/"out") sigue dependiendo de si es %IX o %QX
 # ------------------------------------------------------------------------------
 manual_configs = {
-  # Ejemplo: redefinimos "%IX0.1" como Float en lugar de Boolean
+  # Ejemplo: redefinimos "%IX0.2" como String en lugar de Boolean
   "%IX0.2": {
-    "opcua_type": ua.ObjectIds.Float,
-    "initial_value": 12.34,
+    "opcua_type": ua.ObjectIds.String,
+    "initial_value": '',
     "description": "Entrada manual definida como Float"
   },
   # Ejemplo: redefinimos "%IX0.3" como Int16 en lugar de Boolean
   "%IX0.3": {
     "opcua_type": ua.ObjectIds.Int16,
     "initial_value": 0,
-    "description": "Salida manual definida como Int16"
+    "description": "Entrada manual definida como Int16"
   }
 }
 
