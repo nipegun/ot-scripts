@@ -4,13 +4,16 @@ import logging
 
 from opcua import Server, ua
 
-# Opcional: bajar nivel de logs para ocultar avisos "attribute is missing"
+# Si quieres ocultar avisos "missing attribute":
 # logging.basicConfig(level=logging.WARNING)
 # logging.getLogger("opcua").setLevel(logging.WARNING)
 
 GPIO_BASE_PATH = "/tmp/rbp-gpio-simul/"
 
-# Diccionarios originales de entradas y salidas
+# ------------------------------------------------------------------------------
+# 1) Diccionarios originales de ENTRADAS y SALIDAS
+#    (todos se crearán, sin inventar nodos nuevos).
+# ------------------------------------------------------------------------------
 vGpiosDeEntrada = {
   2: "%IX0.0",
   3: "%IX0.1",
@@ -42,36 +45,34 @@ vGpiosDeSalida = {
   21: "%QX1.2"
 }
 
-# ------------------------------------------------------------------------
-# DICCIONARIO DE DEFINICIONES MANUALES:
-#   Clave: el plc_var (p.ej. "%IX0.0", "%QX0.0", etc.)
-#   Valor: opciones especiales (tipo OPC UA, valor inicial, descripción, etc.)
-#   -> Si un nodo aparece aquí, se creará con estos ajustes.
-#   -> Si no aparece, se crea como Boolean por defecto.
-# ------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+# 2) Definiciones “manuales” (OPC UA type, valor inicial, descripción...).
+#    - Clave => plc_var ("%IX0.2", "%QX0.1", etc.)
+#    - Valor => dict con "opcua_type", "initial_value", "description"
+#    - La dirección ("in"/"out") sigue dependiendo de si es %IX o %QX
+# ------------------------------------------------------------------------------
 manual_configs = {
-  # Ejemplo: este nodo de entrada se define manualmente como Float
+  # Ejemplo: redefinimos "%IX0.1" como Float en lugar de Boolean
   "%IX0.2": {
     "opcua_type": ua.ObjectIds.Float,
     "initial_value": 12.34,
     "description": "Entrada manual definida como Float"
   },
-  # Otro ejemplo: este nodo de salida lo definimos como Int16
-  "%QX0.1": {
+  # Ejemplo: redefinimos "%IX0.3" como Int16 en lugar de Boolean
+  "%IX0.3": {
     "opcua_type": ua.ObjectIds.Int16,
     "initial_value": 0,
     "description": "Salida manual definida como Int16"
-  },
-  # Puedes añadir más definiciones manuales aquí
+  }
 }
 
-# ------------------------------------------------------------------------
-# FUNCIONES DE LECTURA Y ESCRITURA DE GPIO
-# ------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+# Funciones de lectura/escritura en los ficheros simulados
+# ------------------------------------------------------------------------------
 def read_gpio_as_type(pin, opcua_type):
   """
-  Lee el valor desde //tmp/rbp-gpio-simul/gpio{pin}/value
-  y lo convierte al tipo OPC UA que necesites (Boolean, Float, Int, etc.).
+  Lee el contenido de /tmp/rbp-gpio-simul/gpio{pin}/value y lo convierte
+  a un tipo Python apropiado: Boolean, Float, Int...
   """
   path = f"{GPIO_BASE_PATH}/gpio{pin}/value"
   try:
@@ -93,8 +94,7 @@ def read_gpio_as_type(pin, opcua_type):
     except ValueError:
       return 0
   else:
-    # Por defecto, lo tratamos como int o string
-    # Ajusta aquí si quieres manejar Strings, Double, etc.
+    # Por defecto, intenta int, si falla deja el raw
     try:
       return int(raw)
     except ValueError:
@@ -102,8 +102,8 @@ def read_gpio_as_type(pin, opcua_type):
 
 def write_gpio_as_type(pin, value, opcua_type):
   """
-  Escribe 'value' en //tmp/rbp-gpio-simul/gpio{pin}/value,
-  formateado según sea Boolean, Float, Int, etc.
+  Escribe 'value' en /tmp/rbp-gpio-simul/gpio{pin}/value,
+  en función del tipo OPC UA (Boolean => "0"/"1", Float => "1.23", etc.).
   """
   path = f"{GPIO_BASE_PATH}/gpio{pin}/value"
   try:
@@ -112,6 +112,7 @@ def write_gpio_as_type(pin, value, opcua_type):
     elif opcua_type == ua.ObjectIds.Float:
       to_write = str(float(value))
     else:
+      # Int (Int16, Int32, etc.)
       to_write = str(int(value))
 
     with open(path, "w") as f:
@@ -119,186 +120,14 @@ def write_gpio_as_type(pin, value, opcua_type):
   except FileNotFoundError:
     pass
 
-# ------------------------------------------------------------------------
-# FUNCION PARA CREAR NODOS OPC UA CON ATRIBUTOS
-# ------------------------------------------------------------------------
-def add_variable_with_attributes(parent, nodeid, browsename, initial_value, opcua_type, description=""):
-  """
-  Crea un nodo OPC UA con varios atributos (DataType, ValueRank, etc.)
-  para reducir avisos de 'missing attribute' en UaExpert.
-  """
-  node = parent.add_variable(nodeid, browsename, initial_value)
-  node.set_writable()
+# ------------------------------------------------------------------------------
+# Función para crear nodos con atributos, reduciendo warnings en UaExpert
+# ------------------------------------------------------------------------------
 
-  # DataType
-  node.set_attribute(
-    ua.AttributeIds.DataType,
-    ua.DataValue(ua.Variant(ua.NodeId(opcua_type), ua.VariantType.NodeId))
-  )
-
-  # ValueRank => -1 => Escalar
-  node.set_attribute(
-    ua.AttributeIds.ValueRank,
-    ua.DataValue(ua.Variant(-1, ua.VariantType.Int32))
-  )
-
-  # ArrayDimensions => vacío (no array)
-  node.set_attribute(
-    ua.AttributeIds.ArrayDimensions,
-    ua.DataValue(ua.Variant([], ua.VariantType.UInt32))
-  )
-
-  # AccessLevel => Leer/Escribir
-  node.set_attribute(
-    ua.AttributeIds.AccessLevel,
-    ua.DataValue(ua.Variant(
-      ua.AccessLevel.CurrentRead | ua.AccessLevel.CurrentWrite,
-      ua.VariantType.Byte
-    ))
-  )
-
-  # UserAccessLevel => Leer/Escribir
-  node.set_attribute(
-    ua.AttributeIds.UserAccessLevel,
-    ua.DataValue(ua.Variant(
-      ua.AccessLevel.CurrentRead | ua.AccessLevel.CurrentWrite,
-      ua.VariantType.Byte
-    ))
-  )
-
-  node.set_attribute(
-    ua.AttributeIds.Description,
-    ua.DataValue(ua.LocalizedText(description))
-  )
-
-  # Valor inicial
-  node.set_attribute(
-    ua.AttributeIds.Value,
-    ua.DataValue(ua.Variant(initial_value))
-  )
-
-  return node
-
-# ------------------------------------------------------------------------
-#  CREACION DEL SERVIDOR
-# ------------------------------------------------------------------------
-server = Server()
-server.set_endpoint("opc.tcp://0.0.0.0:4840/freeopcua/server/")
-
-uri = "http://example.org/gpio"
-idx = server.register_namespace(uri)
-
-# Diccionario para guardar la info de cada nodo OPC UA
-# { plc_var: {"node": ..., "pin": ..., "opcua_type": ..., "direction": ...} }
-gpio_nodes = {}
-
-# ------------------------------------------------------------------------
-#  PROCESAR ENTRADAS
-# ------------------------------------------------------------------------
-for pin, plc_var in vGpiosDeEntrada.items():
-  # Miramos si hay definición manual para este plc_var
-  if plc_var in manual_configs:
-    cfg = manual_configs[plc_var]
-    opcua_type = cfg.get("opcua_type", ua.ObjectIds.Boolean)
-    init_val = cfg.get("initial_value", False)
-    desc = cfg.get("description", "")
-  else:
-    # Por defecto booleano
-    opcua_type = ua.ObjectIds.Boolean
-    init_val = False
-    desc = f"Entrada digital {plc_var}"
-
-  nodeid = ua.NodeId(plc_var, idx)
-  browsename = f"{plc_var} (GPIO{pin})"
-
-  node = add_variable_with_attributes(
-    server.nodes.objects,
-    nodeid,
-    browsename,
-    init_val,
-    opcua_type,
-    desc
-  )
-
-  gpio_nodes[plc_var] = {
-    "node": node,
-    "pin": pin,
-    "opcua_type": opcua_type,
-    "direction": "in"   # entradas => se lee del fichero -> se setea en OPC UA
-  }
-
-# ------------------------------------------------------------------------
-#  PROCESAR SALIDAS
-# ------------------------------------------------------------------------
-for pin, plc_var in vGpiosDeSalida.items():
-  # Miramos si hay definición manual para este plc_var
-  if plc_var in manual_configs:
-    cfg = manual_configs[plc_var]
-    opcua_type = cfg.get("opcua_type", ua.ObjectIds.Boolean)
-    init_val = cfg.get("initial_value", False)
-    desc = cfg.get("description", "")
-  else:
-    # Por defecto booleano
-    opcua_type = ua.ObjectIds.Boolean
-    init_val = False
-    desc = f"Salida digital {plc_var}"
-
-  nodeid = ua.NodeId(plc_var, idx)
-  browsename = f"{plc_var} (GPIO{pin})"
-
-  node = add_variable_with_attributes(
-    server.nodes.objects,
-    nodeid,
-    browsename,
-    init_val,
-    opcua_type,
-    desc
-  )
-
-  gpio_nodes[plc_var] = {
-    "node": node,
-    "pin": pin,
-    "opcua_type": opcua_type,
-    "direction": "out"  # salidas => se escribe del OPC UA al fichero
-  }
-
-# ------------------------------------------------------------------------
-# INICIAR SERVIDOR
-# ------------------------------------------------------------------------
-server.start()
-print("Servidor OPC UA iniciado...")
-
-try:
-  while True:
-    # Bucle principal de actualización
-    for plc_var, data in gpio_nodes.items():
-      node = data["node"]
-      pin = data["pin"]
-      opcua_type = data["opcua_type"]
-      direction = data["direction"]
-
-      if direction == "in":
-        # Leer desde fichero y actualizar el nodo
-        real_value = read_gpio_as_type(pin, opcua_type)
-        current_opc_val = node.get_value()
-        if real_value != current_opc_val:
-          node.set_value(real_value)
-
-      else:  # direction == "out"
-        # Tomar el valor del nodo y escribirlo al fichero
-        current_opc_val = node.get_value()
-        real_value = read_gpio_as_type(pin, opcua_type)
-        if current_opc_val != real_value:
-          write_gpio_as_type(pin, current_opc_val, opcua_type)
-
-    time.sleep(1)
-
-except KeyboardInterrupt:
-  print("\nDeteniendo servidor...")
-
-except Exception as e:
-  print(f"\nError inesperado: {e}")
-
-finally:
-  server.stop()
-  print("Servidor detenido correctamente.")
+# Para modificar valores:
+# Booleanos:
+#   echo 1 > /tmp/rbp-gpio-simul/gpio22/value
+# Int64 o Int16:
+#   echo 1234567890123456789 > > /tmp/rbp-gpio-simul/gpio22/value
+# Double (O coma flotante):
+#   echo 3.14159 > /tmp/rbp-gpio-simul/gpio22/value
