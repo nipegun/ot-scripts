@@ -100,6 +100,7 @@
               # Clonar el repo
                 mkdir -p ~/repos/python/
                 cd ~/repos/python/
+                rm -rf ~/repos/python/OpenPLC_V3/
                 rm -rf ~/repos/python/OpenPLCRuntime/
                 # Comprobar si el paquete git está instalado. Si no lo está, instalarlo.
                   if [[ $(dpkg-query -s git 2>/dev/null | grep installed) == "" ]]; then
