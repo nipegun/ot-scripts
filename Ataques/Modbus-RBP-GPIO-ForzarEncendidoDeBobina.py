@@ -1,3 +1,24 @@
+#!/bin/bash
+
+# Pongo a disposición pública este script bajo el término de "software de dominio público".
+# Puedes hacer lo que quieras con él porque es libre de verdad; no libre con condiciones como las licencias GNU y otras patrañas similares.
+# Si se te llena la boca hablando de libertad entonces hazlo realmente libre.
+# No tienes que aceptar ningún tipo de términos de uso o licencia para utilizarlo o modificarlo porque va sin CopyLeft.
+
+# ----------
+# Script de NiPeGun para instalar y configurar DVWA en Debian
+#
+# Ejecución remota:
+#   curl -sL https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/script.py | python3 - 192.168.1.100 %QX0.1
+#
+# Ejecución remota como root (para sistemas sin sudo):
+#   curl -sL https://raw.githubusercontent.com/nipegun/dh-scripts/refs/heads/main/SoftInst/ServWeb/Vulnerable/DVWA-Instalar.sh | sed 's-sudo--g' | bash
+#
+# Bajar y editar directamente el archivo en nano
+#   curl -sL https://raw.githubusercontent.com/nipegun/dh-scripts/refs/heads/main/SoftInst/ServWeb/Vulnerable/DVWA-Instalar.sh | nano -
+# ----------
+
+
 import sys
 import time
 from pymodbus.client import ModbusTcpClient
