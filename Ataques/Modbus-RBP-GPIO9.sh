@@ -18,9 +18,6 @@
 #   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO.sh | nano -
 # ----------
 
-# Definir fecha de ejecución del script
-  cFechaDeEjec=$(date +a%Ym%md%d@%T)
-
 # Crear el menú
   # Comprobar si el paquete dialog está instalado. Si no lo está, instalarlo.
     if [[ $(dpkg-query -s dialog 2>/dev/null | grep installed) == "" ]]; then
@@ -31,7 +28,7 @@
       sudo apt-get -y install dialog
       echo ""
     fi
-  menu=(dialog --checklist "La bobina de que entrada quieres mantener encendida?" 22 60 16)
+  menu=(dialog --checklist "La bobina de que entrada quieres mantener encendida?" 20 60 14)
     opciones=(
       1 "%IX0.0" off
       2 "%IX0.1" off
