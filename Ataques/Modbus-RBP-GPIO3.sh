@@ -31,7 +31,7 @@
       sudo apt-get -y install dialog
       echo ""
     fi
-  menu=(dialog --checklist "Que entrada quieres mantener encendida?:" 22 46 16)
+  menu=(dialog --checklist "Que entrada quieres mantener encendida?" 22 46 16)
     opciones=(
       1 "%IX0.0" off
       2 "%IX0.1" off
@@ -56,112 +56,126 @@
         1)
 
           echo ""
-          echo "  Manteniendo encendida la dirección %IX0.0..."
+          echo "  Manteniendo encendida la bobina de la dirección %IX0.0..."
           echo ""
+          curl -sL http://github/forzarEncendido.py | python3 $vIP '%IX0.0'
 
         ;;
 
         2)
 
           echo ""
-          echo "  Manteniendo encendida la dirección %IX0.1..."
+          echo "  Manteniendo encendida la bobina de la dirección %IX0.1..."
           echo ""
+          curl -sL http://github/forzarEncendido.py | python3 $vIP '%IX0.1'
 
         ;;
 
         3)
 
           echo ""
-          echo "  Manteniendo encendida la dirección %IX0.2..."
+          echo "  Manteniendo encendida la bobina de la dirección %IX0.2..."
           echo ""
+          curl -sL http://github/forzarEncendido.py | python3 $vIP '%IX0.2'
 
         ;;
 
         4)
 
           echo ""
-          echo "  Manteniendo encendida la dirección %IX0.3..."
+          echo "  Manteniendo encendida la bobina de la dirección %IX0.3..."
           echo ""
+          curl -sL http://github/forzarEncendido.py | python3 $vIP '%IX0.3'
 
         ;;
 
         5)
 
           echo ""
-          echo "  Manteniendo encendida la dirección %IX0.4..."
+          echo "  Manteniendo encendida la bobina de la dirección %IX0.4..."
           echo ""
+          curl -sL http://github/forzarEncendido.py | python3 $vIP '%IX0.4'
 
         ;;
 
         6)
 
           echo ""
-          echo "  Manteniendo encendida la dirección %IX0.5..."
+          echo "  Manteniendo encendida la bobina de la dirección %IX0.5..."
           echo ""
+          curl -sL http://github/forzarEncendido.py | python3 $vIP '%IX0.5'
 
         ;;
 
         7)
 
           echo ""
-          echo "  Manteniendo encendida la dirección %IX0.6..."
+          echo "  Manteniendo encendida la bobina de la dirección %IX0.6..."
           echo ""
+          curl -sL http://github/forzarEncendido.py | python3 $vIP '%IX0.6'
 
         ;;
 
         8)
 
           echo ""
-          echo "  Manteniendo encendida la dirección %IX0.7..."
+          echo "  Manteniendo encendida la bobina de la dirección %IX0.7..."
           echo ""
+          curl -sL http://github/forzarEncendido.py | python3 $vIP '%IX0.7'
 
         ;;
 
         9)
 
           echo ""
-          echo "  Manteniendo encendida la dirección %IX1.0..."
+          echo "  Manteniendo encendida la bobina de la dirección %IX1.0..."
           echo ""
+          curl -sL http://github/forzarEncendido.py | python3 $vIP '%IX1.0'
 
         ;;
 
        10)
 
           echo ""
-          echo "  Manteniendo encendida la dirección %IX1.1..."
+          echo "  Manteniendo encendida la bobina de la dirección %IX1.1..."
           echo ""
+          curl -sL http://github/forzarEncendido.py | python3 $vIP '%IX1.1'
 
         ;;
 
        11)
 
           echo ""
-          echo "  Manteniendo encendida la dirección %IX1.2..."
+          echo "  Manteniendo encendida la bobina de la dirección %IX1.2..."
           echo ""
+          curl -sL http://github/forzarEncendido.py | python3 $vIP '%IX1.2'
 
         ;;
 
        12)
 
           echo ""
-          echo "  Manteniendo encendida la dirección %IX1.3..."
+          echo "  Manteniendo encendida la bobina de la dirección %IX1.3..."
           echo ""
+          curl -sL http://github/forzarEncendido.py | python3 $vIP '%IX1.3'
 
         ;;
 
        13)
 
           echo ""
-          echo "  Manteniendo encendida la dirección %IX1.4..."
+          echo "  Manteniendo encendida la bobina de la dirección %IX1.4..."
           echo ""
+          curl -sL http://github/forzarEncendido.py | python3 $vIP '%IX1.4'
 
         ;;
 
        14)
 
           echo ""
-          echo "  Manteniendo encendida la dirección %IX1.5..."
+          echo "  Manteniendo encendida la bobina de la dirección %IX1.5..."
           echo ""
+          curl -sL http://github/forzarEncendido.py | python3 $vIP '%IX1.5'
 
         ;;
 
