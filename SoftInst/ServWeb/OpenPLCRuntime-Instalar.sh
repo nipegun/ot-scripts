@@ -121,7 +121,8 @@
               echo "    Creando el entorno virtual de python e instalando dentro..."
               echo ""
 
-              cd ~/repos/python/OpenPLC_v3/
+              mv ~/repos/python/OpenPLC_v3/ ~/repos/python/OpenPLCRuntime/
+              cd ~/repos/python/OpenPLCRuntime/
               # Comprobar si el paquete python3-venv está instalado. Si no lo está, instalarlo.
                 if [[ $(dpkg-query -s python3-venv 2>/dev/null | grep installed) == "" ]]; then
                   echo ""
@@ -133,9 +134,9 @@
                 fi
               python3 -m venv venv
               # Crear el mensaje para mostrar cuando se entra al entorno virtual
-                echo 'echo -e "\n  Activando el entorno virtual de OpenPLC_v3... \n"' >> ~/repos/python/OpenPLC_v3/venv/bin/activate
+                echo 'echo -e "\n  Activando el entorno virtual de OpenPLC_v3... \n"' >> ~/repos/python/OpenPLCRuntime/venv/bin/activate
               # Entrar al entorno virtual
-                source ~/repos/python/OpenPLC_v3/venv/bin/activate
+                source ~/repos/python/OpenPLCRuntime/venv/bin/activate
               # Instalar requerimientos
                 python3 -m pip install -r requirements.txt
                 python3 -m pip install .
