@@ -32,7 +32,7 @@
       echo ""
     fi
   #menu=(dialog --timeout 5 --checklist "Marca las opciones que quieras instalar:" 22 96 16)
-  menu=(dialog --checklist "Que entrada quieres mantener encendida?:" 22 50 16)
+  menu=(dialog --checklist "Que entrada quieres mantener encendida?:" 22 46 16)
     opciones=(
       1 "%IX0.0" off
       2 "%IX0.1" off
