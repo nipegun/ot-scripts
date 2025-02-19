@@ -13,6 +13,9 @@
 #
 # Bajar y editar directamente el archivo en nano
 #   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | nano -
+#
+# Es necesario instalar previamente el paquete: python3-pymodbus
+#   sudo apt-get -y install python3-pymodbus
 # ----------
 
 import sys
