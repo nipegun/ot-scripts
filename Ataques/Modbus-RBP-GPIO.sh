@@ -8,7 +8,7 @@
 # ----------
 # Script de NiPeGun para atacar mediante Modbus el GPIO de la Rasberry Pi desde Debian
 #
-# Ejecución remota con parámetros (puede requerir permisos sudo):
+# Ejecución remota (puede requerir permisos sudo):
 #   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO.sh | bash -s IPDestino
 #
 # Ejecución remota como root (para sistemas sin sudo):
