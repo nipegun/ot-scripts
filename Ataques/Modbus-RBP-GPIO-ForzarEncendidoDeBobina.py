@@ -9,15 +9,11 @@
 # Script de NiPeGun para instalar y configurar DVWA en Debian
 #
 # Ejecución remota:
-#   curl -sL https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/script.py | python3 - 192.168.1.100 %QX0.1
-#
-# Ejecución remota como root (para sistemas sin sudo):
-#   curl -sL https://raw.githubusercontent.com/nipegun/dh-scripts/refs/heads/main/SoftInst/ServWeb/Vulnerable/DVWA-Instalar.sh | sed 's-sudo--g' | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - 192.168.1.100 '%QX0.1'
 #
 # Bajar y editar directamente el archivo en nano
-#   curl -sL https://raw.githubusercontent.com/nipegun/dh-scripts/refs/heads/main/SoftInst/ServWeb/Vulnerable/DVWA-Instalar.sh | nano -
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | nano -
 # ----------
-
 
 import sys
 import time
@@ -25,9 +21,17 @@ from pymodbus.client import ModbusTcpClient
 
 # Mapeo de pines OpenPLC a direcciones Modbus
 pin_map = {
-  "%QX0.0": 0, "%QX0.1": 1, "%QX0.2": 2, "%QX0.3": 3,
-  "%QX0.4": 4, "%QX0.5": 5, "%QX0.6": 6, "%QX0.7": 7,
-  "%QX1.0": 8, "%QX1.1": 9, "%QX1.2": 10
+  "%QX0.0": 0,
+  "%QX0.1": 1,
+  "%QX0.2": 2,
+  "%QX0.3": 3,
+  "%QX0.4": 4,
+  "%QX0.5": 5,
+  "%QX0.6": 6,
+  "%QX0.7": 7,
+  "%QX1.0": 8,
+  "%QX1.1": 9,
+  "%QX1.2": 10
 }
 
 def activate_coil(ip, pin):
