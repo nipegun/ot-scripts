@@ -31,7 +31,7 @@
       sudo apt-get -y install dialog
       echo ""
     fi
-  menu=(dialog --checklist "Que entrada quieres mantener encendida?" 22 46 16)
+  menu=(dialog --checklist "La bobina de que entrada quieres mantener encendida?" 22 56 16)
     opciones=(
       1 "%IX0.0" off
       2 "%IX0.1" off
