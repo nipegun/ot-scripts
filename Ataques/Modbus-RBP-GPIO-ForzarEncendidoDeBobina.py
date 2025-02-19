@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
 # Pongo a disposición pública este script bajo el término de "software de dominio público".
 # Puedes hacer lo que quieras con él porque es libre de verdad; no libre con condiciones como las licencias GNU y otras patrañas similares.
@@ -20,9 +20,33 @@
 
 import sys
 import time
-from pymodbus.client import ModbusTcpClient
+import subprocess
+
+# Función para comprobar si pymodbus está instalado
+def check_pymodbus():
+  try:
+    import pymodbus
+  except ImportError:
+    print("\n Error: El paquete 'python3-pymodbus' no está instalado.\n")
+    print("  Instálalo con: sudo apt install python3-pymodbus \n")
+    sys.exit(1)
+
+# Función para verificar si el servicio OpenPLC está activo
+def check_openplc():
+  try:
+    result = subprocess.run(
+      ["systemctl", "is-active", "--quiet", "openplc"],
+      check=True
+    )
+    print("✅ OpenPLC está activo.")
+  except subprocess.CalledProcessError:
+    print("\n  Error: El puerto 502 de la raspberry no está escuchando conexioes Modbus.\n")
+    print("  Está OpenPLC activo?")
+    sys.exit(1)
 
 # Mapeo de pines OpenPLC a direcciones Modbus
+from pymodbus.client import ModbusTcpClient
+
 pin_map = {
   "%QX0.0": 0,
   "%QX0.1": 1,
@@ -49,7 +73,7 @@ def activate_coil(ip, pin):
     while True:
       client.write_coil(coil_address, True)
       print(f"Bobina {pin} (Dirección {coil_address}) activada")
-      time.sleep(1)  # Intervalo de envío (puedes ajustarlo)
+      time.sleep(1)  # Intervalo de envío
 
   except KeyboardInterrupt:
     print("\nInterrumpido por el usuario. Cerrando conexión...")
@@ -65,4 +89,9 @@ if __name__ == "__main__":
   raspberry_ip = sys.argv[1]
   selected_pin = sys.argv[2]
 
+  # Verificar dependencias antes de continuar
+  check_pymodbus()
+  check_openplc()
+
   activate_coil(raspberry_ip, selected_pin)
+
