@@ -8,11 +8,14 @@
 # ----------
 # Script de NiPeGun para instalar OpenPLCRuntime en Debian
 #
-# Ejecución remota:
-#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/SoftInst/ParaCLI/OpenPLCRuntime-Instalar.sh | bash
+# Ejecución remota (puede requerir permisos sudo):
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/SoftInst/ServWeb/OpenPLCRuntime-Instalar.sh | bash
+#
+# Ejecución remota como root (para sistemas sin sudo):
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/SoftInst/ServWeb/OpenPLCRuntime-Instalar.sh | sed 's-sudo--g' | bash
 #
 # Bajar y editar directamente el archivo en nano
-#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/SoftInst/ParaCLI/OpenPLCRuntime-Instalar.sh | nano -
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/SoftInst/ServWeb/OpenPLCRuntime-Instalar.sh | nano -
 # ----------
 
 # Definir constantes de color
