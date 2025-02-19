@@ -31,7 +31,6 @@
       sudo apt-get -y install dialog
       echo ""
     fi
-  #menu=(dialog --timeout 5 --checklist "Marca las opciones que quieras instalar:" 22 96 16)
   menu=(dialog --checklist "Que entrada quieres mantener encendida?:" 22 46 16)
     opciones=(
       1 "%IX0.0" off
@@ -50,7 +49,6 @@
      14 "%IX1.5" off
     )
   choices=$("${menu[@]}" "${opciones[@]}" 2>&1 >/dev/tty)
-  #clear
   for choice in $choices
     do
       case $choice in
