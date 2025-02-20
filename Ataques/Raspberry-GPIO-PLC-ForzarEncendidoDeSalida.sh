@@ -9,13 +9,13 @@
 # Script de NiPeGun para atacar mediante Modbus el GPIO de la Rasberry Pi desde Debian
 #
 # Ejecución remota (puede requerir permisos sudo):
-#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO.sh | bash -s IPDestino
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Raspberry-GPIO-PLC-ForzarEncendidoDeSalida.sh | bash -s IPDestino
 #
 # Ejecución remota como root (para sistemas sin sudo):
-#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO.sh | sed 's-sudo--g' | bash -s IPDestino
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Raspberry-GPIO-PLC-ForzarEncendidoDeSalida.sh | sed 's-sudo--g' | bash -s IPDestino
 #
 # Bajar y editar directamente el archivo en nano
-#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO.sh | nano -
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Raspberry-GPIO-PLC-ForzarEncendidoDeSalida.sh | nano -
 # ----------
 
 vIP="$1"
