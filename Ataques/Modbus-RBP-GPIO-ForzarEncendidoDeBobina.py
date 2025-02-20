@@ -84,7 +84,7 @@ def activate_coil(ip, pin):
   try:
     while True:
       client.write_coil(coil_address, True)
-      print(f"Bobina {pin} (Dirección {coil_address}) activada. GPIO correspondiente: {gpio_pin}")
+      print(f"Bobina {pin} (Dirección {coil_address}) activada. Pin GPIO correspondiente: {gpio_pin}")
       time.sleep(1)  # Intervalo de envío
   except KeyboardInterrupt:
     print("\nInterrumpido por el usuario. Cerrando conexión...")
