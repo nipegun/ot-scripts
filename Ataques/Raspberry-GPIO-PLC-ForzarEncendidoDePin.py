@@ -9,10 +9,10 @@
 # Script de NiPeGun para forzar el encendido de las salidas de OpenPLC en la Raspberry Pi
 #
 # Ejecución remota:
-#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - 192.168.1.100 '%QX0.1'
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Raspberry-GPIO-PLC-ForzarEncendidoDePin.py | python3 - 192.168.1.100 '%QX0.1'
 #
 # Bajar y editar directamente el archivo en nano
-#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | nano -
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Raspberry-GPIO-PLC-ForzarEncendidoDePin.py | nano -
 #
 # Es necesario instalar previamente el paquete: python3-pymodbus
 #   sudo apt-get -y install python3-pymodbus
