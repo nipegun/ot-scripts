@@ -41,7 +41,7 @@ def check_openplc():
     print("✅ OpenPLC está activo.")
   except subprocess.CalledProcessError:
     print("\n  Error: El puerto 502 de la raspberry no está escuchando conexioes Modbus.\n")
-    print("  Está OpenPLC activo?")
+    print("  Está OpenPLC activo? \n")
     sys.exit(1)
 
 # Mapeo de pines OpenPLC a direcciones Modbus
