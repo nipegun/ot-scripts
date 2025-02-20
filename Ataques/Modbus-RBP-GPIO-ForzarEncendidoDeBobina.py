@@ -93,8 +93,8 @@ def activate_coil(ip, pin):
 
 if __name__ == "__main__":
   if len(sys.argv) != 3:
-    print("Uso: python script.py <IP_Raspberry> <PIN>")
-    print("Ejemplo: python script.py 192.168.1.100 %QX0.1")
+    print("\n Uso: python script.py <IP_Raspberry> <PIN>")
+    print("\n Ejemplo: python script.py 192.168.1.100 %QX0.1")
     sys.exit(1)
 
   raspberry_ip = sys.argv[1]
