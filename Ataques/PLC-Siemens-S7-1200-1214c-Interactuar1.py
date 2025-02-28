@@ -20,12 +20,15 @@ import time
 import socket
 import argparse
 
-def fConectar(host):
-  print(f"\n  Conectando a {host} en el puerto 102... \n")
+
+vHost=''
+
+def fConectar(vHost):
+  print(f"\n  Conectando a {vHost} en el puerto 102... \n")
   s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
   s.settimeout(10)
   try:
-    s.connect((host, 102))
+    s.connect((vHost, 102))
     print("\n  Conexión establecida. \n")
     return s
   except socket.error as e:
@@ -46,8 +49,8 @@ def fEnviarPayload(payload, con):
     print("\n  Error: El PLC no respondió en el tiempo esperado. \n")
     return None
 
-def fEncenderPLC(host):
-  s = conectar(host)
+def fEncenderPLC(vHost):
+  s = fConectar(vHost)
   if not s:
     return
 
@@ -64,12 +67,12 @@ def fEncenderPLC(host):
   anti = int(challenge, 16) + int("80", 16)
   vPayloadEncender = vPayloadEncender[:46] + hex(anti)[2] + vPayloadEncender[47:]
   vPayloadEncender = vPayloadEncender[:47] + hex(anti)[3] + vPayloadEncender[48:]
-  fEnviarPayloadv(PayloadEncender, s)
+  fEnviarPayload(vPayloadEncender, s)
   print("\n  PLC iniciado correctamente \n.")
   s.close()
 
-def fApagarPLC(host):
-  s = conectar(host)
+def fApagarPLC(vHost):
+  s = fConectar(vHost)
   if not s:
     return
 
@@ -90,8 +93,8 @@ def fApagarPLC(host):
   print("\n  PLC detenido correctamente. \n")
   s.close()
 
-def fEncenderSalida(host, salida, nombre):
-  s = conectar(host)
+def fEncenderSalida(vHost, salida, nombre):
+  s = fConectar(vHost)
   if not s:
     return
 
@@ -117,8 +120,8 @@ def fEncenderSalida(host, salida, nombre):
   print(f"\n  Salida {nombre} activada correctamente. \n")
   s.close()
 
-def fApagarSalida(host, salida, nombre):
-  s = conectar(host)
+def fApagarSalida(vHost, salida, nombre):
+  s = fConectar(vHost)
   if not s:
     return
 
@@ -219,45 +222,45 @@ def main(stdscr):
       if menu[current_row] == "Salir":
         break
       elif menu[current_row] == "Encendiendo salida 0":
-        fEncenderSalida(args.host, 'Q0.0', 'x')
+        fEncenderSalida('Q0.0')
       elif menu[current_row] == "Apagando salida 0":
-        fApagarSalida(args.host, 'Q0.0', 'x')
+        fApagarSalida('Q0.0')
       elif menu[current_row] == "Encendiendo salida 1":
-        fEncenderSalida(args.host, 'Q0.1', 'x')
+        fEncenderSalida('Q0.1')
       elif menu[current_row] == "Apagando salida 1":
-        fApagarSalida(args.host, 'Q0.1', 'x')
+        fApagarSalida('Q0.1')
       elif menu[current_row] == "Encendiendo salida 2":
-        fEncenderSalida(args.host, 'Q0.2', 'x')
+        fEncenderSalida('Q0.2')
       elif menu[current_row] == "Apagando salida 2":
-        fApagarSalida(args.host, 'Q0.2', 'x')
+        fApagarSalida('Q0.2')
       elif menu[current_row] == "Encendiendo salida 3":
-        fEncenderSalida(args.host, 'Q0.3', 'x')
+        fEncenderSalida('Q0.3')
       elif menu[current_row] == "Apagando salida 3":
-        fApagarSalida(args.host, 'Q0.3', 'x')
+        fApagarSalida('Q0.3')
       elif menu[current_row] == "Encendiendo salida 4":
-        fEncenderSalida(args.host, 'Q0.4', 'x')
+        fEncenderSalida('Q0.4')
       elif menu[current_row] == "Apagando salida 4":
-        fApagarSalida(args.host, 'Q0.4', 'x')
+        fApagarSalida('Q0.4')
       elif menu[current_row] == "Encendiendo salida 5":
-        fEncenderSalida(args.host, 'Q0.5', 'x')
+        fEncenderSalida('Q0.5')
       elif menu[current_row] == "Apagando salida 5":
-        fApagarSalida(args.host, 'Q0.5', 'x')
+        fApagarSalida('Q0.5')
       elif menu[current_row] == "Encendiendo salida 6":
-        fEncenderSalida(args.host, 'Q0.6', 'x')
+        fEncenderSalida('Q0.6')
       elif menu[current_row] == "Apagando salida 6":
-        fApagarSalida(args.host, 'Q0.6', 'x')
+        fApagarSalida('Q0.6')
       elif menu[current_row] == "Encendiendo salida 7":
-        fEncenderSalida(args.host, 'Q0.7', 'x')
+        fEncenderSalida('Q0.7')
       elif menu[current_row] == "Apagando salida 7":
-        fApagarSalida(args.host, 'Q0.7', 'x')
+        fApagarSalida('Q0.7')
       elif menu[current_row] == "Encendiendo salida 8":
-        fEncenderSalida(args.host, 'Q0.8', 'x')
+        fEncenderSalida('Q0.8')
       elif menu[current_row] == "Apagando salida 8":
-        fApagarSalida(args.host, 'Q0.8', 'x')
+        fApagarSalida('Q0.8')
       elif menu[current_row] == "Encendiendo salida 9":
-        fEncenderSalida(args.host, 'Q0.9', 'x')
+        fEncenderSalida('Q0.9')
       elif menu[current_row] == "Apagando salida 9":
-        fApagarSalida(args.host, 'Q0.9', 'x')
+        fApagarSalida('Q0.9')
 
 
   # Mensaje final antes de salir
@@ -266,4 +269,8 @@ def main(stdscr):
   stdscr.refresh()
 
 if __name__ == "__main__":
+  parser = argparse.ArgumentParser(description='Control de PLC Siemens S7-1200')
+  parser.add_argument('--host', required=True, help='\n Dirección IP del PLC \n')
+  args = parser.parse_args()
+
   curses.wrapper(main)
