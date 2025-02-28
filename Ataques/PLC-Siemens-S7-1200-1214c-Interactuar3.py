@@ -183,9 +183,10 @@ def accion_opcion_2(stdscr):
   stdscr.refresh()
   time.sleep(2)
 
-def main(stdscr, vHost):
+def fMenu(stdscr, vHost):
   # Ocultamos el cursor y configuramos el par de colores para resaltar la opción seleccionada
   curses.curs_set(0)
+  stdscr.keypad(True)  # Activa el modo keypad para que se reconozcan las teclas especiales
   curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
 
   menu = [
@@ -284,8 +285,12 @@ def main(stdscr, vHost):
   stdscr.refresh()
 
 if __name__ == "__main__":
+  curses.curs_set(0)
+  stdscr.keypad(True)  # Activa el modo keypad para que se reconozcan las teclas especiales
+  curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
+
   parser = argparse.ArgumentParser(description='Control de PLC Siemens S7-1200')
   parser.add_argument('--host', required=True, help='\n Dirección IP del PLC \n')
   args = parser.parse_args()
   vHost = args.host
-  curses.wrapper(lambda stdscr: main(stdscr, vHost))
+  curses.wrapper(lambda stdscr: fMenu(stdscr, vHost))
