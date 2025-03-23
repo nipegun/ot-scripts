@@ -9,10 +9,10 @@
 # Script de NiPeGun para interactuar con un PLC Siemens S7-1200, versión 1214c
 #
 # Ejecución remota (puede requerir permisos sudo):
-#   wget -q -N --no-cache https://raw.githubusercontent.com/nipegun/Zubiri/refs/heads/main/CETI/SegInd/zubiri-1214c-sim/alt/play.py && python3 play.py [IPDelPLC]
+#   wget -q -N --no-cache https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Simuladores/PLCs/Siemens-S7-1214c/1/play.py && python3 play.py [IPDelPLC]
 #
 # Bajar y editar directamente el archivo en nano:
-#   curl -sL https://raw.githubusercontent.com/nipegun/Zubiri/refs/heads/main/CETI/SegInd/zubiri-1214c-sim/alt/play.py | nano -
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Simuladores/PLCs/Siemens-S7-1214c/1/play.py | nano -
 # ----------
 
 import curses
