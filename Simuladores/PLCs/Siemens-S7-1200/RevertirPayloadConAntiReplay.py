@@ -127,11 +127,11 @@ def main():
     verificacion_correcta = payload_verificacion == payload_modificado
     
     # Mostrar los resultados
-    print(f"Payload modificado (hex): {payload_modificado.hex()}")
+    print(f"Payload modificado (hex):           {payload_modificado.hex()}")
     print(f"Payload original (revertido) (hex): {payload_original.hex()}")
     
     # Mostrar resultado de la verificación
-    print(f"Payload re-modificado (hex): {payload_verificacion.hex()}")
+    print(f"Payload re-modificado (hex):        {payload_verificacion.hex()}")
     print(f"Verificación: {'CORRECTA ✓' if verificacion_correcta else 'FALLIDA ✗'}")
     
     if not verificacion_correcta:
