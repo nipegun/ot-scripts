@@ -132,21 +132,21 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
               echo ""
               echo "    Haciendo los puentes persistentes..."
               echo ""
-              echo ""                                         >> /etc/network/interfaces
-              echo "auto vmbr300"                             >> /etc/network/interfaces
-              echo "iface vmbr300 inet manual"                >> /etc/network/interfaces
-              echo "    bridge-ports none"                    >> /etc/network/interfaces
-              echo "    bridge-stp off"                       >> /etc/network/interfaces
-              echo "    bridge-fd 0"                          >> /etc/network/interfaces
-              echo "# Switch para la red LAN del laboratorio" >> /etc/network/interfaces
-              echo ""                                         >> /etc/network/interfaces
-              echo "auto vmbr400"                             >> /etc/network/interfaces
-              echo "iface vmbr400 inet manual"                >> /etc/network/interfaces
-              echo "    bridge-ports none"                    >> /etc/network/interfaces
-              echo "    bridge-stp off"                       >> /etc/network/interfaces
-              echo "    bridge-fd 0"                          >> /etc/network/interfaces
-              echo "# Switch para la red LAB del laboratorio" >> /etc/network/interfaces
-              echo ""                                         >> /etc/network/interfaces
+              echo ""                                  >> /etc/network/interfaces
+              echo "auto vmbr300"                      >> /etc/network/interfaces
+              echo "iface vmbr300 inet manual"         >> /etc/network/interfaces
+              echo "    bridge-ports none"             >> /etc/network/interfaces
+              echo "    bridge-stp off"                >> /etc/network/interfaces
+              echo "    bridge-fd 0"                   >> /etc/network/interfaces
+              echo "# Switch para la DMZ de GRFICSv2"  >> /etc/network/interfaces
+              echo ""                                  >> /etc/network/interfaces
+              echo "auto vmbr400"                      >> /etc/network/interfaces
+              echo "iface vmbr400 inet manual"         >> /etc/network/interfaces
+              echo "    bridge-ports none"             >> /etc/network/interfaces
+              echo "    bridge-stp off"                >> /etc/network/interfaces
+              echo "    bridge-fd 0"                   >> /etc/network/interfaces
+              echo "# Switch para la LAN del GRFICSv2" >> /etc/network/interfaces
+              echo ""                                  >> /etc/network/interfaces
 
             ;;
 
@@ -166,8 +166,8 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
                 --memory 2048 \
                 --balloon 0 \
                 --net0 virtio,bridge=vmbr0,firewall=1 \
-                --net1 virtio=00:aa:aa:aa:10:01,bridge=vmbr300,firewall=1 \
-                --net2 virtio=00:aa:aa:aa:20:01,bridge=vmbr400,firewall=1 \
+                --net1 virtio=00:aa:aa:aa:03:00,bridge=vmbr300,firewall=1 \
+                --net2 virtio=00:aa:aa:aa:04:00,bridge=vmbr400,firewall=1 \
                 --boot order=sata0 \
                 --scsihw virtio-scsi-single \
                 --ostype l26 \
@@ -204,7 +204,6 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
               qm create 3002 \
                 --name kali \
                 --machine q35 \
-                --bios ovmf \
                 --numa 0 \
                 --sockets 1 \
                 --cpu x86-64-v2-AES \
