@@ -11,13 +11,13 @@
 # Script de NiPeGun para crear un laboratorio de ciberseguridad industrial de una planta química en Proxmox
 #
 # Ejecución remota:
-#   curl -sL https://raw.githubusercontent.com/nipegun/p-scripts/refs/heads/master/MVs/Packs/Lab-CyberSec-Importar.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Simuladores/EntornosIndustriales/PlantaQuimica/PrepararEnProxmox.sh | bash
 #
 # Ejecución remota con parámetros:
-#   curl sL https://raw.githubusercontent.com/nipegun/p-scripts/refs/heads/master/MVs/Packs/Lab-CyberSec-Importar.sh | bash -s Almacenamiento
+#   curl sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Simuladores/EntornosIndustriales/PlantaQuimica/PrepararEnProxmox.sh | bash -s Almacenamiento
 #
 # Bajar y editar directamente el archivo en nano
-#   curl -sL https://raw.githubusercontent.com/nipegun/p-scripts/refs/heads/master/MVs/Packs/Lab-CyberSec-Importar.sh | nano -
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Simuladores/EntornosIndustriales/PlantaQuimica/PrepararEnProxmox.sh | nano -
 # ----------
 
 # Definir el almacenamiento
@@ -96,19 +96,19 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
         fi
       menu=(dialog --checklist "Marca las opciones que quieras instalar:" 22 96 16)
         opciones=(
-          1 "Crear los puentes"                               on
-          2 "Crear la máquina virtual de OpenWrt"             on
-          3 "  Importar .vmdk de OpenWrt"                     on
-          4 "Crear la máquina virtual de Kali"                on
-          5 "  Importar .vmdk de Kali"                        on
-          6 "Crear la máquina virtual de SIFT..."             off
-          7 "  Importar .vmdk de Sift..."                     off
-          8 "Crear la máquina virtual de Windows Server 22"   off
-          9 "  Importar .vmdk de Windows Server 22"           off
-         10 "Crear la máquina virtual de Windows 11 Pro"      off
-         11 "  Importar .vmdk de Windows 11 Pro"              off
-         12 "Crear la máquina virtual de pruebas para el lab" on
-         13 "Agrupar las máquinas virtuales"                  on
+          1 "Crear los puentes"                      on
+          2 "Crear la máquina virtual pfSense"       on
+          3 "  Importar .vmdk de pfSense"            on
+          4 "Crear la máquina virtual ChemicalPlant" on
+          5 "  Importar .vmdk de ChemicalPlant"      on
+          6 "Crear la máquina virtual PLC..."        off
+          7 "  Importar .vmdk de PLC..."             off
+          8 "Crear la máquina virtual ScadaBR"       off
+          9 "  Importar .vmdk de ScadaBR"            off
+         10 "Crear la máquina virtual WorkStation"   off
+         11 "  Importar .vmdk de WorkStation"        off
+         12 "x"                                      on
+         13 "Agrupar las máquinas virtuales"         on
         )
       choices=$("${menu[@]}" "${opciones[@]}" 2>&1 >/dev/tty)
       #clear
@@ -123,25 +123,25 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
               echo "  Creando los puentes..."
               echo ""
               # Crear el puente vmbr100
-                ip link add name vmbr100 type bridge
-                ip link set dev vmbr100 up
+                ip link add name vmbr300 type bridge
+                ip link set dev vmbr300 up
               # Crear el puente vmbr200
-                ip link add name vmbr200 type bridge
-                ip link set dev vmbr200 up
+                ip link add name vmbr400 type bridge
+                ip link set dev vmbr400 up
 
               echo ""
               echo "    Haciendo los puentes persistentes..."
               echo ""
               echo ""                                         >> /etc/network/interfaces
-              echo "auto vmbr100"                             >> /etc/network/interfaces
-              echo "iface vmbr100 inet manual"                >> /etc/network/interfaces
+              echo "auto vmbr300"                             >> /etc/network/interfaces
+              echo "iface vmbr300 inet manual"                >> /etc/network/interfaces
               echo "    bridge-ports none"                    >> /etc/network/interfaces
               echo "    bridge-stp off"                       >> /etc/network/interfaces
               echo "    bridge-fd 0"                          >> /etc/network/interfaces
               echo "# Switch para la red LAN del laboratorio" >> /etc/network/interfaces
               echo ""                                         >> /etc/network/interfaces
-              echo "auto vmbr200"                             >> /etc/network/interfaces
-              echo "iface vmbr200 inet manual"                >> /etc/network/interfaces
+              echo "auto vmbr400"                             >> /etc/network/interfaces
+              echo "iface vmbr400 inet manual"                >> /etc/network/interfaces
               echo "    bridge-ports none"                    >> /etc/network/interfaces
               echo "    bridge-stp off"                       >> /etc/network/interfaces
               echo "    bridge-fd 0"                          >> /etc/network/interfaces
@@ -153,21 +153,21 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
             2)
 
               echo ""
-              echo "  Creando la máquina virtual de OpenWrt..."
+              echo "  Creando la máquina virtual pfSense..."
               echo ""
-              qm create 1000 \
-                --name openwrt \
+              qm create 3000 \
+                --name pfsense \
                 --machine q35 \
                 --bios ovmf \
                 --numa 0 \
                 --sockets 1 \
                 --cpu x86-64-v2-AES \
                 --cores 2 \
-                --memory 1024 \
+                --memory 2048 \
                 --balloon 0 \
                 --net0 virtio,bridge=vmbr0,firewall=1 \
-                --net1 virtio=00:aa:aa:aa:10:01,bridge=vmbr100,firewall=1 \
-                --net2 virtio=00:aa:aa:aa:20:01,bridge=vmbr200,firewall=1 \
+                --net1 virtio=00:aa:aa:aa:10:01,bridge=vmbr300,firewall=1 \
+                --net2 virtio=00:aa:aa:aa:20:01,bridge=vmbr400,firewall=1 \
                 --boot order=sata0 \
                 --scsihw virtio-scsi-single \
                 --ostype l26 \
@@ -178,7 +178,7 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
             3)
 
               echo ""
-              echo "    Importando .vmdk de OpenWrt..."
+              echo "    Importando .vmdk de pfSense..."
               echo ""
               # Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
                 if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
@@ -189,19 +189,19 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
                   apt-get -y install curl
                   echo ""
                 fi
-              curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/CyberSecLab/openwrtlab.vmdk -o /tmp/openwrtlab.vmdk
-              qm importdisk 1000 /tmp/openwrtlab.vmdk "$vAlmacenamiento" && rm -f /tmp/openwrtlab.vmdk
-              vRutaAlDisco=$(qm config 1000 | grep unused | cut -d' ' -f2)
-              qm set 1000 --sata0 $vRutaAlDisco
+              curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/PlantaQuimica/pfSense.vmdk -o /tmp/pfsense.vmdk
+              qm importdisk 3000 /tmp/pfsense.vmdk "$vAlmacenamiento" && rm -f /tmp/pfsense.vmdk
+              vRutaAlDisco=$(qm config 3000 | grep unused | cut -d' ' -f2)
+              qm set 3000 --sata0 $vRutaAlDisco
 
             ;;
 
             4)
 
               echo ""
-              echo "  Creando la máquina virtual de Kali..."
+              echo "  Creando la máquina virtual Chemical Plant..."
               echo ""
-              qm create 1002 \
+              qm create 3002 \
                 --name kali \
                 --machine q35 \
                 --bios ovmf \
@@ -212,7 +212,7 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
                 --memory 4096 \
                 --balloon 0 \
                 --vga virtio,memory=512 \
-                --net0 virtio=00:aa:aa:aa:10:02,bridge=vmbr100,firewall=1 \
+                --net0 virtio=00:aa:aa:aa:30:02,bridge=vmbr300,firewall=1 \
                 --boot order=sata0 \
                 --scsihw virtio-scsi-single \
                 --sata0 none,media=cdrom \
