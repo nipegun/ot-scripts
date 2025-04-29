@@ -96,19 +96,19 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
         fi
       menu=(dialog --checklist "Marca las opciones que quieras instalar:" 22 96 16)
         opciones=(
-          1 "Crear los puentes"                      on
-          2 "Crear la máquina virtual pfSense"       on
-          3 "  Importar .vmdk de pfSense"            on
-          4 "Crear la máquina virtual ChemicalPlant" on
-          5 "  Importar .vmdk de ChemicalPlant"      on
-          6 "Crear la máquina virtual PLC..."        off
-          7 "  Importar .vmdk de PLC..."             off
-          8 "Crear la máquina virtual ScadaBR"       off
-          9 "  Importar .vmdk de ScadaBR"            off
-         10 "Crear la máquina virtual WorkStation"   off
-         11 "  Importar .vmdk de WorkStation"        off
-         12 "x"                                      on
-         13 "Agrupar las máquinas virtuales"         on
+          1 "Crear los puentes"                                 on
+          2 "Crear la máquina virtual grficsv2-pfSense"         on
+          3 "  Importar .vmdk de grficsv2-pfSense"              on
+          4 "Crear la máquina virtual grficsv2-3DChemicalPlant" on
+          5 "  Importar .vmdk de grficsv2-3DChemicalPlant"      on
+          6 "Crear la máquina virtual grficsv2-PLC..."          off
+          7 "  Importar .vmdk de grficsv2-PLC..."               off
+          8 "Crear la máquina virtual grficsv2-HMIScadaBR"      off
+          9 "  Importar .vmdk de grficsv2-HMIScadaBR"           off
+         10 "Crear la máquina virtual grficsv2-WorkStation"     off
+         11 "  Importar .vmdk de grficsv2-WorkStation"          off
+         12 "x"                                                 on
+         13 "Agrupar las máquinas virtuales"                    on
         )
       choices=$("${menu[@]}" "${opciones[@]}" 2>&1 >/dev/tty)
       #clear
@@ -153,10 +153,10 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
             2)
 
               echo ""
-              echo "  Creando la máquina virtual pfSense..."
+              echo "  Creando la máquina virtual grficsv2-pfSense..."
               echo ""
-              qm create 3000 \
-                --name pfsense \
+              qm create 4000 \
+                --name grficsv2-pfsense \
                 --machine q35 \
                 --numa 0 \
                 --sockets 1 \
@@ -177,7 +177,7 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
             3)
 
               echo ""
-              echo "    Importando .vmdk de pfSense..."
+              echo "    Importando el .vmdk para la mv grficsv2-pfSense..."
               echo ""
               # Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
                 if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
@@ -188,20 +188,20 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
                   apt-get -y install curl
                   echo ""
                 fi
-              curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/PlantaQuimica/pfSense.vmdk -o /tmp/pfsense.vmdk
-              qm importdisk 3000 /tmp/pfsense.vmdk "$vAlmacenamiento" && rm -f /tmp/pfsense.vmdk
-              vRutaAlDisco=$(qm config 3000 | grep unused | cut -d' ' -f2)
-              qm set 3000 --sata0 $vRutaAlDisco
+              curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2/grficsv2-pfSense.vmdk -o /tmp/pfsense.vmdk
+              qm importdisk 4000 /tmp/pfsense.vmdk "$vAlmacenamiento" && rm -f /tmp/pfsense.vmdk
+              vRutaAlDisco=$(qm config 4000 | grep unused | cut -d' ' -f2)
+              qm set 4000 --sata0 $vRutaAlDisco
 
             ;;
 
             4)
 
               echo ""
-              echo "  Creando la máquina virtual Chemical Plant..."
+              echo "  Creando la máquina virtual grficsv2-3DChemicalPlant..."
               echo ""
-              qm create 3002 \
-                --name kali \
+              qm create 4001 \
+                --name grficsv2-3dchemicalplant \
                 --machine q35 \
                 --numa 0 \
                 --sockets 1 \
@@ -210,7 +210,7 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
                 --memory 4096 \
                 --balloon 0 \
                 --vga virtio,memory=512 \
-                --net0 virtio=00:aa:aa:aa:30:02,bridge=vmbr300,firewall=1 \
+                --net0 virtio=00:aa:aa:aa:04:01,bridge=vmbr400,firewall=1 \
                 --boot order=sata0 \
                 --scsihw virtio-scsi-single \
                 --sata0 none,media=cdrom \
@@ -222,7 +222,7 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
             5)
 
               echo ""
-              echo "    Importando .vmdk de Kali..."
+              echo "    Importando el .vmdk para la mv de grficsv2-3DChemicalPlant..."
               echo ""
               # Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
                 if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
@@ -232,24 +232,21 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
                   apt-get -y update && apt-get -y install curl
                   echo ""
                 fi
-              curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/CyberSecLab/kali.vmdk -o /tmp/kali.vmdk
-              qm importdisk 1002 /tmp/kali.vmdk "$vAlmacenamiento" && rm -f /tmp/kali.vmdk
-              vRutaAlDisco=$(qm config 1002 | grep unused | cut -d' ' -f2)
-              qm set 1002 --virtio0 $vRutaAlDisco
-              qm set 1002 --boot order='sata0;virtio0'
+              curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2/grficsv2-3DChemicalPlant.vmdk -o /tmp/3dchemicalplant.vmdk
+              qm importdisk 4001 /tmp/3dchemicalplant.vmdk "$vAlmacenamiento" && rm -f /tmp/3dchemicalplant.vmdk
+              vRutaAlDisco=$(qm config 4001 | grep unused | cut -d' ' -f2)
+              qm set 4001 --virtio0 $vRutaAlDisco
+              qm set 4001 --boot order='sata0;virtio0'
 
             ;;
 
             6)
 
               echo ""
-              echo "  Creando la máquina virtual de SIFT..."
+              echo "  Creando la máquina virtual grficsv2-PLC..."
               echo ""
-              echo ""
-              echo "    Creando la máquina virtual de sift..."
-              echo ""
-              qm create 1003 \
-                --name sift \
+              qm create 4002 \
+                --name grficsv2-plc \
                 --machine q35 \
                 --bios ovmf \
                 --numa 0 \
@@ -259,7 +256,7 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
                 --memory 4096 \
                 --balloon 0 \
                 --vga virtio,memory=512 \
-                --net0 virtio=00:aa:aa:aa:10:03,bridge=vmbr100,firewall=1 \
+                --net0 virtio=00:aa:aa:aa:04:02,bridge=vmbr400,firewall=1 \
                 --boot order=sata0 \
                 --scsihw virtio-scsi-single \
                 --sata0 none,media=cdrom \
@@ -271,7 +268,7 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
             7)
 
               echo ""
-              echo "    Importando .vmdk de Sift..."
+              echo "    Importando el .vmdk para la mv de grficsv2-PLC..."
               echo ""
               # Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
                 if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
@@ -282,21 +279,21 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
                   apt-get -y install curl
                   echo ""
                 fi
-              curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/CyberSecLab/sift.vmdk -o /tmp/sift.vmdk
-              qm importdisk 1003 /tmp/sift.vmdk "$vAlmacenamiento" && rm -f /tmp/sift.vmdk
-              vRutaAlDisco=$(qm config 1003 | grep unused | cut -d' ' -f2)
-              qm set 1003 --virtio0 $vRutaAlDisco
-              qm set 1003 --boot order='sata0;virtio0'
+              curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2/grficsv2-plc.vmdk -o /tmp/plc.vmdk
+              qm importdisk 4002 /tmp/plc.vmdk "$vAlmacenamiento" && rm -f /tmp/plc.vmdk
+              vRutaAlDisco=$(qm config 4002 | grep unused | cut -d' ' -f2)
+              qm set 4002 --virtio0 $vRutaAlDisco
+              qm set 4002 --boot order='sata0;virtio0'
 
             ;;
 
             8)
 
               echo ""
-              echo "  Creando la máquina virtual de Windows Server 22..."
+              echo "  Creando la máquina virtual grficsv2-WorkStation..."
               echo ""
-              qm create 1004 \
-                --name winserver22 \
+              qm create 4003 \
+                --name grficsv2-workstation \
                 --machine q35 \
                 --bios ovmf \
                 --numa 0 \
@@ -306,7 +303,7 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
                 --memory 4096 \
                 --balloon 0 \
                 --vga virtio,memory=512 \
-                --net0 virtio=00:aa:aa:aa:10:04,bridge=vmbr100,firewall=1 \
+                --net0 virtio=00:aa:aa:aa:04:03,bridge=vmbr400,firewall=1 \
                 --boot order=sata0 \
                 --scsihw virtio-scsi-single \
                 --sata0 none,media=cdrom \
@@ -318,8 +315,22 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
             9)
 
               echo ""
-              echo "    Importando .vmdk de Windows Server 22..."
+              echo "    Importando el .vmdk para la mv de grficsv2-Workstation..."
               echo ""
+              # Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
+                if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
+                  echo ""
+                  echo -e "${cColorRojo}      El paquete curl no está instalado. Iniciando su instalación...${cFinColor}"
+                  echo ""
+                  apt-get -y update
+                  apt-get -y install curl
+                  echo ""
+                fi
+              curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2/grficsv2-workstation.vmdk -o /tmp/workstation.vmdk
+              qm importdisk 4002 /tmp/workstation.vmdk "$vAlmacenamiento" && rm -f /tmp/workstation.vmdk
+              vRutaAlDisco=$(qm config 4002 | grep unused | cut -d' ' -f2)
+              qm set 4002 --virtio0 $vRutaAlDisco
+              qm set 4002 --boot order='sata0;virtio0'
 
             ;;
 
