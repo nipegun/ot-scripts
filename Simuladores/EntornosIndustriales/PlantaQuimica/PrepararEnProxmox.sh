@@ -158,7 +158,6 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
               qm create 3000 \
                 --name pfsense \
                 --machine q35 \
-                --bios ovmf \
                 --numa 0 \
                 --sockets 1 \
                 --cpu x86-64-v2-AES \
@@ -166,8 +165,8 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
                 --memory 2048 \
                 --balloon 0 \
                 --net0 virtio,bridge=vmbr0,firewall=1 \
-                --net1 virtio=00:aa:aa:aa:03:00,bridge=vmbr300,firewall=1 \
-                --net2 virtio=00:aa:aa:aa:04:00,bridge=vmbr400,firewall=1 \
+                --net1 e1000=00:aa:aa:aa:03:00,bridge=vmbr300,firewall=1 \
+                --net2 e1000=00:aa:aa:aa:04:00,bridge=vmbr400,firewall=1 \
                 --boot order=sata0 \
                 --scsihw virtio-scsi-single \
                 --ostype l26 \
