@@ -11,13 +11,13 @@
 # Script de NiPeGun para crear un laboratorio de ciberseguridad industrial de una planta química en Proxmox
 #
 # Ejecución remota:
-#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Simuladores/EntornosIndustriales/PlantaQuimica/PrepararEnProxmox.sh | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/EntornosVulnerables/GRFICSv2/PrepararEnProxmox.sh | bash
 #
 # Ejecución remota con parámetros:
-#   curl sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Simuladores/EntornosIndustriales/PlantaQuimica/PrepararEnProxmox.sh | bash -s Almacenamiento
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/EntornosVulnerables/GRFICSv2/PrepararEnProxmox.sh | bash -s Almacenamiento
 #
 # Bajar y editar directamente el archivo en nano
-#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Simuladores/EntornosIndustriales/PlantaQuimica/PrepararEnProxmox.sh | nano -
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/EntornosVulnerables/GRFICSv2/PrepararEnProxmox.sh | nano -
 # ----------
 
 # Definir el almacenamiento
