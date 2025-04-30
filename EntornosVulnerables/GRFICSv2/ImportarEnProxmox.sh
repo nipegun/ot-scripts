@@ -157,6 +157,7 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
               qm create 4000 \
                 --name GRFICSv2-pfSense \
                 --machine q35 \
+                #--bios ovmf \
                 --numa 0 \
                 --sockets 1 \
                 --cpu x86-64-v2-AES \
@@ -202,6 +203,7 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
               qm create 4001 \
                 --name GRFICSv2-3DChemicalPlant \
                 --machine q35 \
+                #--bios ovmf \
                 --numa 0 \
                 --sockets 1 \
                 --cpu x86-64-v2-AES \
@@ -247,7 +249,7 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
               qm create 4002 \
                 --name GRFICSv2-PLC \
                 --machine q35 \
-                --bios ovmf \
+                #--bios ovmf \
                 --numa 0 \
                 --sockets 1 \
                 --cpu x86-64-v2-AES \
@@ -294,7 +296,7 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
               qm create 4003 \
                 --name GRFICSv2-WorkStation \
                 --machine q35 \
-                --bios ovmf \
+                #--bios ovmf \
                 --numa 0 \
                 --sockets 1 \
                 --cpu x86-64-v2-AES \
@@ -341,7 +343,7 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
               qm create 3008 \
                 --name GRFICSv2-HMIScadaBR \
                 --machine q35 \
-                --bios ovmf \
+                #--bios ovmf \
                 --numa 0 \
                 --sockets 1 \
                 --cpu x86-64-v2-AES \
@@ -388,7 +390,7 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
               qm create 3009 \
                 --name grficsv2-Kali \
                 --machine q35 \
-                --bios ovmf \
+                #--bios ovmf \
                 --numa 0 \
                 --sockets 1 \
                 --cpu x86-64-v2-AES \
