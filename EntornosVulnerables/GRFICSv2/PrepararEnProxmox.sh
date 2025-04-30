@@ -69,7 +69,7 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
   if [ $cVerSO == "13" ]; then
 
     echo ""
-    echo -e "${cColorAzulClaro}  Iniciando el script de importación del pack de planta química para Proxmox 9...${cFinColor}"
+    echo -e "${cColorAzulClaro}  Iniciando el script de importación del entorno vulnerable GRFICSv2 para Proxmox 9...${cFinColor}"
     echo ""
 
     echo ""
@@ -79,7 +79,7 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
   elif [ $cVerSO == "12" ]; then
 
     echo ""
-    echo -e "${cColorAzulClaro}  Iniciando el script de importación del pack de planta química para Proxmox 8...${cFinColor}"
+    echo -e "${cColorAzulClaro}  Iniciando el script de importación del entorno vulnerable GRFICSv2 para Proxmox 8...${cFinColor}"
     echo ""
 
     # Crear el menú
@@ -448,7 +448,7 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
   elif [ $cVerSO == "11" ]; then
 
     echo ""
-    echo -e "${cColorAzulClaro}  Iniciando el script de importación del pack de planta química para Proxmox 7...${cFinColor}"
+    echo -e "${cColorAzulClaro}  Iniciando el script de importación del entorno vulnerable GRFICSv2 para Proxmox 7...${cFinColor}"
     echo ""
 
     echo ""
@@ -458,7 +458,7 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
   elif [ $cVerSO == "10" ]; then
 
     echo ""
-    echo -e "${cColorAzulClaro}  Iniciando el script de importación del pack de planta química para Proxmox 6...${cFinColor}"
+    echo -e "${cColorAzulClaro}  Iniciando el script de importación del entorno vulnerable GRFICSv2 para Proxmox 6...${cFinColor}"
     echo ""
 
     echo ""
@@ -468,7 +468,7 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
   elif [ $cVerSO == "9" ]; then
 
     echo ""
-    echo -e "${cColorAzulClaro}  Iniciando el script de importación del pack de planta química para Proxmox 5...${cFinColor}"
+    echo -e "${cColorAzulClaro}  Iniciando el script de importación del entorno vulnerable GRFICSv2 para Proxmox 5...${cFinColor}"
     echo ""
 
     echo ""
@@ -478,7 +478,7 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
   elif [ $cVerSO == "8" ]; then
 
     echo ""
-    echo -e "${cColorAzulClaro}  Iniciando el script de importación del pack de planta química para Proxmox 4...${cFinColor}"
+    echo -e "${cColorAzulClaro}  Iniciando el script de importación del entorno vulnerable GRFICSv2 para Proxmox 4...${cFinColor}"
     echo ""
 
     echo ""
@@ -488,7 +488,7 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
   elif [ $cVerSO == "7" ]; then
 
     echo ""
-    echo -e "${cColorAzulClaro}  Iniciando el script de importación del pack de planta química para Proxmox 3...${cFinColor}"
+    echo -e "${cColorAzulClaro}  Iniciando el script de importación del entorno vulnerable GRFICSv2 para Proxmox 3...${cFinColor}"
     echo ""
 
     echo ""
