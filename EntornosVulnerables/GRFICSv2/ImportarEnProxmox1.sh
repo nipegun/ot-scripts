@@ -383,7 +383,7 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
               echo "  Creando la máquina virtual GRFICSv2-Kali..."
               echo ""
               qm create 3009 \
-                --name grficsv2-Kali \
+                --name GRFICSv2-Kali \
                 --machine q35 \
                 --numa 0 \
                 --sockets 1 \
