@@ -187,8 +187,8 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
                   apt-get -y install curl
                   echo ""
                 fi
-              curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2/grficsv2-pfSense.vmdk -o /tmp/grficsv2-pfsense.vmdk
-              qm importdisk 4000 /tmp/grficsv2-pfsense.vmdk "$vAlmacenamiento" && rm -f /tmp/grficsv2-pfsense.vmdk
+              curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2/GRFICSv2-pfSense.vmdk -o /tmp/GRFICSv2-pfSense.vmdk
+              qm importdisk 4000 /tmp/GRFICSv2-pfSense.vmdk "$vAlmacenamiento" && rm -f /tmp/GRFICSv2-pfSense.vmdk
               vRutaAlDisco=$(qm config 4000 | grep unused | cut -d' ' -f2)
               qm set 4000 --sata0 $vRutaAlDisco
 
@@ -231,8 +231,8 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
                   apt-get -y update && apt-get -y install curl
                   echo ""
                 fi
-              curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2/grficsv2-3DChemicalPlant.vmdk -o /tmp/grficsv2-3dchemicalplant.vmdk
-              qm importdisk 4001 /tmp/grficsv2-3dchemicalplant.vmdk "$vAlmacenamiento" && rm -f /tmp/grficsv2-3dchemicalplant.vmdk
+              curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2/GRFICSv2-3DChemicalPlant.vmdk -o /tmp/GRFICSv2-3DChemicalPlant.vmdk
+              qm importdisk 4001 /tmp/GRFICSv2-3DChemicalpPlant.vmdk "$vAlmacenamiento" && rm -f /tmp/GRFICSv2-3DChemicalPlant.vmdk
               vRutaAlDisco=$(qm config 4001 | grep unused | cut -d' ' -f2)
               qm set 4001 --virtio0 $vRutaAlDisco
               qm set 4001 --boot order='sata0;virtio0'
@@ -277,8 +277,8 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
                   apt-get -y install curl
                   echo ""
                 fi
-              curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2/grficsv2-plc.vmdk -o /tmp/grficsv2-plc.vmdk
-              qm importdisk 4002 /tmp/grficsv2-plc.vmdk "$vAlmacenamiento" && rm -f /tmp/grficsv2-plc.vmdk
+              curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2/GRFICSv2-PLC.vmdk -o /tmp/GRFICSv2-PLC.vmdk
+              qm importdisk 4002 /tmp/GRFICSv2-PLC.vmdk "$vAlmacenamiento" && rm -f /tmp/GRFICSv2-PLC.vmdk
               vRutaAlDisco=$(qm config 4002 | grep unused | cut -d' ' -f2)
               qm set 4002 --virtio0 $vRutaAlDisco
               qm set 4002 --boot order='sata0;virtio0'
@@ -323,8 +323,8 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
                   apt-get -y install curl
                   echo ""
                 fi
-              curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2/grficsv2-workstation.vmdk -o /tmp/grficsv2-workstation.vmdk
-              qm importdisk 4003 /tmp/grficsv2-workstation.vmdk "$vAlmacenamiento" && rm -f /tmp/grficsv2-workstation.vmdk
+              curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2/GRFICSv2-Workstation.vmdk -o /tmp/GRFICSv2-Workstation.vmdk
+              qm importdisk 4003 /tmp/GRFICSv2-Workstation.vmdk "$vAlmacenamiento" && rm -f /tmp/GRFICSv2-Workstation.vmdk
               vRutaAlDisco=$(qm config 4003 | grep unused | cut -d' ' -f2)
               qm set 4003 --virtio0 $vRutaAlDisco
               qm set 4003 --boot order='sata0;virtio0'
@@ -369,8 +369,8 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
                   apt-get -y install curl
                   echo ""
                 fi
-              curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2/grficsv2-hmiscadabr.vmdk -o /tmp/grficsv2-hmiscadabr.vmdk
-              qm importdisk 3008 /tmp/grficsv2-hmiscadabr.vmdk "$vAlmacenamiento" && rm -f /tmp/grficsv2-hmiscadabr.vmdk
+              curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2/GRFICSv2-HMIScadaBR.vmdk -o /tmp/GRFICSv2-HMIScadaBR.vmdk
+              qm importdisk 3008 /tmp/GRFICSv2-HMIScadaBR.vmdk "$vAlmacenamiento" && rm -f /tmp/GRFICSv2-HMIScadaBR.vmdk
               vRutaAlDisco=$(qm config 3008 | grep unused | cut -d' ' -f2)
               qm set 3008 --virtio0 $vRutaAlDisco
               qm set 3008 --boot order='sata0;virtio0'
@@ -415,8 +415,8 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
                   apt-get -y install curl
                   echo ""
                 fi
-              curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2/grficsv2-kali.vmdk -o /tmp/grficsv2-kali.vmdk
-              qm importdisk 3009 /tmp/grficsv2-kali.vmdk "$vAlmacenamiento" && rm -f /tmp/grficsv2-kali.vmdk
+              curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2/GRFICSv2-Kali.vmdk -o /tmp/GRFICSv2-Kali.vmdk
+              qm importdisk 3009 /tmp/GRFICSv2-Kali.vmdk "$vAlmacenamiento" && rm -f /tmp/GRFICSv2-Kali.vmdk
               vRutaAlDisco=$(qm config 3009 | grep unused | cut -d' ' -f2)
               qm set 3009 --virtio0 $vRutaAlDisco
               qm set 3009 --boot order='sata0;virtio0'
