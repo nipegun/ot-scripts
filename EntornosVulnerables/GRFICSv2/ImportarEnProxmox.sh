@@ -6,7 +6,7 @@
 # No tienes que aceptar ningún tipo de términos de uso o licencia para utilizarlo o modificarlo porque va sin CopyLeft.
 
 # ----------
-# Script de NiPeGun para crear un laboratorio de ciberseguridad industrial de una planta química en Proxmox
+# Script de NiPeGun para importar el laboratorio GRFICSv2 de ciberseguridad industrial en Proxmox
 #
 # Ejecución remota:
 #   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/EntornosVulnerables/GRFICSv2/ImportarEnProxmox.sh | bash
