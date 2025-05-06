@@ -300,7 +300,7 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
                 --memory 4096 \
                 --balloon 0 \
                 --vga virtio,memory=512 \
-                --net0 virtio=00:aa:aa:aa:04:03,bridge=vmbr400,firewall=1 \
+                --net0 virtio=08:00:27:38:35:48,bridge=vmbr400,firewall=1 \
                 --boot order=sata0 \
                 --scsihw virtio-scsi-single \
                 --sata0 none,media=cdrom \
