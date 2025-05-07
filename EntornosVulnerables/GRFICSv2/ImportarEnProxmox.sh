@@ -78,20 +78,17 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
 
   elif [ $cVerSO == "12" ]; then
 
-    echo ""
-    echo -e "${cColorAzulClaro}  Iniciando el script de importación del entorno vulnerable GRFICSv2 para Proxmox 8...${cFinColor}"
-    echo ""
+    # Instalar paquetes necesarios para la ejecución correcta del script
+      sudo apt-get -y update
+      sudo apt-get -y install dialog
+      sudo apt-get -y install curl
+
+    # Notificar inicio de ejcución del script
+      echo ""
+      echo -e "${cColorAzulClaro}  Iniciando el script de importación del entorno vulnerable GRFICSv2 para Proxmox 8...${cFinColor}"
+      echo ""
 
     # Crear el menú
-      # Comprobar si el paquete dialog está instalado. Si no lo está, instalarlo.
-        if [[ $(dpkg-query -s dialog 2>/dev/null | grep installed) == "" ]]; then
-          echo ""
-          echo -e "${cColorRojo}    El paquete dialog no está instalado. Iniciando su instalación...${cFinColor}"
-          echo ""
-          apt-get -y update
-          apt-get -y install dialog
-          echo ""
-        fi
       menu=(dialog --checklist "Marca las opciones que quieras instalar:" 22 96 16)
         opciones=(
           1 "Crear los puentes"                              off
@@ -178,15 +175,6 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
               echo ""
               echo "    Importando el .vmdk para la MV GRFICSv2-pfSense..."
               echo ""
-              # Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
-                if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
-                  echo ""
-                  echo -e "${cColorRojo}      El paquete curl no está instalado. Iniciando su instalación...${cFinColor}"
-                  echo ""
-                  apt-get -y update
-                  apt-get -y install curl
-                  echo ""
-                fi
               curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2/GRFICSv2-pfSense.vmdk -o /tmp/GRFICSv2-pfSense.vmdk
               qm importdisk 4000 /tmp/GRFICSv2-pfSense.vmdk "$vAlmacenamiento" && rm -f /tmp/GRFICSv2-pfSense.vmdk
               vRutaAlDisco=$(qm config 4000 | grep unused | cut -d' ' -f2)
@@ -223,14 +211,6 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
               echo ""
               echo "    Importando el .vmdk para la MV GRFICSv2-3DChemicalPlant..."
               echo ""
-              # Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
-                if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
-                  echo ""
-                  echo -e "${cColorRojo}      El paquete curl no está instalado. Iniciando su instalación...${cFinColor}"
-                  echo ""
-                  apt-get -y update && apt-get -y install curl
-                  echo ""
-                fi
               curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2/GRFICSv2-3DChemicalPlant.vmdk -o /tmp/GRFICSv2-3DChemicalPlant.vmdk
               qm importdisk 4001 /tmp/GRFICSv2-3DChemicalPlant.vmdk "$vAlmacenamiento" && rm -f /tmp/GRFICSv2-3DChemicalPlant.vmdk
               vRutaAlDisco=$(qm config 4001 | grep unused | cut -d' ' -f2)
@@ -268,15 +248,6 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
               echo ""
               echo "    Importando el .vmdk para la MV GRFICSv2-PLC..."
               echo ""
-              # Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
-                if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
-                  echo ""
-                  echo -e "${cColorRojo}      El paquete curl no está instalado. Iniciando su instalación...${cFinColor}"
-                  echo ""
-                  apt-get -y update
-                  apt-get -y install curl
-                  echo ""
-                fi
               curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2/GRFICSv2-PLC.vmdk -o /tmp/GRFICSv2-PLC.vmdk
               qm importdisk 4002 /tmp/GRFICSv2-PLC.vmdk "$vAlmacenamiento" && rm -f /tmp/GRFICSv2-PLC.vmdk
               vRutaAlDisco=$(qm config 4002 | grep unused | cut -d' ' -f2)
@@ -314,15 +285,6 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
               echo ""
               echo "    Importando el .vmdk para la MV GRFICSv2-Workstation..."
               echo ""
-              # Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
-                if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
-                  echo ""
-                  echo -e "${cColorRojo}      El paquete curl no está instalado. Iniciando su instalación...${cFinColor}"
-                  echo ""
-                  apt-get -y update
-                  apt-get -y install curl
-                  echo ""
-                fi
               curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2/GRFICSv2-WorkStation.vmdk -o /tmp/GRFICSv2-WorkStation.vmdk
               qm importdisk 4003 /tmp/GRFICSv2-WorkStation.vmdk "$vAlmacenamiento" && rm -f /tmp/GRFICSv2-WorkStation.vmdk
               vRutaAlDisco=$(qm config 4003 | grep unused | cut -d' ' -f2)
@@ -360,15 +322,6 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
               echo ""
               echo "    Importando el .vmdk para la MV GRFICSv2-HMIScadaBR..."
               echo ""
-              # Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
-                if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
-                  echo ""
-                  echo -e "${cColorRojo}      El paquete curl no está instalado. Iniciando su instalación...${cFinColor}"
-                  echo ""
-                  apt-get -y update
-                  apt-get -y install curl
-                  echo ""
-                fi
               curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2/GRFICSv2-HMIScadaBR.vmdk -o /tmp/GRFICSv2-HMIScadaBR.vmdk
               qm importdisk 3008 /tmp/GRFICSv2-HMIScadaBR.vmdk "$vAlmacenamiento" && rm -f /tmp/GRFICSv2-HMIScadaBR.vmdk
               vRutaAlDisco=$(qm config 3008 | grep unused | cut -d' ' -f2)
@@ -406,15 +359,6 @@ vAlmacenamiento=${1:-'local-lvm'} # Si le paso un parámetro, el almacenamiento 
               echo ""
               echo "    Importando el .vmdk para la MV GRFICSv2-Kali..."
               echo ""
-              # Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
-                if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
-                  echo ""
-                  echo -e "${cColorRojo}      El paquete curl no está instalado. Iniciando su instalación...${cFinColor}"
-                  echo ""
-                  apt-get -y update
-                  apt-get -y install curl
-                  echo ""
-                fi
               curl -L http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2/GRFICSv2-Kali.vmdk -o /tmp/GRFICSv2-Kali.vmdk
               qm importdisk 3009 /tmp/GRFICSv2-Kali.vmdk "$vAlmacenamiento" && rm -f /tmp/GRFICSv2-Kali.vmdk
               vRutaAlDisco=$(qm config 3009 | grep unused | cut -d' ' -f2)
