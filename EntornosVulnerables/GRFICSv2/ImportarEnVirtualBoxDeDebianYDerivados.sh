@@ -33,18 +33,15 @@ vURLBaseVMDKs='http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2'
     #echo "$(tput setaf 1)Mensaje en color rojo. $(tput sgr 0)"
   cFinColor='\033[0m'
 
-    # Definir fecha de ejecución del script
-      cFechaDeEjec=$(date +a%Ym%md%d@%T)
+# Definir fecha de ejecución del script
+  cFechaDeEjec=$(date +a%Ym%md%d@%T)
 
-    # Comprobar si el paquete dialog está instalado. Si no lo está, instalarlo.
-      if [[ $(dpkg-query -s dialog 2>/dev/null | grep installed) == "" ]]; then
-        echo ""
-        echo -e "${cColorRojo}    El paquete dialog no está instalado. Iniciando su instalación...${cFinColor}"
-        echo ""
-        sudo apt-get -y update
-        sudo apt-get -y install dialog
-        echo ""
-      fi
+# Instalar paquetes necesarios para la ejecución correcta del script
+  sudo apt-get -y update
+  sudo apt-get -y install dialog
+  sudo apt-get -y install curl
+  sudo apt-get -y install bc
+  sudo apt-get -y install xz-utils
 
     # Crear el menú
       menu=(dialog --checklist "Marca las tareas que quieras ejecutar:" 22 60 16)
@@ -63,15 +60,6 @@ vURLBaseVMDKs='http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2'
               echo ""
               echo "  Lanzando el script de instalación de VirtualBox..."
               echo ""
-              # Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
-                if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
-                  echo ""
-                  echo -e "${cColorRojo}  El paquete curl no está instalado. Iniciando su instalación...${cFinColor}"
-                  echo ""
-                  sudo apt-get -y update
-                  sudo apt-get -y install curl
-                  echo ""
-                fi
               curl -sL https://raw.githubusercontent.com/nipegun/d-scripts/refs/heads/master/SoftInst/ParaGUI/VirtualBox-Instalar.sh | sudo bash
 
             ;;
@@ -86,15 +74,6 @@ vURLBaseVMDKs='http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2'
                 cFechaDeEjec=$(date +a%Ym%md%d@%T)
 
               # Crear el menú
-                # Comprobar si el paquete dialog está instalado. Si no lo está, instalarlo.
-                  if [[ $(dpkg-query -s dialog 2>/dev/null | grep installed) == "" ]]; then
-                    echo ""
-                    echo -e "${cColorRojo}   El paquete dialog no está instalado. Iniciando su instalación...${cFinColor}"
-                    echo ""
-                    sudo apt-get -y update
-                    sudo apt-get -y install dialog
-                    echo ""
-                  fi
                 menu=(dialog --checklist "Marca las opciones que quieras instalar:" 22 70 16)
                   opciones=(
 
@@ -136,11 +115,11 @@ vURLBaseVMDKs='http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2'
                             VBoxManage modifyvm "GRFICSv2-pfSense" --audio-driver none
                           # Red
                             VBoxManage modifyvm "GRFICSv2-pfSense" --nictype1 82540EM
-                              VBoxManage modifyvm "GRFICSv2-pfSense" --nic1 intnet --intnet1 "RedIntOper"
+                              VBoxManage modifyvm "GRFICSv2-pfSense" --nic1 intnet --intnet1 "RedIntGRFICSv2DMZ"
                             # Poner en modo promiscuo
                               VBoxManage modifyvm "GRFICSv2-pfSense" --nicpromisc1 allow-all
                             VBoxManage modifyvm "GRFICSv2-pfSense" --nictype2 82540EM
-                              VBoxManage modifyvm "GRFICSv2-pfSense" --nic2 intnet --intnet2 "RedIntInd"
+                              VBoxManage modifyvm "GRFICSv2-pfSense" --nic2 intnet --intnet2 "RedIntGRFICSv2ICS"
                             # Poner en modo promiscuo
                               VBoxManage modifyvm "GRFICSv2-pfSense" --nicpromisc2 allow-all
 
@@ -176,31 +155,13 @@ vURLBaseVMDKs='http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2'
 
                          # Comprobar si hay espacio libre disponible
                            if [ "$vEspacioLibre" -ge "$vEspacioNecesario" ]; then
-                             # Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
-                               if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
-                                 echo ""
-                                 echo -e "${cColorRojo}    El paquete curl no está instalado. Iniciando su instalación...${cFinColor}"
-                                 echo ""
-                                 sudo apt-get -y update
-                                 sudo apt-get -y install curl
-                                 echo ""
-                               fi
-                             curl -L "$vURLBaseVMDKs"/GRFICSv2-pfSense.vmdk.xz -o /tmp/GRFICSv2-pfSense.vmdk.xz
+                              curl -L "$vURLBaseVMDKs"/GRFICSv2-pfSense.vmdk.xz -o /tmp/GRFICSv2-pfSense.vmdk.xz
                              # Descomprimir
                                echo ""
                                echo "      Descomprimiendo..."
                                echo ""
-                               # Comprobar si el paquete xz-utils está instalado. Si no lo está, instalarlo.
-                                 if [[ $(dpkg-query -s xz-utils 2>/dev/null | grep installed) == "" ]]; then
-                                   echo ""
-                                   echo -e "${cColorRojo}    El paquete xz-utils no está instalado. Iniciando su instalación...${cFinColor}"
-                                   echo ""
-                                   sudo apt-get -y update
-                                   sudo apt-get -y install xz-utils
-                                   echo ""
-                                 fi
-                             cd /tmp
-                             xz -vfdk /tmp/GRFICSv2-pfSense.vmdk.xz
+                               cd /tmp
+                               xz -vfdk /tmp/GRFICSv2-pfSense.vmdk.xz
                              # Borrar el archivo comprimido
                                rm -f  /tmp/GRFICSv2-pfSense.vmdk.xz
                           # Obtener nombre de la carpeta de la máquina virtual
@@ -235,7 +196,7 @@ vURLBaseVMDKs='http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2'
                             VBoxManage modifyvm "GRFICSv2-3DChemicalPlant" --audio-driver none
                           # Red
                             VBoxManage modifyvm "GRFICSv2-3DChemicalPlant" --nictype1 virtio
-                              VBoxManage modifyvm "GRFICSv2-3DChemicalPlant" --nic1 intnet --intnet1 "RedIntInd"
+                              VBoxManage modifyvm "GRFICSv2-3DChemicalPlant" --nic1 intnet --intnet1 "RedIntGRFICSv2ICS"
                             # Poner en modo promiscuo
                               VBoxManage modifyvm "GRFICSv2-3DChemicalPlant" --nicpromisc1 allow-all
 
@@ -273,31 +234,13 @@ vURLBaseVMDKs='http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2'
 
                          # Comprobar si hay espacio libre disponible
                            if [ "$vEspacioLibre" -ge "$vEspacioNecesario" ]; then
-                             # Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
-                               if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
-                                 echo ""
-                                 echo -e "${cColorRojo}    El paquete curl no está instalado. Iniciando su instalación...${cFinColor}"
-                                 echo ""
-                                 sudo apt-get -y update
-                                 sudo apt-get -y install curl
-                                 echo ""
-                               fi
                              curl -L "$vURLBaseVMDKs"/GRFICSv2-3DChemicalPlant.vmdk.xz -o /tmp/GRFICSv2-3DChemicalPlant.vmdk.xz
                              # Descomprimir
                                echo ""
                                echo "      Descomprimiendo..."
                                echo ""
-                               # Comprobar si el paquete xz-utils está instalado. Si no lo está, instalarlo.
-                                 if [[ $(dpkg-query -s xz-utils 2>/dev/null | grep installed) == "" ]]; then
-                                   echo ""
-                                   echo -e "${cColorRojo}    El paquete xz-utils no está instalado. Iniciando su instalación...${cFinColor}"
-                                   echo ""
-                                   sudo apt-get -y update
-                                   sudo apt-get -y install xz-utils
-                                   echo ""
-                                 fi
-                             cd /tmp
-                             xz -vfdk /tmp/GRFICSv2-3DChemicalPlant.vmdk.xz
+                               cd /tmp
+                               xz -vfdk /tmp/GRFICSv2-3DChemicalPlant.vmdk.xz
                              # Borrar el archivo comprimido
                                rm -f  /tmp/GRFICSv2-3DChemicalPlant.vmdk.xz
                           # Obtener nombre de la carpeta de la máquina virtual
@@ -332,7 +275,7 @@ vURLBaseVMDKs='http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2'
                             VBoxManage modifyvm "GRFICSv2-PLC" --audio-driver none
                           # Red
                             VBoxManage modifyvm "GRFICSv2-PLC" --nictype1 virtio
-                              VBoxManage modifyvm "GRFICSv2-PLC" --nic1 intnet --intnet1 "RedIntInd"
+                              VBoxManage modifyvm "GRFICSv2-PLC" --nic1 intnet --intnet1 "RedIntGRFICSv2ICS"
                             # Poner en modo promiscuo
                               VBoxManage modifyvm "GRFICSv2-PLC" --nicpromisc1 allow-all
 
@@ -370,31 +313,13 @@ vURLBaseVMDKs='http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2'
 
                          # Comprobar si hay espacio libre disponible
                            if [ "$vEspacioLibre" -ge "$vEspacioNecesario" ]; then
-                             # Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
-                               if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
-                                 echo ""
-                                 echo -e "${cColorRojo}    El paquete curl no está instalado. Iniciando su instalación...${cFinColor}"
-                                 echo ""
-                                 sudo apt-get -y update
-                                 sudo apt-get -y install curl
-                                 echo ""
-                               fi
                              curl -L "$vURLBaseVMDKs"/GRFICSv2-PLC.vmdk.xz -o /tmp/GRFICSv2-PLC.vmdk.xz
                              # Descomprimir
                                echo ""
                                echo "      Descomprimiendo..."
                                echo ""
-                               # Comprobar si el paquete xz-utils está instalado. Si no lo está, instalarlo.
-                                 if [[ $(dpkg-query -s xz-utils 2>/dev/null | grep installed) == "" ]]; then
-                                   echo ""
-                                   echo -e "${cColorRojo}    El paquete xz-utils no está instalado. Iniciando su instalación...${cFinColor}"
-                                   echo ""
-                                   sudo apt-get -y update
-                                   sudo apt-get -y install xz-utils
-                                   echo ""
-                                 fi
-                             cd /tmp
-                             xz -vfdk /tmp/GRFICSv2-PLC.vmdk.xz
+                               cd /tmp
+                               xz -vfdk /tmp/GRFICSv2-PLC.vmdk.xz
                              # Borrar el archivo comprimido
                                rm -f  /tmp/GRFICSv2-PLC.vmdk.xz
                           # Obtener nombre de la carpeta de la máquina virtual
@@ -429,7 +354,7 @@ vURLBaseVMDKs='http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2'
                             VBoxManage modifyvm "GRFICSv2-WorkStation" --audio-driver none
                           # Red
                             VBoxManage modifyvm "GRFICSv2-WorkStation" --nictype1 virtio
-                              VBoxManage modifyvm "GRFICSv2-WorkStation" --nic1 intnet --intnet1 "RedIntInd"
+                              VBoxManage modifyvm "GRFICSv2-WorkStation" --nic1 intnet --intnet1 "RedIntGRFICSv2ICS"
                             # Poner en modo promiscuo
                               VBoxManage modifyvm "GRFICSv2-WorkStation" --nicpromisc1 allow-all
                             # Poner la dirección mac correcta para que pille IP
@@ -469,31 +394,13 @@ vURLBaseVMDKs='http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2'
 
                          # Comprobar si hay espacio libre disponible
                            if [ "$vEspacioLibre" -ge "$vEspacioNecesario" ]; then
-                             # Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
-                               if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
-                                 echo ""
-                                 echo -e "${cColorRojo}    El paquete curl no está instalado. Iniciando su instalación...${cFinColor}"
-                                 echo ""
-                                 sudo apt-get -y update
-                                 sudo apt-get -y install curl
-                                 echo ""
-                               fi
                              curl -L "$vURLBaseVMDKs"/GRFICSv2-WorkStation.vmdk.xz -o /tmp/GRFICSv2-WorkStation.vmdk.xz
                              # Descomprimir
                                echo ""
                                echo "      Descomprimiendo..."
                                echo ""
-                               # Comprobar si el paquete xz-utils está instalado. Si no lo está, instalarlo.
-                                 if [[ $(dpkg-query -s xz-utils 2>/dev/null | grep installed) == "" ]]; then
-                                   echo ""
-                                   echo -e "${cColorRojo}    El paquete xz-utils no está instalado. Iniciando su instalación...${cFinColor}"
-                                   echo ""
-                                   sudo apt-get -y update
-                                   sudo apt-get -y install xz-utils
-                                   echo ""
-                                 fi
-                             cd /tmp
-                             xz -vfdk /tmp/GRFICSv2-WorkStation.vmdk.xz
+                               cd /tmp
+                               xz -vfdk /tmp/GRFICSv2-WorkStation.vmdk.xz
                              # Borrar el archivo comprimido
                                rm -f  /tmp/GRFICSv2-WorkStation.vmdk.xz
                           # Obtener nombre de la carpeta de la máquina virtual
@@ -528,7 +435,7 @@ vURLBaseVMDKs='http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2'
                             VBoxManage modifyvm "GRFICSv2-HMIScadaBR" --audio-driver none
                           # Red
                             VBoxManage modifyvm "GRFICSv2-HMIScadaBR" --nictype1 virtio
-                              VBoxManage modifyvm "GRFICSv2-HMIScadaBR" --nic1 intnet --intnet1 "RedIntOper"
+                              VBoxManage modifyvm "GRFICSv2-HMIScadaBR" --nic1 intnet --intnet1 "RedIntGRFICSv2DMZ"
                             # Poner en modo promiscuo
                               VBoxManage modifyvm "GRFICSv2-HMIScadaBR" --nicpromisc1 allow-all
 
@@ -566,31 +473,13 @@ vURLBaseVMDKs='http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2'
 
                          # Comprobar si hay espacio libre disponible
                            if [ "$vEspacioLibre" -ge "$vEspacioNecesario" ]; then
-                             # Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
-                               if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
-                                 echo ""
-                                 echo -e "${cColorRojo}    El paquete curl no está instalado. Iniciando su instalación...${cFinColor}"
-                                 echo ""
-                                 sudo apt-get -y update
-                                 sudo apt-get -y install curl
-                                 echo ""
-                               fi
                              curl -L "$vURLBaseVMDKs"/GRFICSv2-HMIScadaBR.vmdk.xz -o /tmp/GRFICSv2-HMIScadaBR.vmdk.xz
                              # Descomprimir
                                echo ""
                                echo "      Descomprimiendo..."
                                echo ""
-                               # Comprobar si el paquete xz-utils está instalado. Si no lo está, instalarlo.
-                                 if [[ $(dpkg-query -s xz-utils 2>/dev/null | grep installed) == "" ]]; then
-                                   echo ""
-                                   echo -e "${cColorRojo}    El paquete xz-utils no está instalado. Iniciando su instalación...${cFinColor}"
-                                   echo ""
-                                   sudo apt-get -y update
-                                   sudo apt-get -y install xz-utils
-                                   echo ""
-                                 fi
-                             cd /tmp
-                             xz -vfdk /tmp/GRFICSv2-HMIScadaBR.vmdk.xz
+                               cd /tmp
+                               xz -vfdk /tmp/GRFICSv2-HMIScadaBR.vmdk.xz
                              # Borrar el archivo comprimido
                                rm -f  /tmp/GRFICSv2-HMIScadaBR.vmdk.xz
                           # Obtener nombre de la carpeta de la máquina virtual
@@ -625,7 +514,7 @@ vURLBaseVMDKs='http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2'
                             VBoxManage modifyvm "GRFICSv2-Kali" --audio-driver none
                           # Red
                             VBoxManage modifyvm "GRFICSv2-Kali" --nictype1 virtio
-                              VBoxManage modifyvm "GRFICSv2-Kali" --nic1 intnet --intnet1 "RedIntOper"
+                              VBoxManage modifyvm "GRFICSv2-Kali" --nic1 intnet --intnet1 "RedIntGRFICSv2DMZ"
                             # Poner en modo promiscuo
                               VBoxManage modifyvm "GRFICSv2-Kali" --nicpromisc1 allow-all
 
@@ -663,31 +552,13 @@ vURLBaseVMDKs='http://hacks4geeks.com/_/descargas/MVs/Discos/Packs/GRFICSv2'
 
                          # Comprobar si hay espacio libre disponible
                            if [ "$vEspacioLibre" -ge "$vEspacioNecesario" ]; then
-                             # Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
-                               if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
-                                 echo ""
-                                 echo -e "${cColorRojo}    El paquete curl no está instalado. Iniciando su instalación...${cFinColor}"
-                                 echo ""
-                                 sudo apt-get -y update
-                                 sudo apt-get -y install curl
-                                 echo ""
-                               fi
                              curl -L "$vURLBaseVMDKs"/GRFICSv2-Kali.vmdk.xz -o /tmp/GRFICSv2-Kali.vmdk.xz
                              # Descomprimir
                                echo ""
                                echo "      Descomprimiendo..."
                                echo ""
-                               # Comprobar si el paquete xz-utils está instalado. Si no lo está, instalarlo.
-                                 if [[ $(dpkg-query -s xz-utils 2>/dev/null | grep installed) == "" ]]; then
-                                   echo ""
-                                   echo -e "${cColorRojo}    El paquete xz-utils no está instalado. Iniciando su instalación...${cFinColor}"
-                                   echo ""
-                                   sudo apt-get -y update
-                                   sudo apt-get -y install xz-utils
-                                   echo ""
-                                 fi
-                             cd /tmp
-                             xz -vfdk /tmp/GRFICSv2-Kali.vmdk.xz
+                               cd /tmp
+                               xz -vfdk /tmp/GRFICSv2-Kali.vmdk.xz
                              # Borrar el archivo comprimido
                                rm -f  /tmp/GRFICSv2-Kali.vmdk.xz
                           # Obtener nombre de la carpeta de la máquina virtual
