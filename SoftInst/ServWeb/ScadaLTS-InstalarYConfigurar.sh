@@ -9,19 +9,19 @@
 # Script de NiPeGun para instalar y configurar Scada-LTS en Debian
 #
 # Ejecución remota (puede requerir permisos sudo):
-#   curl -sL x | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/SoftInst/ServWeb/ScadaLTS-InstalarYConfigurar.sh | bash
 #
 # Ejecución remota como root (para sistemas sin sudo):
-#   curl -sL x | sed 's-sudo--g' | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/SoftInst/ServWeb/ScadaLTS-InstalarYConfigurar.sh | sed 's-sudo--g' | bash
 #
 # Ejecución remota sin caché:
-#   curl -sL -H 'Cache-Control: no-cache, no-store' x | bash
+#   curl -sL -H 'Cache-Control: no-cache, no-store' https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/SoftInst/ServWeb/ScadaLTS-InstalarYConfigurar.sh | bash
 #
 # Ejecución remota con parámetros:
-#   curl -sL x | bash -s Parámetro1 Parámetro2
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/SoftInst/ServWeb/ScadaLTS-InstalarYConfigurar.sh | bash -s Parámetro1 Parámetro2
 #
 # Bajar y editar directamente el archivo en nano
-#   curl -sL x | nano -
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/SoftInst/ServWeb/ScadaLTS-InstalarYConfigurar.sh | nano -
 # ----------
 
 # Definir constantes de color
@@ -90,9 +90,57 @@
     echo -e "${cColorAzulClaro}  Iniciando el script de instalación de Scada-LTS para Debian 12 (Bookworm)...${cFinColor}"
     echo ""
 
-    echo ""
-    echo -e "${cColorRojo}    Comandos para Debian 12 todavía no preparados. Prueba ejecutarlo en otra versión de Debian.${cFinColor}"
-    echo ""
+    # Instalar paquetes necesarios para el correcto funcionamiento del script
+      echo ""
+      echo "    Instalando paquetes necesarios para el correcto funcionamiento del script..."
+      echo ""
+      sudo apt-get -y update
+      sudo apt-get -y install curl
+      sudo apt-get -y install jq
+      sudo apt-get -y install default-jdk
+      sudo apt-get -y install tomcat10
+      sudo apt-get -y install mariadb-server
+      sudo apt-get -y install libmysql-java
+
+    # Securizar el servidor MariaDB
+      echo ""
+      echo "    Securizando el servidor MariaDB..."
+      echo ""
+      sudo mysql_secure_installation
+
+    # Crear la base de datos
+      echo ""
+      echo "    Creando la base de datos..."
+      echo ""
+      sudo mysql -u root -p -e "CREATE DATABASE scadalts DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; CREATE USER 'scadalts'@'localhost' IDENTIFIED BY 'scadalts'; GRANT ALL PRIVILEGES ON scadalts.* TO 'scadalts'@'localhost'; FLUSH PRIVILEGES;"
+
+    # Descargar la release de la última versión
+      echo ""
+      echo "    Descargando la release de la última versión..."
+      echo ""
+      # Determinar la última versión
+        vUltVersScadaLTS=$(curl -s https://api.github.com/repos/SCADA-LTS/Scada-LTS/releases/latest | jq '.tag_name' | cut -d'"' -f2)
+        curl -L https://github.com/SCADA-LTS/Scada-LTS/releases/download/"$vUltVersScadaLTS"/Scada-LTS.war -o /tmp/Scada-LTS.war
+
+    # Mover el war de la última versión a la carpeta de Tomcat
+      echo ""
+      echo "    Moviendo el .war de la última versión a la carpeta de Tomcat"
+      echo ""
+      sudo cp -fv /tmp/Scada-LTS.war /var/lib/tomcat10/webapps/
+
+    # Crear el archivo de propiedades
+      echo ""
+      echo "    Creando el archivo de propiedades...."
+      echo ""
+      sudo mkdir -p /var/lib/tomcat10/webapps/Scada-LTS/WEB-INF/classes/
+      echo 'db.type=mysql'                               | sudo tee    /var/lib/tomcat10/webapps/Scada-LTS/WEB-INF/classes/env.properties
+      echo 'db.url=jdbc:mysql://localhost:3306/scadalts' | sudo tee -a /var/lib/tomcat10/webapps/Scada-LTS/WEB-INF/classes/env.properties
+      echo 'db.username=scadalts'                        | sudo tee -a /var/lib/tomcat10/webapps/Scada-LTS/WEB-INF/classes/env.properties
+      echo 'db.password=scadatls'                        | sudo tee -a /var/lib/tomcat10/webapps/Scada-LTS/WEB-INF/classes/env.properties
+      echo 'db.pool.maxActive=10'                        | sudo tee -a /var/lib/tomcat10/webapps/Scada-LTS/WEB-INF/classes/env.properties
+      echo 'db.pool.maxIdle=10'                          | sudo tee -a /var/lib/tomcat10/webapps/Scada-LTS/WEB-INF/classes/env.properties
+      echo '# Desactiva datasource JNDI si no la usas:'  | sudo tee -a /var/lib/tomcat10/webapps/Scada-LTS/WEB-INF/classes/env.properties
+      echo 'db.datasource=false'                         | sudo tee -a /var/lib/tomcat10/webapps/Scada-LTS/WEB-INF/classes/env.properties
 
   elif [ $cVerSO == "11" ]; then
 
