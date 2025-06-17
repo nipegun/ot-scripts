@@ -128,7 +128,7 @@
       echo 'db.type=mysql'                               | sudo tee    /var/lib/tomcat10/webapps/Scada-LTS/WEB-INF/classes/env.properties
       echo 'db.url=jdbc:mysql://localhost:3306/scadalts' | sudo tee -a /var/lib/tomcat10/webapps/Scada-LTS/WEB-INF/classes/env.properties
       echo 'db.username=scadalts'                        | sudo tee -a /var/lib/tomcat10/webapps/Scada-LTS/WEB-INF/classes/env.properties
-      echo 'db.password=scadatls'                        | sudo tee -a /var/lib/tomcat10/webapps/Scada-LTS/WEB-INF/classes/env.properties
+      echo 'db.password=scadalts'                        | sudo tee -a /var/lib/tomcat10/webapps/Scada-LTS/WEB-INF/classes/env.properties
       echo 'db.pool.maxActive=10'                        | sudo tee -a /var/lib/tomcat10/webapps/Scada-LTS/WEB-INF/classes/env.properties
       echo 'db.pool.maxIdle=10'                          | sudo tee -a /var/lib/tomcat10/webapps/Scada-LTS/WEB-INF/classes/env.properties
       echo '# Desactiva datasource JNDI si no la usas:'  | sudo tee -a /var/lib/tomcat10/webapps/Scada-LTS/WEB-INF/classes/env.properties
@@ -209,7 +209,7 @@
       echo 'db.type=mysql'                               | sudo tee    /var/lib/tomcat9/webapps/Scada-LTS/WEB-INF/classes/env.properties
       echo 'db.url=jdbc:mysql://localhost:3306/scadalts' | sudo tee -a /var/lib/tomcat9/webapps/Scada-LTS/WEB-INF/classes/env.properties
       echo 'db.username=scadalts'                        | sudo tee -a /var/lib/tomcat9/webapps/Scada-LTS/WEB-INF/classes/env.properties
-      echo 'db.password=scadatls'                        | sudo tee -a /var/lib/tomcat9/webapps/Scada-LTS/WEB-INF/classes/env.properties
+      echo 'db.password=scadalts'                        | sudo tee -a /var/lib/tomcat9/webapps/Scada-LTS/WEB-INF/classes/env.properties
       echo 'db.pool.maxActive=10'                        | sudo tee -a /var/lib/tomcat9/webapps/Scada-LTS/WEB-INF/classes/env.properties
       echo 'db.pool.maxIdle=10'                          | sudo tee -a /var/lib/tomcat9/webapps/Scada-LTS/WEB-INF/classes/env.properties
       echo '# Desactiva datasource JNDI si no la usas:'  | sudo tee -a /var/lib/tomcat9/webapps/Scada-LTS/WEB-INF/classes/env.properties
