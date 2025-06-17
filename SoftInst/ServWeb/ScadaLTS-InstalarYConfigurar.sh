@@ -131,7 +131,7 @@
       echo ""
       echo "    Creando el archivo de propiedades...."
       echo ""
-      sleep5
+      sleep 5
       #sudo mkdir -p /var/lib/tomcat10/webapps/Scada-LTS/WEB-INF/classes/
       echo 'db.type=mysql'                               | sudo tee    /var/lib/tomcat10/webapps/Scada-LTS/WEB-INF/classes/env.properties
       echo 'db.url=jdbc:mysql://localhost:3306/scadalts' | sudo tee -a /var/lib/tomcat10/webapps/Scada-LTS/WEB-INF/classes/env.properties
@@ -220,7 +220,7 @@
       echo ""
       echo "    Creando el archivo de propiedades...."
       echo ""
-      sleep5
+      sleep 5
       #sudo mkdir -p /var/lib/tomcat10/webapps/Scada-LTS/WEB-INF/classes/
       echo 'db.type=mysql'                               | sudo tee    /var/lib/tomcat9/webapps/Scada-LTS/WEB-INF/classes/env.properties
       echo 'db.url=jdbc:mysql://localhost:3306/scadalts' | sudo tee -a /var/lib/tomcat9/webapps/Scada-LTS/WEB-INF/classes/env.properties
