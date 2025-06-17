@@ -92,12 +92,20 @@
       echo ""
       echo "    Instalando el conector de Java con MySQL..."
       echo ""
-      #curl -L https://cdn.mysql.com//Downloads/Connector-J/mysql-connector-j_9.3.0-1debian12_all.deb -o /tmp/mysql-connector-j.deb
-      #sudo apt -y install /tmp/mysql-connector-j.deb
-      cd /tmp
-      wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-j-9.3.0.tar.gz
-      tar -xzf /tmp/mysql-connector-j-9.3.0.tar.gz
-      sudo cp -v /tmp/mysql-connector-j-9.3.0/mysql-connector-j-9.3.0.jar /usr/share/tomcat10/lib/
+      # 9.3.0
+        #curl -L https://cdn.mysql.com//Downloads/Connector-J/mysql-connector-j_9.3.0-1debian12_all.deb -o /tmp/mysql-connector-j.deb
+        #sudo apt -y install /tmp/mysql-connector-j.deb
+        #cd /tmp
+        #wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-j-9.3.0.tar.gz
+        #tar -xzf /tmp/mysql-connector-j-9.3.0.tar.gz
+        #sudo cp -v /tmp/mysql-connector-j-9.3.0/mysql-connector-j-9.3.0.jar /usr/share/tomcat9/lib/
+      # 8.4.0
+        #curl -L https://cdn.mysql.com//Downloads/Connector-J/mysql-connector-j_8.4.0-1debian12_all.deb -o /tmp/mysql-connector-j.deb
+        #sudo apt -y install /tmp/mysql-connector-j.deb
+        cd /tmp
+        wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-j-8.4.0.tar.gz
+        tar -xzf /tmp/mysql-connector-j-8.4.0.tar.gz
+        sudo cp -v /tmp/mysql-connector-j-8.4.0/mysql-connector-j-8.4.0.jar /usr/share/tomcat9/lib/
 
     # Crear la base de datos MySQL
       echo ""
@@ -173,12 +181,20 @@
       echo ""
       echo "    Instalando el conector de Java con MySQL..."
       echo ""
-      #curl -L https://cdn.mysql.com//Downloads/Connector-J/mysql-connector-j_9.3.0-1debian12_all.deb -o /tmp/mysql-connector-j.deb
-      #sudo apt -y install /tmp/mysql-connector-j.deb
-      cd /tmp
-      wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-j-9.3.0.tar.gz
-      tar -xzf /tmp/mysql-connector-j-9.3.0.tar.gz
-      sudo cp -v /tmp/mysql-connector-j-9.3.0/mysql-connector-j-9.3.0.jar /usr/share/tomcat9/lib/
+      # 9.3.0
+        #curl -L https://cdn.mysql.com//Downloads/Connector-J/mysql-connector-j_9.3.0-1debian12_all.deb -o /tmp/mysql-connector-j.deb
+        #sudo apt -y install /tmp/mysql-connector-j.deb
+        #cd /tmp
+        #wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-j-9.3.0.tar.gz
+        #tar -xzf /tmp/mysql-connector-j-9.3.0.tar.gz
+        #sudo cp -v /tmp/mysql-connector-j-9.3.0/mysql-connector-j-9.3.0.jar /usr/share/tomcat9/lib/
+      # 8.4.0
+        #curl -L https://cdn.mysql.com//Downloads/Connector-J/mysql-connector-j_8.4.0-1debian12_all.deb -o /tmp/mysql-connector-j.deb
+        #sudo apt -y install /tmp/mysql-connector-j.deb
+        cd /tmp
+        wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-j-8.4.0.tar.gz
+        tar -xzf /tmp/mysql-connector-j-8.4.0.tar.gz
+        sudo cp -v /tmp/mysql-connector-j-8.4.0/mysql-connector-j-8.4.0.jar /usr/share/tomcat9/lib/
 
     # Crear la base de datos MySQL
       echo ""
