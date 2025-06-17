@@ -33,25 +33,6 @@
     #echo "$(tput setaf 1)Mensaje en color rojo. $(tput sgr 0)"
   cFinColor='\033[0m'
 
-# Comprobar si el script está corriendo como root
-  #if [ $(id -u) -ne 0 ]; then     # Sólo comprueba si es root
-  if [[ $EUID -ne 0 ]]; then       # Comprueba si es root o sudo
-    echo ""
-    echo -e "${cColorRojo}  Este script está preparado para ejecutarse con privilegios de administrador (como root o con sudo).${cFinColor}"
-    echo ""
-    exit
-  fi
-
-# Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
-  if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
-    echo ""
-    echo -e "${cColorRojo}  El paquete curl no está instalado. Iniciando su instalación...${cFinColor}"
-    echo ""
-    sudo apt-get -y update
-    sudo apt-get -y install curl
-    echo ""
-  fi
-
 # Determinar la versión de Debian
   if [ -f /etc/os-release ]; then             # Para systemd y freedesktop.org.
     . /etc/os-release
@@ -100,7 +81,6 @@
       sudo apt-get -y install default-jdk
       sudo apt-get -y install tomcat10
       sudo apt-get -y install mariadb-server
-      sudo apt-get -y install libmysql-java
 
     # Securizar el servidor MariaDB
       echo ""
@@ -108,9 +88,18 @@
       echo ""
       sudo mysql_secure_installation
 
-    # Crear la base de datos
+    # Instalando el conector de Java con MySQL
       echo ""
-      echo "    Creando la base de datos..."
+      echo "    Instalando el conector de Java con MySQL..."
+      echo ""
+      #https://download.oracle.com/otn-pub/otn_software/jdbc/238/ojdbc11.jar
+      #wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-j-8.4.0.tar.gz
+      curl -L https://cdn.mysql.com//Downloads/Connector-J/mysql-connector-j_9.3.0-1debian12_all.deb -o /tmp/mysql-connector-j.deb
+      sudo apt -y install /tmp/mysql-connector-j.deb
+
+    # Crear la base de datos MySQL
+      echo ""
+      echo "    Creando la base de datos MySQL..."
       echo ""
       sudo mysql -u root -p -e "CREATE DATABASE scadalts DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; CREATE USER 'scadalts'@'localhost' IDENTIFIED BY 'scadalts'; GRANT ALL PRIVILEGES ON scadalts.* TO 'scadalts'@'localhost'; FLUSH PRIVILEGES;"
 
@@ -132,7 +121,8 @@
       echo ""
       echo "    Creando el archivo de propiedades...."
       echo ""
-      sudo mkdir -p /var/lib/tomcat10/webapps/Scada-LTS/WEB-INF/classes/
+      sleep5
+      #sudo mkdir -p /var/lib/tomcat10/webapps/Scada-LTS/WEB-INF/classes/
       echo 'db.type=mysql'                               | sudo tee    /var/lib/tomcat10/webapps/Scada-LTS/WEB-INF/classes/env.properties
       echo 'db.url=jdbc:mysql://localhost:3306/scadalts' | sudo tee -a /var/lib/tomcat10/webapps/Scada-LTS/WEB-INF/classes/env.properties
       echo 'db.username=scadalts'                        | sudo tee -a /var/lib/tomcat10/webapps/Scada-LTS/WEB-INF/classes/env.properties
