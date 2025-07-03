@@ -90,6 +90,9 @@ vVersSoft="0.5.2-3"
           sudo apt-get -y install curl
           echo ""
         fi
+      sudo rm -f /tmp/qModMasterCode.zip 2> /dev/null
+      # Determinar el nro de la versiñon
+        vVersSoft=$(curl -sL https://sourceforge.net/projects/qmodmaster/files/ | sed 's->->\n-g' | grep href | grep code | grep download | sed 's-.zip-\n-g' | sed 's|code-|\n|g' | grep ^[0-9] | head -n1)
       curl -L https://sourceforge.net/projects/qmodmaster/files/qModMaster-code-$vVersSoft.zip/download -o /tmp/qModMasterCode.zip
 
     # Descomprimir el archivo
@@ -105,7 +108,7 @@ vVersSoft="0.5.2-3"
           sudo apt-get -y install unzip
           echo ""
         fi
-      sudo rm -rf /tmp/qModMasterCode
+      sudo rm -rf /tmp/qModMasterCode 2> /dev/null
       sudo unzip -o /tmp/qModMasterCode.zip -d /tmp/
       sudo mv /tmp/qModMaster-code-$vVersSoft /tmp/qModMasterCode
 
