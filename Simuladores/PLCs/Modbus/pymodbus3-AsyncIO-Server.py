@@ -97,10 +97,10 @@ def fComprobarSiPuertoLibre(port):
 
 def create_slave_context():
   return ModbusSlaveContext(
-    di=ModbusSequentialDataBlock(0, [0]*10),
-    co=ModbusSequentialDataBlock(0, [0]*10),
-    hr=ModbusSequentialDataBlock(0, [0]*10),
-    ir=ModbusSequentialDataBlock(0, [0]*10),
+    di=ModbusSequentialDataBlock(0, [0]*65536),
+    co=ModbusSequentialDataBlock(0, [0]*65536),
+    hr=ModbusSequentialDataBlock(0, [0]*65536),
+    ir=ModbusSequentialDataBlock(0, [0]*65536),
     zero_mode=True
   )
 
