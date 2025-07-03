@@ -241,8 +241,7 @@ async def main():
   await StartAsyncTcpServer(
     context=context,
     identity=identity,
-    address=("0.0.0.0", args.port),
-    handler=LoggingRequestHandler()
+    address=("0.0.0.0", args.port)
   )
 
 if __name__ == "__main__":
