@@ -17,13 +17,66 @@
 #
 # Bajar y editar directamente el archivo en nano
 #   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Simuladores/PLCs/Modbus/pymodbus3-AsyncIO-Server.py | nano -
+#
+# Para desinstalar por completo pymodbus
+#   sudo apt-get -y autoremove --purge python3-pymodbus
+#
 # ----------
+
+# ------------------------
+# Comprobaciones iniciales
+# ------------------------
+
+import importlib
+import subprocess
+import sys
+
+# Comprobar que python3-pymodbus esté instaldo
+def fAsegurarInstDePaqueteDebian(pNombreDelPaquete):
+  try:
+    subprocess.run(["dpkg", "-s", pNombreDelPaquete], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+  except subprocess.CalledProcessError:
+    print(f"\n[!] El paquete '{pNombreDelPaquete}' de Debian no está instalado. Instalando...\n")
+    try:
+      subprocess.run(["sudo", "apt-get", "update"], check=True, stdout=subprocess.DEVNULL)
+      subprocess.run(["sudo", "apt-get", "install", "-y", pNombreDelPaquete], check=True)
+      print(f"\n[+] Paquete '{pNombreDelPaquete}' instalado correctamente.\n")
+    except subprocess.CalledProcessError:
+      print(f"\n[!] Error al instalar el paquete '{pNombreDelPaquete}'. Saliendo.\n")
+      sys.exit(1)
+fAsegurarInstDePaqueteDebian("python3-pymodbus")
+
+# Comprobar que pymodbus sea, como mínimo, la versión 3.0.0
+def fAsegurarVersionDeModuloPython(pNombreDelModulo, pVersionMayorMinimo, pVersionMayorMaximo):
+  try:
+    vVersModuloInstalado = importlib.import_module(pNombreDelModulo)
+    try:
+      from packaging import version
+    except ImportError:
+      print("\n[!] El módulo 'packaging' no está instalado. Instalando...\n")
+      subprocess.check_call([sys.executable, "-m", "pip", "install", "packaging"])
+      from packaging import version
+    vVersInstalada = getattr(vVersModuloInstalado, "__version__", "0.0.0")
+    vParsed = version.parse(vVersInstalada)
+    if vParsed.major < pVersionMayorMinimo or vParsed.major >= pVersionMayorMaximo:
+      print(f"\n[!] {pNombreDelModulo} {vVersInstalada} detectado. Instalando versión >= {pVersionMayorMinimo}.0.0 y < {pVersionMayorMaximo}.0.0...\n")
+      spec = f"{pNombreDelModulo}>={pVersionMayorMinimo}.0.0,<{pVersionMayorMaximo}.0.0"
+      subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", spec])
+  except ImportError:
+    print(f"\n[!] El módulo {pNombreDelModulo} no está instalado. Instalando versión >= {pVersionMayorMinimo}.0.0 y < {pVersionMayorMaximo}.0.0...\n")
+    spec = f"{pNombreDelModulo}>={pVersionMayorMinimo}.0.0,<{pVersionMayorMaximo}.0.0"
+    subprocess.check_call([sys.executable, "-m", "pip", "install", spec])
+fAsegurarVersionDeModuloPython("pymodbus", 3, 4)
+
+# ---
+# App
+# ---
 
 import argparse
 import asyncio
 import logging
 import socket
-import sys
+import os
 from pathlib import Path
 from pymodbus.server.async_io import StartAsyncTcpServer
 from pymodbus.datastore import ModbusServerContext, ModbusSlaveContext, ModbusSequentialDataBlock
@@ -33,7 +86,7 @@ unit_locks = {}
 lock_enabled = False
 unit_ids_activas = []
 
-def check_port_available(port):
+def fComprobarSiPuertoLibre(port):
   with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     try:
@@ -76,19 +129,22 @@ async def main():
   parser = argparse.ArgumentParser(description="Servidor Modbus TCP Async con soporte opcional a Unit ID 0 (broadcast).")
   parser.add_argument("--standard", type=int, default=0, help="Cantidad de Unit IDs estándar (1–247)")
   parser.add_argument("--reserved", type=int, default=0, help="Cantidad de Unit IDs reservadas (248–255)")
-  parser.add_argument("--port", type=int, default=5020, help="Puerto TCP (por defecto: 5020)")
+  parser.add_argument("--port", type=int, default=502, help="Puerto TCP (por defecto: 502)")
   parser.add_argument("--log", choices=["screen", "file", "screen,file"], help="Salida de log: pantalla, archivo o ambos")
   parser.add_argument("--lock", action="store_true", help="Activar protección con locks por Unit ID")
   args = parser.parse_args()
 
   if args.standard > 247:
-    print("❌ Máximo permitido para units estándar es 247")
+    print("\n❌ Máximo permitido para units estándar es 247\n")
     sys.exit(1)
   if args.reserved > 8:
-    print("❌ Máximo permitido para units reservadas es 8 (IDs 248 a 255)")
+    print("\n❌ Máximo permitido para units reservadas es 8 (IDs 248 a 255)\n")
     sys.exit(1)
-  if not check_port_available(args.port):
-    print(f"❌ El puerto {args.port} ya está en uso. Usa otro con --port.")
+  if not fComprobarSiPuertoLibre(args.port):
+    if args.port < 1024 and os.geteuid() != 0:
+      print(f"\n❌ El puerto {args.port} requiere privilegios de superusuario. Ejecuta el script con sudo o usa --port 1502, por ejemplo.\n")
+    else:
+      print(f"\n❌ El puerto {args.port} ya está en uso o no se puede usar.\n")
     sys.exit(1)
 
   lock_enabled = args.lock
@@ -112,7 +168,7 @@ async def main():
     unit_id += 1
 
   if not slaves:
-    print("❌ No se ha definido ninguna unidad Modbus. Usa --standard N o --reserved N.")
+    print("\n❌ No se ha definido ninguna unidad Modbus. Usa --standard N o --reserved N.\n")
     return
 
   context = ModbusServerContext(slaves=slaves, single=False)
@@ -153,7 +209,7 @@ async def main():
           else:
             await request.execute(slave)
         if logger:
-          logger.info(f"📤 Broadcast → Ejecutado en {len(context.slaves)} unidades (sin respuesta)")
+          logger.info(f"\n📤 Broadcast → Ejecutado en {len(context.slaves)} unidades (sin respuesta)\n")
         return None  # no se envía respuesta
 
       # Normal (unit ID != 0)
@@ -164,12 +220,12 @@ async def main():
         response = await request.execute()
 
       if logger and hasattr(response, "registers"):
-        logger.info(f"📤 Respuesta a {ip} → Unit {unit_id}: Valores leídos = {response.registers}")
+        logger.info(f"\n📤 Respuesta a {ip} → Unit {unit_id}: Valores leídos = {response.registers}\n")
 
       return response
 
   resumen = [
-    f"🟢 Iniciando servidor Modbus TCP en puerto {args.port}",
+    f"\n🟢 Iniciando servidor Modbus TCP en puerto {args.port}",
     f"  • Units estándar: {args.standard}",
     f"  • Units reservadas: {args.reserved}",
     f"  • Locks: {'activados' if lock_enabled else 'desactivados'}",
