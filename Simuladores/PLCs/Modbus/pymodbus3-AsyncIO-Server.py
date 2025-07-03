@@ -1,27 +1,30 @@
 #!/usr/bin/env python3
 
 # ----------
-# Script de NiPeGun para crear un servidor modbus asíncrono con la librería pymodbus 3
+# Script de NiPeGun para crear un servidor modbus asíncrono con la librería pymodbus 3 y con soporte opcional a Unit ID 0 (broadcast)
 #
 # Ejecución remota (puede requerir permisos sudo):
-#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Simuladores/PLCs/Modbus/pymodbus3-AsyncIO-Server.py | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Simuladores/PLCs/Modbus/pymodbus3-AsyncIO-Server.py | sudo python3 - --standard 1
 #
 # Ejecución remota como root (para sistemas sin sudo):
-#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Simuladores/PLCs/Modbus/pymodbus3-AsyncIO-Server.py | sed 's-sudo--g' | python3 -
-#
-# Ejecución remota sin caché:
-#   curl -sL -H 'Cache-Control: no-cache, no-store' https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Simuladores/PLCs/Modbus/pymodbus3-AsyncIO-Server.py | python3 -
-#
-# Ejecución remota con parámetros:
-#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Simuladores/PLCs/Modbus/pymodbus3-AsyncIO-Server.py | python3 - Parámetro1 Parámetro2
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Simuladores/PLCs/Modbus/pymodbus3-AsyncIO-Server.py | sed 's-sudo--g' | python3 - --standard 1
 #
 # Bajar y editar directamente el archivo en nano
 #   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Simuladores/PLCs/Modbus/pymodbus3-AsyncIO-Server.py | nano -
 #
+#
 # Para desinstalar por completo pymodbus
 #   sudo apt-get -y autoremove --purge python3-pymodbus
 #
+# Argumentos
+#   --standard : Cantidad de Unit IDs estándar (1–247)
+#   --reserved : Cantidad de Unit IDs reservadas (248–255)
+#   --port : Puerto TCP (por defecto: 502)
+#   --log : Salida de log: pantalla, archivo o ambos
+#   --lock : Activar protección con locks por Unit ID
+#
 # ----------
+
 
 # ------------------------
 # Comprobaciones iniciales
