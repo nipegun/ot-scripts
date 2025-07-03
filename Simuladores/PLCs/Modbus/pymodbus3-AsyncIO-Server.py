@@ -4,19 +4,19 @@
 # Script de NiPeGun para crear un servidor modbus asíncrono con la librería pymodbus 3
 #
 # Ejecución remota (puede requerir permisos sudo):
-#   curl -sL x | bash
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Simuladores/PLCs/Modbus/pymodbus3-AsyncIO-Server.py | bash
 #
 # Ejecución remota como root (para sistemas sin sudo):
-#   curl -sL x | sed 's-sudo--g' | python3 -
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Simuladores/PLCs/Modbus/pymodbus3-AsyncIO-Server.py | sed 's-sudo--g' | python3 -
 #
 # Ejecución remota sin caché:
-#   curl -sL -H 'Cache-Control: no-cache, no-store' x | python3 -
+#   curl -sL -H 'Cache-Control: no-cache, no-store' https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Simuladores/PLCs/Modbus/pymodbus3-AsyncIO-Server.py | python3 -
 #
 # Ejecución remota con parámetros:
-#   curl -sL x | python3 - Parámetro1 Parámetro2
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Simuladores/PLCs/Modbus/pymodbus3-AsyncIO-Server.py | python3 - Parámetro1 Parámetro2
 #
 # Bajar y editar directamente el archivo en nano
-#   curl -sL x | nano -
+#   curl -sL https://raw.githubusercontent.com/nipegun/ot-scripts/refs/heads/main/Simuladores/PLCs/Modbus/pymodbus3-AsyncIO-Server.py | nano -
 # ----------
 
 import argparse
